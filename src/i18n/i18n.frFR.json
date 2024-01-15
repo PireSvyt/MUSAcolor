@@ -1,0 +1,76 @@
+{
+    "generic": {
+      "label": {
+        "product": "MUSAcolor©",
+        "account": "Compte",
+        "help": "Aide",
+        "patient": "Patient"
+      },
+      "menu": {
+        "home": "Accueil",
+        "account": "Mon compte",
+        "help": "Aide",
+        "signout": "Se deconnecter"
+      },
+      "input": {
+        "name": "Nom",
+        "email": "Email",
+        "password": "Mot de passe"
+      },
+      "button": {
+        "add": "Ajouter",
+        "save": "Sauver",
+        "delete": "Supprimer",
+        "select": "Selectionner",
+        "confirm": "Confirmer",
+        "cancel": "Annuler",
+        "close": "Fermer",
+        "view": "Voir",
+        "edit": "Modifier",
+        "proceed": "Procéder",
+        "tocome": "A venir...",
+        "signin": "Se connecter",
+        "tohome": "Accueil"
+      },
+      "language": {
+        "enGB": {
+          "short": "EN",
+          "long": "Anglais"
+        },
+        "frFR": {
+          "short": "FR",
+          "long": "Français"
+        },
+        "nlNL": {
+          "short": "NL",
+          "long": "Néerlandais"
+        }
+      }
+    },
+    "signin": {
+      "label": {
+        "title": "Se connecter"
+      },
+      "input": {},
+      "button": {
+        "signin": "Se connecter",
+        "resetpassword": "Mot de passe oublié?"
+      },
+      "error": {
+        "missinglogin": "email manquant",
+        "invalidlogin": "email non valide",
+        "missingpassword": "mot de passe manquant"
+      },
+      "snack": {
+        "signedin": "Connecté!",
+        "unauthorized": "Mot de passe incorrect",
+        "notfound": "Compte introuvable"
+      }
+    },
+    "home": {
+        "label": {
+            "mypatients": "Mes patients"
+        }
+    }
+}
+  
