@@ -421,9 +421,9 @@ export const authSigninInputs = {
             appStore.dispatch({
               type: "signinModalSlice/close",
             });
-            if (window.location.href.search("activation")) {
+            /*if (window.location.href.search("activation")) {
               window.location = "/";
-            }
+            }*/
           }
         });
       },
