@@ -16,21 +16,21 @@ export default function Landing() {
   const changes = {
     signin: () => {
       appStore.dispatch({
-        type: "signinModalSlice/open"
+        type: "signinModalSlice/open",
       });
     },
   };
 
   // Render
   return (
-    <Box data-testid="page-landing" >
+    <Box data-testid="page-landing">
       <Box textAlign="center">
-        <Button 
-            onClick={changes.signin} 
-            size="large"
-            data-testid="page-landing-button-sign in"
+        <Button
+          onClick={changes.signin}
+          size="large"
+          data-testid="page-landing-button-sign in"
         >
-            {t("generic.button.signin")}
+          {t("generic.button.signin")}
         </Button>
       </Box>
     </Box>

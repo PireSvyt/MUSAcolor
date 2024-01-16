@@ -11,12 +11,12 @@ const authSlice = createSlice({
     signin: (state, action) => {
       state.signedin = true;
       state.token = action.payload;
-      state.loaded = true
+      state.loaded = true;
     },
     signout: (state) => {
       state.signedin = false;
       state.token = "";
-      state.loaded = true
+      state.loaded = true;
     },
   },
 });

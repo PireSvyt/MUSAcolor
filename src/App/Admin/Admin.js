@@ -13,8 +13,5 @@ export default function Admin() {
   // i18n
   const { t } = useTranslation();
 
-  return (
-    <Box>
-    </Box>
-  );
+  return <Box></Box>;
 }

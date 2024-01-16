@@ -9,21 +9,21 @@ describe("TEST OF SERVICE : updateOutcome", () => {
       proceed: true,
       errors: [],
       stateChanges: {
-        errors: {}
+        errors: {},
       },
-      confirmation: undefined
-  }
-  let editOutcome = {
-    proceed: false,
-    errors: ["a new error"],
-    stateChanges: {
-      errors: {
-        anerror: true
-      }
-    },
-    confirmation: true
-  }
-  let resultingOutcome = updateOutcome(currentOutcome, editOutcome)
+      confirmation: undefined,
+    };
+    let editOutcome = {
+      proceed: false,
+      errors: ["a new error"],
+      stateChanges: {
+        errors: {
+          anerror: true,
+        },
+      },
+      confirmation: true,
+    };
+    let resultingOutcome = updateOutcome(currentOutcome, editOutcome);
     test("then the proceed is false", () => {
       expect(resultingOutcome.proceed).toBeFalsy();
     });
@@ -43,22 +43,22 @@ describe("TEST OF SERVICE : updateOutcome", () => {
       errors: ["a new error"],
       stateChanges: {
         errors: {
-          anerror: true
-        }
+          anerror: true,
+        },
       },
-      confirmation: undefined
-  }
-  let editOutcome = {
-    proceed: false,
-    errors: ["another new error"],
-    stateChanges: {
-      errors: {
-        anothererror: true
-      }
-    },
-    confirmation: true
-  }
-  let resultingOutcome = updateOutcome(currentOutcome, editOutcome)
+      confirmation: undefined,
+    };
+    let editOutcome = {
+      proceed: false,
+      errors: ["another new error"],
+      stateChanges: {
+        errors: {
+          anothererror: true,
+        },
+      },
+      confirmation: true,
+    };
+    let resultingOutcome = updateOutcome(currentOutcome, editOutcome);
     test("then the proceed is false", () => {
       expect(resultingOutcome.proceed).toBeFalsy();
     });
@@ -73,7 +73,7 @@ describe("TEST OF SERVICE : updateOutcome", () => {
       expect(resultingOutcome.confirmation).toBeTruthy();
     });
   });
-})
+});
 
 describe("TEST OF SERVICE : serviceProceedCheck", () => {
   describe("Assessment with empty checks", () => {
@@ -260,9 +260,9 @@ describe("TEST OF SERVICE : serviceProceedCheck", () => {
             fieldsinerror: ["fieldList"],
             checkfunction: (serviceInputs) => {
               if (serviceInputs.fieldList.length !== 3) {
-                return { proceed: false }
+                return { proceed: false };
               } else {
-                return { proceed: true }
+                return { proceed: true };
               }
             },
           },
@@ -293,14 +293,14 @@ describe("TEST OF SERVICE : serviceProceedCheck", () => {
             fieldsinerror: ["fieldList"],
             checkfunction: (serviceInputs) => {
               if (serviceInputs.fieldList.length === 3) {
-                return { 
+                return {
                   proceed: false,
                   errors: ["test.error.fieldList"],
                   stateChanges: {
                     errors: {
-                      fieldList: true
-                    }
-                  }
+                      fieldList: true,
+                    },
+                  },
                 };
               } else {
                 return { proceed: true };
@@ -420,14 +420,14 @@ describe("TEST OF SERVICE : serviceProceedCheck", () => {
                 fieldsinerror: ["subcheck"],
                 checkfunction: (serviceInputs) => {
                   if (serviceInputs.fieldList.length === 3) {
-                    return { 
+                    return {
                       proceed: false,
                       errors: ["test.error.subcheck"],
                       stateChanges: {
                         errors: {
-                          subcheck: true
-                        }
-                      }
+                          subcheck: true,
+                        },
+                      },
                     };
                   } else {
                     return { proceed: true };

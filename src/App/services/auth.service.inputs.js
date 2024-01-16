@@ -10,11 +10,11 @@ import {
   apiAuthSignIn,
   apiAuthSendPassword,
   apiAuthAssess,
-  apiAuthPasswordReset
+  apiAuthPasswordReset,
 } from "./auth.api.js";
 // Services
 import { random_id, validateEmail } from "./toolkit.js";
-import { serviceAuthGrantAccess } from "./auth.services.js"
+import { serviceAuthGrantAccess } from "./auth.services.js";
 import appStore from "../store.js";
 /*
 export const authSignupInputs = {
@@ -277,7 +277,7 @@ export const authSigninInputs = {
       tags: ["function"],
     });
     return {
-      inputs: { ...appStore.getState().signinModalSlice.inputs }
+      inputs: { ...appStore.getState().signinModalSlice.inputs },
     };
   },
   sercivechecks: [
@@ -296,14 +296,14 @@ export const authSigninInputs = {
               // Check email validity
               checkfunction: (serviceInputs) => {
                 if (!validateEmail(serviceInputs.inputs.login)) {
-                  return { 
+                  return {
                     errors: ["generic.error.invalidlogin"],
                     stateChanges: {
-                      errors: { 
-                        login : true
-                      }
+                      errors: {
+                        login: true,
+                      },
                     },
-                    proceed: false 
+                    proceed: false,
                   };
                 } else {
                   return { proceed: true };
@@ -311,8 +311,8 @@ export const authSigninInputs = {
               },
               error: "generic.error.invalidlogin",
               fieldsinerror: ["login"],
-            }
-          ]
+            },
+          ],
         },
         {
           // Check password is available
@@ -338,36 +338,36 @@ export const authSigninInputs = {
       inputs: inputs,
       tags: ["function"],
     });
-    console.log("authSigninInputs.repackagingfunction", inputs)
+    console.log("authSigninInputs.repackagingfunction", inputs);
     try {
-      let repackagedInputs = {...inputs};    
+      let repackagedInputs = { ...inputs };
       //if (process.env.NODE_ENV === "_production" ) {
-        //console.log("AES.encrypt", inputs.inputs.password,
-        //process.env.REACT_APP_ENCRYPTION_KEY)
-        let hash = AES.encrypt(
-          inputs.inputs.password,
-          process.env.REACT_APP_ENCRYPTION_KEY
-        ).toString();
-        console.log("repackagedInputs hash", hash)
-        repackagedInputs.inputs.password = AES.encrypt(
-          inputs.inputs.password,
-          process.env.REACT_APP_ENCRYPTION_KEY
-        ).toString();
-        console.log("repackagedInputs.inputs.password", repackagedInputs)
-        repackagedInputs.inputs.login = AES.encrypt(
-          inputs.inputs.login,
-          process.env.REACT_APP_ENCRYPTION_KEY
-        ).toString();
-        console.log("repackagedInputs.inputs.login", repackagedInputs)
-        repackagedInputs.inputs.encryption = true;
+      //console.log("AES.encrypt", inputs.inputs.password,
+      //process.env.REACT_APP_ENCRYPTION_KEY)
+      let hash = AES.encrypt(
+        inputs.inputs.password,
+        process.env.REACT_APP_ENCRYPTION_KEY,
+      ).toString();
+      console.log("repackagedInputs hash", hash);
+      repackagedInputs.inputs.password = AES.encrypt(
+        inputs.inputs.password,
+        process.env.REACT_APP_ENCRYPTION_KEY,
+      ).toString();
+      console.log("repackagedInputs.inputs.password", repackagedInputs);
+      repackagedInputs.inputs.login = AES.encrypt(
+        inputs.inputs.login,
+        process.env.REACT_APP_ENCRYPTION_KEY,
+      ).toString();
+      console.log("repackagedInputs.inputs.login", repackagedInputs);
+      repackagedInputs.inputs.encryption = true;
       /*} else {
         repackagedInputs.inputs.encryption = false;
       }*/
-      console.log("authSigninInputs", repackagedInputs)
-      return repackagedInputs
+      console.log("authSigninInputs", repackagedInputs);
+      return repackagedInputs;
     } catch (err) {
       return err;
-    } 
+    }
   },
   apicall: async (inputs, log) => {
     log.push({
@@ -377,11 +377,11 @@ export const authSigninInputs = {
       tags: ["function"],
     });
     try {
-      console.log("apicall", inputs)
+      console.log("apicall", inputs);
       return await apiAuthSignIn(inputs);
     } catch (err) {
       return err;
-    }    
+    }
   },
   getmanageresponsefunction: (response, log) => {
     log.push({
@@ -390,7 +390,7 @@ export const authSigninInputs = {
       response: response,
       tags: ["function"],
     });
-    console.log("response",response)
+    console.log("response", response);
     let responses = {
       "auth.signin.success": () => {
         serviceAuthGrantAccess(response.data).then((proceedOutcome) => {
@@ -433,10 +433,10 @@ export const authSigninInputs = {
           payload: {
             status: "notfound",
             errors: {
-              login: true
+              login: true,
             },
             loading: false,
-            disabled: false
+            disabled: false,
           },
         });
       },
@@ -446,10 +446,10 @@ export const authSigninInputs = {
           payload: {
             status: "notfound",
             errors: {
-              login: true
+              login: true,
             },
             loading: false,
-            disabled: false
+            disabled: false,
           },
         });
       },
@@ -459,10 +459,10 @@ export const authSigninInputs = {
           payload: {
             status: "denied",
             errors: {
-              password: true
+              password: true,
             },
             loading: false,
-            disabled: false
+            disabled: false,
           },
         });
       },
@@ -472,10 +472,10 @@ export const authSigninInputs = {
           payload: {
             status: "denied",
             errors: {
-              password: true
+              password: true,
             },
             loading: false,
-            disabled: false
+            disabled: false,
           },
         });
       },
@@ -486,7 +486,7 @@ export const authSigninInputs = {
             status: "inactivated",
           },
           loading: false,
-          disabled: false
+          disabled: false,
         });
       },
       "auth.signin.error.statusunknown": () => {
@@ -496,13 +496,12 @@ export const authSigninInputs = {
             status: "inactivated",
           },
           loading: false,
-          disabled: false
+          disabled: false,
         });
       },
-      
     };
-    responses[response.type]()
-    return
+    responses[response.type]();
+    return;
   },
 };
 /*
@@ -690,9 +689,9 @@ export const authSendPasswordInputs = {
       message: "authSendPasswordInputs.lockuifunction",
       tags: ["function"],
     });
-    appStore.dispatch({ 
+    appStore.dispatch({
       type: "signinModalSlice/lock",
-      payload: "sendpassword" 
+      payload: "sendpassword",
     });
   },
   unlockuifunction: (log) => {
@@ -707,7 +706,7 @@ export const authSendPasswordInputs = {
         sendpassword: {
           disabled: false,
           loading: false,
-        }
+        },
       },
     });
   },
@@ -718,7 +717,7 @@ export const authSendPasswordInputs = {
       tags: ["function"],
     });
     return {
-      inputs: { ...appStore.getState().signinModalSlice.inputs }
+      inputs: { ...appStore.getState().signinModalSlice.inputs },
     };
   },
   sercivechecks: [
@@ -737,14 +736,14 @@ export const authSendPasswordInputs = {
               // Check email validity
               checkfunction: (serviceInputs) => {
                 if (!validateEmail(serviceInputs.inputs.login)) {
-                  return { 
+                  return {
                     errors: ["generic.error.invalidlogin"],
                     stateChanges: {
-                      errors: { 
-                        login : true
-                      }
+                      errors: {
+                        login: true,
+                      },
                     },
-                    proceed: false 
+                    proceed: false,
                   };
                 } else {
                   return { proceed: true };
@@ -752,8 +751,8 @@ export const authSendPasswordInputs = {
               },
               error: "generic.error.invalidlogin",
               fieldsinerror: ["login"],
-            }
-          ]
+            },
+          ],
         },
       ],
     },
@@ -777,7 +776,7 @@ export const authSendPasswordInputs = {
       return await apiAuthSendPassword(inputs);
     } catch (err) {
       return err;
-    }    
+    }
   },
   getmanageresponsefunction: (response, log) => {
     log.push({
@@ -787,23 +786,23 @@ export const authSendPasswordInputs = {
       tags: ["function"],
     });
     let responses = {
-      "auth.sendpassword.success":() => {
+      "auth.sendpassword.success": () => {
         appStore.dispatch({
           type: "signinModalSlice/change",
           payload: {
             sendpassword: {
               status: "sent",
-            }
+            },
           },
         });
       },
-      "auth.sendpassword.error.onfind":() => {
+      "auth.sendpassword.error.onfind": () => {
         appStore.dispatch({
           type: "signinModalSlice/change",
           payload: {
             sendpassword: {
               status: "notfound",
-            }
+            },
           },
         });
         appStore.dispatch({
@@ -814,7 +813,7 @@ export const authSendPasswordInputs = {
           },
         });
       },
-      "auth.sendpassword.error.accountnotfound":() => {
+      "auth.sendpassword.error.accountnotfound": () => {
         appStore.dispatch({
           type: "signinModalSlice/change",
           payload: {
@@ -822,8 +821,8 @@ export const authSendPasswordInputs = {
               status: "notfound",
             },
             errors: {
-              login: true
-            }
+              login: true,
+            },
           },
         });
         appStore.dispatch({
@@ -834,13 +833,13 @@ export const authSendPasswordInputs = {
           },
         });
       },
-      "auth.sendpassword.error.updatingtoken":() => {
+      "auth.sendpassword.error.updatingtoken": () => {
         appStore.dispatch({
           type: "signinModalSlice/change",
           payload: {
             sendpassword: {
               status: "notfound",
-            }
+            },
           },
         });
         appStore.dispatch({
@@ -852,9 +851,9 @@ export const authSendPasswordInputs = {
         });
       },
     };
-    console.log("response", response)
-    responses[response]()
-    return 
+    console.log("response", response);
+    responses[response]();
+    return;
   },
 };
 
@@ -865,9 +864,9 @@ export const authPasswordResetInputs = {
       message: "authSendPasswordInputs.lockuifunction",
       tags: ["function"],
     });
-    appStore.dispatch({ 
+    appStore.dispatch({
       type: "signinModalSlice/lock",
-      payload: "sendpassword" 
+      payload: "sendpassword",
     });
   },
   unlockuifunction: (log) => {
@@ -882,7 +881,7 @@ export const authPasswordResetInputs = {
         sendpassword: {
           disabled: false,
           loading: false,
-        }
+        },
       },
     });
   },
@@ -893,7 +892,7 @@ export const authPasswordResetInputs = {
       tags: ["function"],
     });
     return {
-      inputs: { ...appStore.getState().signinModalSlice.inputs }
+      inputs: { ...appStore.getState().signinModalSlice.inputs },
     };
   },
   sercivechecks: [
@@ -912,14 +911,14 @@ export const authPasswordResetInputs = {
               // Check email validity
               checkfunction: (serviceInputs) => {
                 if (!validateEmail(serviceInputs.inputs.login)) {
-                  return { 
+                  return {
                     errors: ["generic.error.invalidlogin"],
                     stateChanges: {
-                      errors: { 
-                        login : true
-                      }
+                      errors: {
+                        login: true,
+                      },
                     },
-                    proceed: false 
+                    proceed: false,
                   };
                 } else {
                   return { proceed: true };
@@ -927,8 +926,8 @@ export const authPasswordResetInputs = {
               },
               error: "generic.error.invalidlogin",
               fieldsinerror: ["login"],
-            }
-          ]
+            },
+          ],
         },
       ],
     },
@@ -952,7 +951,7 @@ export const authPasswordResetInputs = {
       return await apiAuthSendPassword(inputs);
     } catch (err) {
       return err;
-    }    
+    }
   },
   getmanageresponsefunction: (response, log) => {
     log.push({
@@ -962,23 +961,23 @@ export const authPasswordResetInputs = {
       tags: ["function"],
     });
     let responses = {
-      "auth.sendpassword.success":() => {
+      "auth.sendpassword.success": () => {
         appStore.dispatch({
           type: "signinModalSlice/change",
           payload: {
             sendpassword: {
               status: "sent",
-            }
+            },
           },
         });
       },
-      "auth.sendpassword.error.onfind":() => {
+      "auth.sendpassword.error.onfind": () => {
         appStore.dispatch({
           type: "signinModalSlice/change",
           payload: {
             sendpassword: {
               status: "notfound",
-            }
+            },
           },
         });
         appStore.dispatch({
@@ -989,7 +988,7 @@ export const authPasswordResetInputs = {
           },
         });
       },
-      "auth.sendpassword.error.accountnotfound":() => {
+      "auth.sendpassword.error.accountnotfound": () => {
         appStore.dispatch({
           type: "signinModalSlice/change",
           payload: {
@@ -997,8 +996,8 @@ export const authPasswordResetInputs = {
               status: "notfound",
             },
             errors: {
-              login: true
-            }
+              login: true,
+            },
           },
         });
         appStore.dispatch({
@@ -1009,13 +1008,13 @@ export const authPasswordResetInputs = {
           },
         });
       },
-      "auth.sendpassword.error.updatingtoken":() => {
+      "auth.sendpassword.error.updatingtoken": () => {
         appStore.dispatch({
           type: "signinModalSlice/change",
           payload: {
             sendpassword: {
               status: "notfound",
-            }
+            },
           },
         });
         appStore.dispatch({
@@ -1027,8 +1026,8 @@ export const authPasswordResetInputs = {
         });
       },
     };
-    console.log("response", response)
-    responses[response]()
-    return 
+    console.log("response", response);
+    responses[response]();
+    return;
   },
 };

@@ -13,8 +13,5 @@ export default function PasswordReset() {
   // i18n
   const { t } = useTranslation();
 
-  return (
-    <Box>
-    </Box>
-  );
+  return <Box></Box>;
 }

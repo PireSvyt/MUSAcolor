@@ -4,9 +4,13 @@ import { random_id } from "./toolkit.js";
 // Reducers
 import appStore from "../store.js";
 
-let debugProceed = true
+let debugProceed = true;
 
-async function serviceProceed(serviceProceedInputs, directInputs = undefined, log = []) {
+async function serviceProceed(
+  serviceProceedInputs,
+  directInputs = undefined,
+  log = [],
+) {
   if (process.env.REACT_APP_DEBUG === "TRUE") {
     console.log("serviceProceed");
   }
@@ -23,9 +27,11 @@ async function serviceProceed(serviceProceedInputs, directInputs = undefined, lo
       if (directInputs === undefined) {
         serviceInputs = serviceProceedInputs.getinputsfunction(log);
       } else {
-        serviceInputs = serviceProceedInputs.getinputsfunction(log, directInputs);
+        serviceInputs = serviceProceedInputs.getinputsfunction(
+          log,
+          directInputs,
+        );
       }
-      
     }
     if (serviceProceedInputs.wrappingfunction !== undefined) {
       if (serviceProceedInputs.wrappingfunction !== undefined) {
@@ -36,12 +42,14 @@ async function serviceProceed(serviceProceedInputs, directInputs = undefined, lo
       }
     }
     if (debugProceed) {
-      console.log("log")
-      log.forEach(l => {console.log(l)})
-      console.log("serviceInputs")
-      Object.keys(serviceInputs).forEach(k => {
-        console.log(k,serviceInputs[k])
-      })
+      console.log("log");
+      log.forEach((l) => {
+        console.log(l);
+      });
+      console.log("serviceInputs");
+      Object.keys(serviceInputs).forEach((k) => {
+        console.log(k, serviceInputs[k]);
+      });
     }
 
     // Inputs checks
@@ -53,19 +61,18 @@ async function serviceProceed(serviceProceedInputs, directInputs = undefined, lo
       );
     }
     if (debugProceed) {
-      console.log("proceedCheckOutcome")
-      Object.keys(proceedCheckOutcome).forEach(k => {
-        console.log(k,proceedCheckOutcome[k])
-      })
+      console.log("proceedCheckOutcome");
+      Object.keys(proceedCheckOutcome).forEach((k) => {
+        console.log(k, proceedCheckOutcome[k]);
+      });
     }
 
     if (serviceProceedInputs.getcheckoutcomedispatchfunction !== undefined) {
-
       if (debugProceed) {
-        console.log("serviceInputs")
-        Object.keys(serviceInputs).forEach(k => {
-          console.log(k,serviceInputs[k])
-        })
+        console.log("serviceInputs");
+        Object.keys(serviceInputs).forEach((k) => {
+          console.log(k, serviceInputs[k]);
+        });
       }
 
       if (proceedCheckOutcome.stateChanges !== undefined) {
@@ -88,10 +95,10 @@ async function serviceProceed(serviceProceedInputs, directInputs = undefined, lo
         }
       }
       if (debugProceed) {
-        console.log("serviceInputs")
-        Object.keys(serviceInputs).forEach(k => {
-          console.log(k,serviceInputs[k])
-        })
+        console.log("serviceInputs");
+        Object.keys(serviceInputs).forEach((k) => {
+          console.log(k, serviceInputs[k]);
+        });
       }
 
       // API call
@@ -100,18 +107,15 @@ async function serviceProceed(serviceProceedInputs, directInputs = undefined, lo
         log,
       );
       if (debugProceed) {
-        console.log("proceedResponse", proceedResponse)
+        console.log("proceedResponse", proceedResponse);
         //Object.keys(proceedResponse).forEach(k => {
         //  console.log(k,proceedResponse[k])
         //})
       }
 
-      // Response management     
+      // Response management
       if (serviceProceedInputs.getmanageresponsefunction !== undefined) {
-        serviceProceedInputs.getmanageresponsefunction(
-          proceedResponse,
-          log,
-        )
+        serviceProceedInputs.getmanageresponsefunction(proceedResponse, log);
       } else {
         if (serviceProceedInputs.unlockuifunction !== undefined) {
           serviceProceedInputs.unlockuifunction(log);
@@ -130,7 +134,7 @@ async function serviceProceed(serviceProceedInputs, directInputs = undefined, lo
       // When proceed outcome is false
       if (proceedCheckOutcome.errors.length > 0) {
         if (debugProceed) {
-          console.log("proceedCheckOutcome.errors", proceedCheckOutcome.errors)
+          console.log("proceedCheckOutcome.errors", proceedCheckOutcome.errors);
         }
         if (serviceProceedInputs.unlockuifunction !== undefined) {
           serviceProceedInputs.unlockuifunction(log);

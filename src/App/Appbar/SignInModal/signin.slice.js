@@ -16,36 +16,36 @@ const emptyState = {
   sendactivation: {
     status: "",
     loading: false,
-    disabled: false
+    disabled: false,
   },
   sendpassword: {
     status: "",
     loading: false,
-    disabled: false
-  }
-}
+    disabled: false,
+  },
+};
 
 const signinModalSlice = createSlice({
   name: "signinModalSlice",
-  initialState: {...emptyState} ,
+  initialState: { ...emptyState },
   reducers: {
     open: (state) => {
-      state.open = true
-      state.inputs.login = ""
-      state.inputs.password = ""
-      state.errors.login = false
-      state.errors.password = false
-      state.sendactivation.status = ""
-      state.sendactivation.loading = false
-      state.sendactivation.disabled = false
-      state.sendpassword.status = ""
-      state.sendpassword.loading = false
-      state.sendpassword.disabled = false
-      state.disabled = false
-      state.loading= false
+      state.open = true;
+      state.inputs.login = "";
+      state.inputs.password = "";
+      state.errors.login = false;
+      state.errors.password = false;
+      state.sendactivation.status = "";
+      state.sendactivation.loading = false;
+      state.sendactivation.disabled = false;
+      state.sendpassword.status = "";
+      state.sendpassword.loading = false;
+      state.sendpassword.disabled = false;
+      state.disabled = false;
+      state.loading = false;
     },
     close: (state) => {
-      state.open = false
+      state.open = false;
     },
     change: (state, action) => {
       if (action.payload.open !== undefined) {
@@ -88,7 +88,8 @@ const signinModalSlice = createSlice({
           state.sendactivation.loading = action.payload.sendactivation.loading;
         }
         if (action.payload.sendactivation.disabled !== undefined) {
-          state.sendactivation.disabled = action.payload.sendactivation.disabled;
+          state.sendactivation.disabled =
+            action.payload.sendactivation.disabled;
         }
       }
       // Send password
@@ -106,7 +107,7 @@ const signinModalSlice = createSlice({
     },
     lock: (state, action) => {
       if (action.payload === undefined) {
-        action = { payload : {}}
+        action = { payload: {} };
       }
       if (Object.keys(action.payload).length === 0) {
         // Locking the modal
@@ -114,23 +115,23 @@ const signinModalSlice = createSlice({
         state.loading = true;
       } else {
         switch (action.payload) {
-          case "activation" :
-            state.sendactivation.disabled = true
-            state.sendactivation.loading = true
-            break
-          case "password" :
-            state.sendpassword.disabled = true
-            state.sendpassword.loading = true
-            break
+          case "activation":
+            state.sendactivation.disabled = true;
+            state.sendactivation.loading = true;
+            break;
+          case "password":
+            state.sendpassword.disabled = true;
+            state.sendpassword.loading = true;
+            break;
           case "modal":
           default:
             state.disabled = true;
             state.loading = true;
-            break
+            break;
         }
       }
     },
-}
+  },
 });
 
 export default signinModalSlice.reducer;

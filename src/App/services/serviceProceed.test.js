@@ -82,8 +82,8 @@ describe.skip("TEST OF SERVICE : serviceProceed", () => {
             return "dummyslice/command";
           },
           repackagingfunction: (serviceInputs, log) => {
-            let repackagedServiceInputs = { ... serviceInputs};
-            delete repackagedServiceInputs.field1A
+            let repackagedServiceInputs = { ...serviceInputs };
+            delete repackagedServiceInputs.field1A;
             log.push({
               date: new Date(),
               message: "serviceProceed.repackagingfunction",

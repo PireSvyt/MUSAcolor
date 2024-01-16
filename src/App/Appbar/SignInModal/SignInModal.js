@@ -11,14 +11,14 @@ import {
   FormControl,
   Typography,
 } from "@mui/material";
-import LoadingButton from '@mui/lab/LoadingButton';
-import { useSelector } from 'react-redux'
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useSelector } from "react-redux";
 
 // Services
-import { 
-  serviceAuthSignIn, 
-  serviceAuthSendPassword
-} from "../../services/auth.services.js"
+import {
+  serviceAuthSignIn,
+  serviceAuthSendPassword,
+} from "../../services/auth.services.js";
 // Reducers
 import appStore from "../../store.js";
 
@@ -35,20 +35,20 @@ export default function SignInModal() {
   // Selects
   const select = {
     open: useSelector((state) => state.signinModalSlice.open),
-    status:  useSelector((state) => state.signinModalSlice.status),
-    disabled:  useSelector((state) => state.signinModalSlice.disabled),
-    loading:  useSelector((state) => state.signinModalSlice.loading),
-    inputs:  useSelector((state) => state.signinModalSlice.inputs),
-    errors:  useSelector((state) => state.signinModalSlice.errors),
+    status: useSelector((state) => state.signinModalSlice.status),
+    disabled: useSelector((state) => state.signinModalSlice.disabled),
+    loading: useSelector((state) => state.signinModalSlice.loading),
+    inputs: useSelector((state) => state.signinModalSlice.inputs),
+    errors: useSelector((state) => state.signinModalSlice.errors),
     //sendactivation :  useSelector((state) => state.signinModalSlice.sendactivation),
-    sendpassword :  useSelector((state) => state.signinModalSlice.sendpassword),
+    sendpassword: useSelector((state) => state.signinModalSlice.sendpassword),
   };
 
   // Changes
   const changes = {
     close: () => {
       appStore.dispatch({
-        type: "signinModalSlice/close"
+        type: "signinModalSlice/close",
       });
     },
     login: (e) => {
@@ -56,12 +56,12 @@ export default function SignInModal() {
         type: "signinModalSlice/change",
         payload: {
           inputs: {
-            login: e.target.value
+            login: e.target.value,
           },
           errors: {
-            login: false
+            login: false,
           },
-        }
+        },
       });
     },
     password: (e) => {
@@ -69,17 +69,17 @@ export default function SignInModal() {
         type: "signinModalSlice/change",
         payload: {
           inputs: {
-            password: e.target.value
+            password: e.target.value,
           },
           errors: {
-            password: false
+            password: false,
           },
-        }
+        },
       });
     },
     signin: () => {
       console.log("SignInModal.signin");
-      serviceAuthSignIn()
+      serviceAuthSignIn();
     },
     /*gotosignup: () => {
       appStore.dispatch({
@@ -93,22 +93,20 @@ export default function SignInModal() {
     },*/
     resetpassword: () => {
       console.log("SignInModal.resetpassword");
-      serviceAuthSendPassword()
+      serviceAuthSendPassword();
     },
   };
 
   // Render
   return (
     <Box>
-      <Dialog 
-        open={select.open} 
-        onClose={changes.close} 
+      <Dialog
+        open={select.open}
+        onClose={changes.close}
         fullWidth={true}
         data-testid="modal-sign in"
       >
-        <DialogTitle>
-          {t("signin.label.title")}
-        </DialogTitle>
+        <DialogTitle>{t("signin.label.title")}</DialogTitle>
         <DialogContent
           sx={{
             height: componentHeight,
@@ -151,14 +149,18 @@ export default function SignInModal() {
                 variant="outlined"
                 onClick={changes.resetpassword}
                 sx={{ mt: 2, mb: 1 }}
-                disabled={select.sendpassword.disbaled || select.sendpassword.status === "sent"}
+                disabled={
+                  select.sendpassword.disbaled ||
+                  select.sendpassword.status === "sent"
+                }
                 loading={select.sendpassword.loading}
                 data-testid="modal-sign in-button-reset password"
               >
                 {t("signin.button.resetpassword")}
               </LoadingButton>
 
-              {select.status === "notfound" || select.sendpassword.status === "notfound" ? (
+              {select.status === "notfound" ||
+              select.sendpassword.status === "notfound" ? (
                 <Box
                   sx={{
                     display: "flex",
@@ -210,10 +212,11 @@ export default function SignInModal() {
         </DialogContent>
 
         <DialogActions>
-          <Button 
-            data-testid="modal-sign in-button-close" 
-            onClick={changes.close}>
-              {t("generic.button.cancel")}
+          <Button
+            data-testid="modal-sign in-button-close"
+            onClick={changes.close}
+          >
+            {t("generic.button.cancel")}
           </Button>
           <LoadingButton
             variant="contained"

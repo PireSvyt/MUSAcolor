@@ -35,22 +35,22 @@ export function validateEmail(email) {
   );
 }
 
-export function appendObject (obj, append) {
-  Object.keys(append).forEach(key => {
+export function appendObject(obj, append) {
+  Object.keys(append).forEach((key) => {
     if (obj[key] === undefined) {
-      obj[key] = append[key]
+      obj[key] = append[key];
     } else {
-      if (typeof obj[key] === 'object') {
-        obj[key] = appendObject(obj[key], append[key])
+      if (typeof obj[key] === "object") {
+        obj[key] = appendObject(obj[key], append[key]);
       } else {
-        obj[key] = append[key]
+        obj[key] = append[key];
       }
     }
-  })
-  return obj
+  });
+  return obj;
 }
 
-export function debounce(func, timeout = 150){
+export function debounce(func, timeout = 150) {
   /*
 
   Allows to to debounce a function
@@ -61,6 +61,8 @@ export function debounce(func, timeout = 150){
   let timer;
   return (...args) => {
     clearTimeout(timer);
-    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    timer = setTimeout(() => {
+      func.apply(this, args);
+    }, timeout);
   };
 }

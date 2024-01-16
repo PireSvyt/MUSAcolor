@@ -6,10 +6,10 @@ const userSlice = createSlice({
     state: {},
     userid: "",
     type: "",
-    patients: []
+    patients: [],
   },
   reducers: {
-    change : (state, action) => {
+    change: (state, action) => {
       if (action.payload.userid !== undefined) {
         state.userid = action.payload.userid;
       }
@@ -19,7 +19,7 @@ const userSlice = createSlice({
       if (action.payload.patients !== undefined) {
         state.patients = action.payload.patients;
       }
-      // 
+      //
       if (action.payload.state !== undefined) {
         if (action.payload.state.details !== undefined) {
           state.state.details = action.payload.state.details;
@@ -37,11 +37,11 @@ const userSlice = createSlice({
       state.state.details = "available";
     },
     unload: (state) => {
-      state.state = {}
-      state.userid = ""
-      state.type = ""
+      state.state = {};
+      state.userid = "";
+      state.type = "";
       state.patients = [];
-      delete state.state.details
+      delete state.state.details;
     },
   },
 });

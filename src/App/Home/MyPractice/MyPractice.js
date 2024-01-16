@@ -17,7 +17,7 @@ export default function MyPractice() {
 
   return (
     <Box>
-        <MyPatients />
+      <MyPatients />
     </Box>
   );
 }

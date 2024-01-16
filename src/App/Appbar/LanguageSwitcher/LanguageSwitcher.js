@@ -17,7 +17,7 @@ export default function LanguageSwitcher() {
 
   // Constants
   const languages = ["frFR", "enGB"];
-  let c = -1
+  let c = -1;
 
   // States
   const [switcherOpen, setSwitcherOpen] = useState(false);
@@ -34,9 +34,9 @@ export default function LanguageSwitcher() {
 
   return (
     <Box>
-      <IconButton 
-        onClick={openSwitcher} 
-        size="small" 
+      <IconButton
+        onClick={openSwitcher}
+        size="small"
         sx={{ ml: 2 }}
         data-testid="component-localization-button-open menu"
       >
@@ -52,7 +52,7 @@ export default function LanguageSwitcher() {
         data-testid="component-localization-list-language"
       >
         {languages.map((language) => {
-          c += 1
+          c += 1;
           return (
             <MenuItem
               key={random_id()}

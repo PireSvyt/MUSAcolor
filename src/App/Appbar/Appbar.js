@@ -21,8 +21,7 @@ import { serviceAuthAccessDeny } from "../services/auth.services.js";
 // Components
 import LanguageSwitcher from "./LanguageSwitcher/LanguageSwitcher.js";
 import SignInModal from "./SignInModal/SignInModal.js";
-// Reducers
-import appStore from "../store.js";
+import PatientModal from "./PatientModal/PatientModal.js";
 
 export default function Appbar(props) {
   if (process.env.REACT_APP_DEBUG === "TRUE") {
@@ -40,6 +39,7 @@ export default function Appbar(props) {
     signedin: useSelector((state) => state.authSlice.signedin),
     usertype: useSelector((state) => state.userSlice.usertype),
     signInModal: useSelector((state) => state.signinModalSlice.open),
+    patientModal: useSelector((state) => state.patientModalSlice.open),
   };
 
   // Handles
@@ -175,7 +175,7 @@ export default function Appbar(props) {
           bottom: "auto",
         }}
         color={props.route === "admin" ? "error" : "primary"}
-        data-testid="component-app bar" 
+        data-testid="component-app bar"
       >
         <Toolbar>
           <Box
@@ -194,11 +194,11 @@ export default function Appbar(props) {
                 alignItems: "center",
               }}
             >
-              <Typography 
-                variant="h6" 
-                component="div" 
+              <Typography
+                variant="h6"
+                component="div"
                 sx={{ flexGrow: 1 }}
-                data-testid="component-app bar-text-title" 
+                data-testid="component-app bar-text-title"
               >
                 {props.title}
               </Typography>
@@ -215,10 +215,10 @@ export default function Appbar(props) {
 
               {menuItems.length !== 0 ? (
                 <Box>
-                  <IconButton 
-                    size="large" 
+                  <IconButton
+                    size="large"
                     onClick={action.openMenu}
-                    data-testid="component-app bar-button-open menu" 
+                    data-testid="component-app bar-button-open menu"
                   >
                     <MenuIcon sx={{ color: "white" }} />
                   </IconButton>
@@ -230,7 +230,7 @@ export default function Appbar(props) {
                     MenuListProps={{
                       "aria-labelledby": "basic-button",
                     }}
-                    data-testid="list-app bar menu" 
+                    data-testid="list-app bar menu"
                   >
                     {menuItems.map((item) => {
                       if (item.signed && select.signedin) {
@@ -268,7 +268,7 @@ export default function Appbar(props) {
                   size="large"
                   color="inherit"
                   onClick={() => history.back()}
-                  data-testid="component-app bar-button-close menu" 
+                  data-testid="component-app bar-button-close menu"
                 >
                   <CloseIcon />
                 </IconButton>
@@ -279,6 +279,7 @@ export default function Appbar(props) {
       </AppBar>
 
       {select.signInModal === true ? <SignInModal /> : null}
+      {select.patientModal === true ? <PatientModal /> : null}
     </Box>
   );
 }

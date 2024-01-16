@@ -7,12 +7,10 @@ import {
   authSigninInputs,
   //authSendActivationInputs,
   authSendPasswordInputs,
-  authPasswordResetInputs
+  authPasswordResetInputs,
 } from "./auth.service.inputs.js";
 // APIs
-import {
-  apiAuthAssess,
-} from "./auth.api.js";
+import { apiAuthAssess } from "./auth.api.js";
 // Services
 import { random_id } from "./toolkit.js";
 import { serviceUserGetDetails } from "./user.services.js";
@@ -140,12 +138,12 @@ export async function serviceAuthGrantAccess(data) {
     /*if (
       decodedtoken.usertype === "activated"
     ) {*/
-      // Then update variables to signed in
-      appStore.dispatch({
-        type: "authSlice/signin",
-        payload: data.token,
-      });
-      serviceUserGetDetails();
+    // Then update variables to signed in
+    appStore.dispatch({
+      type: "authSlice/signin",
+      payload: data.token,
+    });
+    serviceUserGetDetails();
     /*} else {
       if (process.env.REACT_APP_DEBUG === "TRUE") {
         console.log("invalid status");
@@ -183,7 +181,7 @@ export async function serviceAuthAssessCookie() {
       switch (data.type) {
         case "auth.assess.success.validtoken":
           // Sign in token
-          serviceAuthGrantAccess({token: token}).then((proceedOutcome) => {
+          serviceAuthGrantAccess({ token: token }).then((proceedOutcome) => {
             if (proceedOutcome.errors.length > 0) {
               if (process.env.REACT_APP_DEBUG === "TRUE") {
                 console.log("proceedOutcome errors");

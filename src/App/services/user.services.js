@@ -1,7 +1,5 @@
 // Inputs
-import {
-  userGetDetailsInputs,
-} from "./user.services.inputs.js";
+import { userGetDetailsInputs } from "./user.services.inputs.js";
 // Services
 import serviceProceed from "./serviceProceed.js";
 
@@ -11,6 +9,3 @@ export async function serviceUserGetDetails() {
   }
   await serviceProceed(userGetDetailsInputs);
 }
-
-
-

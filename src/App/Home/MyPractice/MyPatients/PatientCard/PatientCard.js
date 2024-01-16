@@ -6,7 +6,7 @@ import {
   Typography,
   IconButton,
   List,
-  ListItem
+  ListItem,
 } from "@mui/material";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline.js";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -46,11 +46,11 @@ export default function PatientCard(props) {
   }
 
   return (
-    <Card 
+    <Card
       index={props.index}
-      sx={{ 
-        width: "100%", 
-        p: 1 
+      sx={{
+        width: "100%",
+        p: 1,
       }}
     >
       <Box
@@ -62,9 +62,7 @@ export default function PatientCard(props) {
         }}
       >
         <Box>
-            <Typography>
-                {props.patient.key}
-            </Typography>
+          <Typography>{props.patient.key}</Typography>
         </Box>
       </Box>
 

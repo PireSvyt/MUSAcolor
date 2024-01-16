@@ -1,34 +1,29 @@
 // APIs
-import { apiUserGetDetails } from "./user.api.js";
+import { apiPatientCreate } from "./patient.api.js";
 // Services
 import { random_id } from "./toolkit.js";
 import appStore from "../store.js";
 
-export const userGetDetailsInputs = {
+export const patientCreateInputs = {
   lockuifunction: (log) => {
     log.push({
       date: new Date(),
-      message: "userGetStatsInputs.lockuifunction",
+      message: "patientCreateInputs.lockuifunction",
       tags: ["function"],
     });
     appStore.dispatch({
-      type: "userSlice/change",
-      payload: {
-        state: {
-          details: "loading",
-        },
-      },
+      type: "patientModalSlice/lock",
     });
   },
   getinputsfunction: (log) => {
     log.push({
       date: new Date(),
-      message: "userGetDetailsInputs.getinputsfunction",
+      message: "patientCreateInputs.getinputsfunction",
       tags: ["function"],
     });
     let inputs = {
       inputs: {
-        token: appStore.getState().authSlice.token,
+        inputs: appStore.getState().patientModalSlice.inputs,
       },
     };
     return inputs;
@@ -40,10 +35,25 @@ export const userGetDetailsInputs = {
       error: "generic.error.missinginputs",
       subchecks: [
         {
-          // Check token is available
-          field: "token",
-          error: "generic.error.missingtoken",
-          fieldsinerror: ["token"],
+          // Check key is available
+          field: "key",
+          error: "generic.error.missingkey",
+          fieldsinerror: ["key"],
+          checkfunction: (serviceInputs) => {
+            if (serviceInputs.inputs.key === "") {
+              return {
+                errors: ["generic.error.invalidkey"],
+                stateChanges: {
+                  errors: {
+                    key: true,
+                  },
+                },
+                proceed: false,
+              };
+            } else {
+              return { proceed: true };
+            }
+          },
         },
       ],
     },
@@ -51,20 +61,23 @@ export const userGetDetailsInputs = {
   getcheckoutcomedispatchfunction: (log) => {
     log.push({
       date: new Date(),
-      message: "userGetDetailsInputs.getcheckoutcomedispatchfunction",
+      message: "patientCreateInputs.getcheckoutcomedispatchfunction",
       tags: ["function"],
     });
-    return "userSlice/change";
+    return "patientModalSlice/change";
   },
   apicall: async (inputs, log) => {
     log.push({
       date: new Date(),
-      message: "userGetDetailsInputs.apicall",
+      message: "patientCreateInputs.apicall",
       inputs: inputs,
       tags: ["function"],
     });
     try {
-      return await apiUserGetDetails(inputs.token);
+      return await apiPatientCreate(
+        inputs,
+        appStore.getState().authSlice.token,
+      );
     } catch (err) {
       return err;
     }
@@ -72,18 +85,18 @@ export const userGetDetailsInputs = {
   getmanageresponsefunction: (response, log) => {
     log.push({
       date: new Date(),
-      message: "userGetDetailsInputs.getmanageresponsefunction",
+      message: "patientCreateInputs.getmanageresponsefunction",
       response: response,
       tags: ["function"],
     });
     let responses = {
-      "user.get.success": () => {
+      "patient.create.success": () => {
         appStore.dispatch({
-          type: "userSlice/set",
-          payload: response.data.user,
+          type: "patientModalSlice/close",
         });
+        window.location = "/patient/" + response.data.patientid;
       },
-      "user.get.error.notfound": () => {
+      "patient.create.error.notfound": () => {
         appStore.dispatch({
           type: "sliceSnack/change",
           payload: {
@@ -93,7 +106,7 @@ export const userGetDetailsInputs = {
           },
         });
       },
-      "user.get.error.onaggregate": () => {
+      "patient.create.error.onaggregate": () => {
         appStore.dispatch({
           type: "sliceSnack/change",
           payload: {
@@ -103,7 +116,7 @@ export const userGetDetailsInputs = {
         });
       },
     };
-    //console.log("userGetDetailsInputs response", response)
+    //console.log("patientCreateInputs response", response)
     return responses[response.type]();
   },
 };

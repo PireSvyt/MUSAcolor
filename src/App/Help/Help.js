@@ -13,8 +13,5 @@ export default function Help() {
   // i18n
   const { t } = useTranslation();
 
-  return (
-    <Box>
-    </Box>
-  );
+  return <Box></Box>;
 }

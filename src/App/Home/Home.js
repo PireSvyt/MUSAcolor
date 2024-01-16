@@ -26,17 +26,17 @@ export default function Home() {
 
   return (
     <Box>
-        <Appbar route="home" title={t("generic.label.product")} />
-        <Box sx={{ height: 80 }} />
-        {(select.loaded === false) ? (
-            <Box sx={{ left: "10%", right: "10%" }}>
-                <LinearProgress color="secondary"/>
-            </Box>
-        ) : select.signedin === false ? (
-            <Landing />
-        ) : select.usertype === "practician" || select.usertype === "admin" ? (
-            <MyPractice />
-        ) : (null) }
+      <Appbar route="home" title={t("generic.label.product")} />
+      <Box sx={{ height: 80 }} />
+      {select.loaded === false ? (
+        <Box sx={{ left: "10%", right: "10%" }}>
+          <LinearProgress color="secondary" />
+        </Box>
+      ) : select.signedin === false ? (
+        <Landing />
+      ) : select.usertype === "practician" || select.usertype === "admin" ? (
+        <MyPractice />
+      ) : null}
     </Box>
   );
 }

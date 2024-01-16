@@ -1,5 +1,5 @@
 require("dotenv");
-import axios from 'axios';
+import axios from "axios";
 
 let apiURL = process.env.REACT_APP_SERVER_URL;
 
@@ -7,10 +7,10 @@ let apiURL = process.env.REACT_APP_SERVER_URL;
 export async function apiAuthSignUp(signUpInputs) {
   try {
     const res = await axios({
-      method: 'post',
+      method: "post",
       url: apiURL + "auth/v1/signup",
-      data: signUpInputs
-    })
+      data: signUpInputs,
+    });
     return res.data;
   } catch (err) {
     return err.response.data;
@@ -47,10 +47,10 @@ export async function apiAuthActivate(activateInputs) {
 export async function apiAuthSignIn(signInInputs) {
   try {
     const res = await axios({
-      method: 'post',
+      method: "post",
       url: apiURL + "auth/v1/signin",
-      data: signInInputs
-    })
+      data: signInInputs,
+    });
     return res.data;
   } catch (err) {
     return err.response.data;
@@ -69,10 +69,10 @@ export async function apiAuthAssess(token) {
 export async function apiAuthSendPassword(sendPasswordInputs) {
   try {
     const res = await axios({
-      method: 'post',
+      method: "post",
       url: apiURL + "auth/v1/sendpassword",
-      data: sendPasswordInputs
-    })
+      data: sendPasswordInputs,
+    });
     return res.data;
   } catch (err) {
     return err.response.data;
@@ -82,10 +82,10 @@ export async function apiAuthSendPassword(sendPasswordInputs) {
 export async function apiAuthPasswordReset(PasswordResetInputs) {
   try {
     const res = await axios({
-      method: 'post',
+      method: "post",
       url: apiURL + "auth/v1/passwordreset",
-      data: PasswordResetInputs
-    })
+      data: PasswordResetInputs,
+    });
     return res.data;
   } catch (err) {
     return err.response.data;
