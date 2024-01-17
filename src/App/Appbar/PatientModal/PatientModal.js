@@ -45,15 +45,15 @@ export default function PatientModal() {
         type: "patientModalSlice/close",
       });
     },
-    key: (e) => {
+    name: (e) => {
       appStore.dispatch({
         type: "patientModalSlice/change",
         payload: {
           inputs: {
-            key: e.target.value,
+            name: e.target.value,
           },
           errors: {
-            key: false,
+            name: false,
           },
         },
       });
@@ -89,15 +89,15 @@ export default function PatientModal() {
           >
             <FormControl>
               <TextField
-                name="key"
+                name="name"
                 required
-                label={t("generic.input.key")}
+                label={t("generic.input.name")}
                 variant="standard"
-                value={select.inputs.key}
-                onChange={changes.key}
+                value={select.inputs.name}
+                onChange={changes.name}
                 autoComplete="off"
-                error={select.errors.key}
-                data-testid="modal-patient-input-key"
+                error={select.errors.name}
+                data-testid="modal-patient-input-name"
               />
             </FormControl>
           </Box>

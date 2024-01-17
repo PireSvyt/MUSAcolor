@@ -3,8 +3,7 @@
     "label": {
       "product": "MUSAcolor©",
       "account": "Compte",
-      "help": "Aide",
-      "patient": "Patient"
+      "help": "Aide"
     },
     "menu": {
       "home": "Accueil",
@@ -69,7 +68,18 @@
   },
   "home": {
     "label": {
-      "mypatients": "Mes patients"
+      "mypatients": "Mes sujets"
+    }
+  },
+  "patient": {
+    "label": {
+      "title": "Sujet"
+    },
+    "confirm": {
+      "delete": {
+        "title": "Suppression du sujet",
+        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à ce sujet."
+      }
     }
   }
 }

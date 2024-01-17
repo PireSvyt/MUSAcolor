@@ -42,6 +42,8 @@ export default function MyPatients() {
     },
   };
 
+  let c = -1
+
   return (
     <Box data-testid="component-my patients">
       <Stack direction="row" justifyContent="space-between">
@@ -95,12 +97,12 @@ export default function MyPatients() {
           </Typography>
         </Box>
       ) : (
-        <List dense={true} data-testid="component-my patients-list-patient">
+        <List dense={false} data-testid="component-my patients-list-patient">
           {select.mypatients.map((mypatient) => {
             c += 1;
             return (
               <ListItem key={"patient-" + mypatient.patientid}>
-                <PatientCard tapatientble={mypatient} index={c} />
+                <PatientCard patient={mypatient} index={c} />
               </ListItem>
             );
           })}

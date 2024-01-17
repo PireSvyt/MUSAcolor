@@ -12,12 +12,17 @@ export const userGetDetailsInputs = {
       tags: ["function"],
     });
     appStore.dispatch({
-      type: "userSlice/change",
-      payload: {
-        state: {
-          details: "loading",
-        },
-      },
+      type: "userSlice/lock"
+    });
+  },
+  unlockuifunction: (log) => {
+    log.push({
+      date: new Date(),
+      message: "userGetStatsInputs.unlockuifunction",
+      tags: ["function"],
+    });
+    appStore.dispatch({
+      type: "userSlice/unlock"
     });
   },
   getinputsfunction: (log) => {
@@ -77,13 +82,13 @@ export const userGetDetailsInputs = {
       tags: ["function"],
     });
     let responses = {
-      "user.get.success": () => {
+      "user.getme.success": () => {
         appStore.dispatch({
           type: "userSlice/set",
           payload: response.data.user,
         });
       },
-      "user.get.error.notfound": () => {
+      "user.getme.error.notfound": () => {
         appStore.dispatch({
           type: "sliceSnack/change",
           payload: {
@@ -93,7 +98,7 @@ export const userGetDetailsInputs = {
           },
         });
       },
-      "user.get.error.onaggregate": () => {
+      "user.getme.error.onaggregate": () => {
         appStore.dispatch({
           type: "sliceSnack/change",
           payload: {

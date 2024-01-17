@@ -5,17 +5,17 @@ import {
   Card,
   Typography,
   IconButton,
-  List,
-  ListItem,
+  Menu,
+  MenuItem,
 } from "@mui/material";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline.js";
+import MenuIcon from "@mui/icons-material/Menu.js";
 import CircularProgress from "@mui/material/CircularProgress";
 
 // Services
-//import { servicePatientDelete } from "../../services/game/game.services.js";
-// Shared
-//import ConfirmModal from "../modals/ConfirmModal.js";
+import { servicePatientDelete } from "../../../../services/patient.services.js";
+import ConfirmModal from "../../../../ConfirmModal/ConfirmModal.js"
 import { random_id } from "../../../../services/toolkit.js";
+import { serviceUserGetDetails } from "../../../../services/user.services.js";
 
 export default function PatientCard(props) {
   if (process.env.REACT_APP_DEBUG === "TRUE") {
@@ -24,7 +24,26 @@ export default function PatientCard(props) {
   // i18n
   const { t } = useTranslation();
 
+  // Changes
+  let changes = {
+    goto: () => {
+      window.location = "/patient/" + props.patient.patientid;
+    },
+    openMenu: (event) => {
+      setAnchorEl(event.currentTarget);
+      setMenuOpen(true);
+    },
+    closeMenu: () => {
+      setMenuOpen(false);
+    },
+    attemptDelete: () => {
+      setConfirmOpen(true)
+    }
+  };
+
   // Confirm modal
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   function confirmCallback(choice) {
@@ -33,11 +52,12 @@ export default function PatientCard(props) {
         setConfirmOpen(false);
         break;
       case "delete":
+        setMenuOpen(false);
         setConfirmOpen(false);
         setDeleting(true);
-        serviceGameDelete(props.game.gameid).then(() => {
+        servicePatientDelete(props.patient.patientid).then(() => {
           setDeleting(false);
-          serviceTableGetHistory();
+          serviceUserGetDetails();
         });
         break;
       default:
@@ -61,8 +81,49 @@ export default function PatientCard(props) {
           alignItems: "center",
         }}
       >
-        <Box>
-          <Typography>{props.patient.key}</Typography>
+        <Box 
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <Box>
+            <IconButton
+              size="large"
+              onClick={changes.openMenu}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              open={menuOpen}
+              onClose={changes.closeMenu}
+              anchorEl={anchorEl}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem
+                key={random_id()}
+                onClick={changes.attemptDelete}
+                disabled={deleting}
+              >
+                {t("generic.button.delete")}
+              </MenuItem>
+            </Menu>
+          </Box>
+          <Box 
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              width: "100%",
+            }}
+            onClick={changes.goto}
+          >
+            <Typography>{props.patient.name}</Typography>
+          </Box>
         </Box>
       </Box>
 

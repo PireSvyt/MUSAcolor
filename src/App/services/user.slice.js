@@ -32,7 +32,7 @@ const userSlice = createSlice({
       if (action.payload.patients === undefined) {
         state.patients = [];
       } else {
-        state.patients = action.payload.patients;
+        state.patients = sortPatients(action.payload.patients);
       }
       state.state.details = "available";
     },
@@ -47,3 +47,13 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
+
+function sortPatients (patients) {
+
+  let sortedPatients = patients.sort(comparePatients)
+  return sortedPatients
+
+  function comparePatients(a, b) {
+    return ('' + a.name).localeCompare(b.name);
+  }
+}

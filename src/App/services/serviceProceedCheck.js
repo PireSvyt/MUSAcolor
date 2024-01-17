@@ -36,6 +36,11 @@ function serviceProceedCheck(serviceInputs, serciveChecks) {
     return failedOutcome;
   }
   function checkField(field, check) {
+    if (debugProceedCheck === true) {
+      console.log("checkField")
+      console.log(". check", check)
+      console.log(". field", field)
+    }
     let checkFieldFunctOutcome = {
       proceed: true,
       errors: [],
@@ -123,7 +128,11 @@ function serviceProceedCheck(serviceInputs, serciveChecks) {
   }
 
   // Run checks
+      console.log("serciveChecks serviceInputs", serviceInputs)
   serciveChecks.forEach((check) => {
+    if (debugProceedCheck === true) {
+      console.log("serciveChecks[check]", check)
+    }
     let checkFieldOutcome = checkField(serviceInputs[check.field], check);
     serviceCheckOutcome = updateOutcome(serviceCheckOutcome, checkFieldOutcome);
   });

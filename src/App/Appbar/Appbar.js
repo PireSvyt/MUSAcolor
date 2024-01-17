@@ -211,7 +211,7 @@ export default function Appbar(props) {
                 alignItems: "center",
               }}
             >
-              {showLanguageSwitcher === true ? <LanguageSwitcher /> : null}
+              {/*showLanguageSwitcher === true ? <LanguageSwitcher /> : null*/}
 
               {menuItems.length !== 0 ? (
                 <Box>

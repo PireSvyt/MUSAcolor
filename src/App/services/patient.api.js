@@ -18,3 +18,19 @@ export async function apiPatientCreate(patientCreateInputs, token) {
     return err.response.data;
   }
 }
+
+export async function apiPatientDelete(deleteInputs, token) {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: apiURL + "patient/v1/delete",
+      data: deleteInputs,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+    return res.data;
+  } catch (err) {
+    return err.response.data;
+  }
+}

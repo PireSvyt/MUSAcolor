@@ -7,10 +7,10 @@ const patientModalSlice = createSlice({
     loading: false,
     open: false,
     inputs: {
-      key: "",
+      name: "",
     },
     errors: {
-      key: false,
+      name: false,
     },
   },
   reducers: {
@@ -26,32 +26,33 @@ const patientModalSlice = createSlice({
     },
     new: (state) => {
       state.open = true;
-      state.inputs.key = "";
-      state.errors.key = false;
+      state.inputs.name = "";
+      state.errors.name = false;
       state.disabled = false;
       state.loading = false;
     },
     close: (state) => {
       state.open = false;
-      state.inputs.key = "";
-      state.errors.key = false;
+      state.inputs.name = "";
+      state.errors.name = false;
       state.disabled = false;
       state.loading = false;
     },
     change: (state, action) => {
+      //console.log("patientModalSlice/change", action.payload)
       if (action.payload.open !== undefined) {
         state.open = action.payload.open;
       }
       // Inputs
       if (action.payload.inputs !== undefined) {
-        if (action.payload.inputs.key !== undefined) {
-          state.inputs.key = action.payload.inputs.key;
+        if (action.payload.inputs.name !== undefined) {
+          state.inputs.name = action.payload.inputs.name;
         }
       }
       // Errors
       if (action.payload.errors !== undefined) {
-        if (action.payload.errors.key !== undefined) {
-          state.errors.key = action.payload.errors.key;
+        if (action.payload.errors.name !== undefined) {
+          state.errors.name = action.payload.errors.name;
         }
       }
       // Lock
