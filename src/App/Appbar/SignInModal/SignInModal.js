@@ -1,5 +1,5 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Button,
   TextField,
@@ -10,27 +10,27 @@ import {
   DialogTitle,
   FormControl,
   Typography,
-} from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { useSelector } from "react-redux";
+} from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { useSelector } from 'react-redux'
 
 // Services
 import {
   serviceAuthSignIn,
   serviceAuthSendPassword,
-} from "../../services/auth.services.js";
+} from '../../services/auth.services.js'
 // Reducers
-import appStore from "../../store.js";
+import appStore from '../../store.js'
 
 export default function SignInModal() {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
     //console.log("SignInModal");
   }
   // i18n
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   // Constants
-  const componentHeight = window.innerHeight - 115;
+  const componentHeight = window.innerHeight - 115
 
   // Selects
   const select = {
@@ -42,18 +42,18 @@ export default function SignInModal() {
     errors: useSelector((state) => state.signinModalSlice.errors),
     //sendactivation :  useSelector((state) => state.signinModalSlice.sendactivation),
     sendpassword: useSelector((state) => state.signinModalSlice.sendpassword),
-  };
+  }
 
   // Changes
   const changes = {
     close: () => {
       appStore.dispatch({
-        type: "signinModalSlice/close",
-      });
+        type: 'signinModalSlice/close',
+      })
     },
     login: (e) => {
       appStore.dispatch({
-        type: "signinModalSlice/change",
+        type: 'signinModalSlice/change',
         payload: {
           inputs: {
             login: e.target.value,
@@ -62,11 +62,11 @@ export default function SignInModal() {
             login: false,
           },
         },
-      });
+      })
     },
     password: (e) => {
       appStore.dispatch({
-        type: "signinModalSlice/change",
+        type: 'signinModalSlice/change',
         payload: {
           inputs: {
             password: e.target.value,
@@ -75,11 +75,11 @@ export default function SignInModal() {
             password: false,
           },
         },
-      });
+      })
     },
     signin: () => {
-      console.log("SignInModal.signin");
-      serviceAuthSignIn();
+      console.log('SignInModal.signin')
+      serviceAuthSignIn()
     },
     /*gotosignup: () => {
       appStore.dispatch({
@@ -92,10 +92,10 @@ export default function SignInModal() {
       serviceAuthSendActivation()
     },*/
     resetpassword: () => {
-      console.log("SignInModal.resetpassword");
-      serviceAuthSendPassword();
+      console.log('SignInModal.resetpassword')
+      serviceAuthSendPassword()
     },
-  };
+  }
 
   // Render
   return (
@@ -106,7 +106,7 @@ export default function SignInModal() {
         fullWidth={true}
         data-testid="modal-sign in"
       >
-        <DialogTitle>{t("signin.label.title")}</DialogTitle>
+        <DialogTitle>{t('signin.label.title')}</DialogTitle>
         <DialogContent
           sx={{
             height: componentHeight,
@@ -115,16 +115,16 @@ export default function SignInModal() {
           <Box
             component="form"
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-evenly',
             }}
           >
             <FormControl>
               <TextField
                 name="login"
                 required
-                label={t("generic.input.email")}
+                label={t('generic.input.email')}
                 variant="standard"
                 value={select.inputs.login}
                 onChange={changes.login}
@@ -136,7 +136,7 @@ export default function SignInModal() {
               <TextField
                 name="password"
                 required
-                label={t("generic.input.password")}
+                label={t('generic.input.password')}
                 variant="standard"
                 value={select.inputs.password}
                 onChange={changes.password}
@@ -151,31 +151,35 @@ export default function SignInModal() {
                 sx={{ mt: 2, mb: 1 }}
                 disabled={
                   select.sendpassword.disbaled ||
-                  select.sendpassword.status === "sent"
+                  select.sendpassword.status === 'sent'
                 }
                 loading={select.sendpassword.loading}
                 data-testid="modal-sign in-button-reset password"
               >
-                {t("signin.button.resetpassword")}
+                {t('signin.button.resetpassword')}
               </LoadingButton>
 
-              {select.status === "notfound" ||
-              select.sendpassword.status === "notfound" ? (
+              {select.status === 'notfound' ||
+              select.sendpassword.status === 'notfound' ? (
                 <Box
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
                   }}
                   data-testid="modal-sign in-box-error on finding account"
                 >
                   <Typography
-                    sx={{ mt: 2, mb: 1, whiteSpace: "pre-line" }}
+                    sx={{
+                      mt: 2,
+                      mb: 1,
+                      whiteSpace: 'pre-line',
+                    }}
                     variant="body1"
                     component="span"
                     align="center"
                   >
-                    {t("signin.label.notfoundaccount")}
+                    {t('signin.label.notfoundaccount')}
                   </Typography>
                   {/*<Button
                     variant="contained"
@@ -188,22 +192,26 @@ export default function SignInModal() {
                 </Box>
               ) : null}
 
-              {select.sendpassword.status === "sent" ? (
+              {select.sendpassword.status === 'sent' ? (
                 <Box
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
                   }}
                   data-testid="modal-sign in-box-password sent"
                 >
                   <Typography
-                    sx={{ mt: 2, mb: 1, whiteSpace: "pre-line" }}
+                    sx={{
+                      mt: 2,
+                      mb: 1,
+                      whiteSpace: 'pre-line',
+                    }}
                     variant="body1"
                     component="span"
                     align="center"
                   >
-                    {t("signin.label.successsendingpassword")}
+                    {t('signin.label.successsendingpassword')}
                   </Typography>
                 </Box>
               ) : null}
@@ -216,21 +224,21 @@ export default function SignInModal() {
             data-testid="modal-sign in-button-close"
             onClick={changes.close}
           >
-            {t("generic.button.cancel")}
+            {t('generic.button.cancel')}
           </Button>
           <LoadingButton
             variant="contained"
             onClick={changes.signin}
-            disabled={select.disabled || select.status === "inactivated"}
+            disabled={select.disabled || select.status === 'inactivated'}
             loading={select.loading}
             data-testid="modal-sign in-button-proceed"
           >
-            {t("generic.button.proceed")}
+            {t('generic.button.proceed')}
           </LoadingButton>
         </DialogActions>
       </Dialog>
     </Box>
-  );
+  )
 }
 
 /**

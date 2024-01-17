@@ -1,21 +1,21 @@
-require("dotenv");
-import axios from "axios";
+require('dotenv')
+import axios from 'axios'
 
-let apiURL = process.env.REACT_APP_SERVER_URL;
+let apiURL = process.env.REACT_APP_SERVER_URL
 
 export async function apiUserChangePassword(changePasswordInputs, token) {
   try {
     const res = await axios({
-      method: "post",
-      url: apiURL + "user/v1/changepassword",
+      method: 'post',
+      url: apiURL + 'user/v1/changepassword',
       data: changePasswordInputs,
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: 'Bearer ' + token,
       },
-    });
-    return res.data;
+    })
+    return res.data
   } catch (err) {
-    return err.response.data;
+    return err.response.data
   }
 }
 
@@ -23,16 +23,16 @@ export async function apiUserChangePassword(changePasswordInputs, token) {
 export async function apiUserGetDetails(token) {
   try {
     const res = await axios({
-      method: "get",
-      url: apiURL + "user/v1",
+      method: 'get',
+      url: apiURL + 'user/v1',
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: 'Bearer ' + token,
       },
-    });
+    })
     //console.log("res",res)
-    return res.data;
+    return res.data
   } catch (err) {
-    console.log("err", err);
-    return err.response.data;
+    console.log('err', err)
+    return err.response.data
   }
 }

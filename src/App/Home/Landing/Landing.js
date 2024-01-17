@@ -1,25 +1,25 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { ButtonGroup, Button, Box, Typography } from "@mui/material";
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { ButtonGroup, Button, Box, Typography } from '@mui/material'
 
 // Reducers
-import appStore from "../../store.js";
+import appStore from '../../store.js'
 
 export default function Landing() {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
     //console.log("Landing");
   }
   // i18n
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   // Changes
   const changes = {
     signin: () => {
       appStore.dispatch({
-        type: "signinModalSlice/open",
-      });
+        type: 'signinModalSlice/open',
+      })
     },
-  };
+  }
 
   // Render
   return (
@@ -30,9 +30,9 @@ export default function Landing() {
           size="large"
           data-testid="page-landing-button-sign in"
         >
-          {t("generic.button.signin")}
+          {t('generic.button.signin')}
         </Button>
       </Box>
     </Box>
-  );
+  )
 }

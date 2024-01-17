@@ -1,6 +1,6 @@
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
-import { AES } from "crypto-js";
+import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode'
+import { AES } from 'crypto-js'
 // Inputs
 import {
   //authSignupInputs,
@@ -8,15 +8,15 @@ import {
   //authSendActivationInputs,
   authSendPasswordInputs,
   authPasswordResetInputs,
-} from "./auth.service.inputs.js";
+} from './auth.service.inputs.js'
 // APIs
-import { apiAuthAssess } from "./auth.api.js";
+import { apiAuthAssess } from './auth.api.js'
 // Services
-import { random_id } from "./toolkit.js";
-import { serviceUserGetDetails } from "./user.services.js";
-import serviceProceed from "./serviceProceed.js";
+import { random_id } from './toolkit.js'
+import { serviceUserGetDetails } from './user.services.js'
+import serviceProceed from './serviceProceed.js'
 // Reducers
-import appStore from "../store.js";
+import appStore from '../store.js'
 
 /*
 export async function serviceAuthSignUp() {
@@ -88,62 +88,62 @@ export async function serviceAuthSendActivation() {
 */
 
 export async function serviceAuthSignIn() {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
-    console.log("serviceAuthSignIn");
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceAuthSignIn')
   }
-  await serviceProceed(authSigninInputs);
+  await serviceProceed(authSigninInputs)
 }
 
 export function serviceAuthAccessDeny() {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
-    console.log("serviceAuthAccessDeny");
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceAuthAccessDeny')
   }
-  let callbacks = [];
-  let errors = [];
-  let stateChanges = {};
+  let callbacks = []
+  let errors = []
+  let stateChanges = {}
 
   // State management
   appStore.dispatch({
-    type: "authSlice/signout",
-  });
+    type: 'authSlice/signout',
+  })
 
   // Remove cookies
-  Cookies.remove("musacolor_token");
+  Cookies.remove('musacolor_token')
 
   return {
     stateChanges: stateChanges,
     callbacks: callbacks,
     errors: errors,
-  };
+  }
 }
 
 export async function serviceAuthGrantAccess(data) {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
-    console.log("serviceAuthGrantAccess");
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceAuthGrantAccess')
   }
-  let callbacks = [];
-  let errors = [];
-  let stateChanges = {};
+  let callbacks = []
+  let errors = []
+  let stateChanges = {}
 
-  if (data.token === null || data.token === "") {
-    if (process.env.REACT_APP_DEBUG === "TRUE") {
-      console.log("empty token");
+  if (data.token === null || data.token === '') {
+    if (process.env.REACT_APP_DEBUG === 'TRUE') {
+      console.log('empty token')
     }
-    errors.push("generic.error.emptytoken");
-    serviceAuthAccessDeny();
+    errors.push('generic.error.emptytoken')
+    serviceAuthAccessDeny()
   } else {
     //console.log("serviceAuthGrantAccess data",data)
-    let decodedtoken = jwtDecode(data.token);
+    let decodedtoken = jwtDecode(data.token)
     // User status tollgate
     /*if (
       decodedtoken.usertype === "activated"
     ) {*/
     // Then update variables to signed in
     appStore.dispatch({
-      type: "authSlice/signin",
+      type: 'authSlice/signin',
       payload: data.token,
-    });
-    serviceUserGetDetails();
+    })
+    serviceUserGetDetails()
     /*} else {
       if (process.env.REACT_APP_DEBUG === "TRUE") {
         console.log("invalid status");
@@ -157,65 +157,65 @@ export async function serviceAuthGrantAccess(data) {
     stateChanges: stateChanges,
     callbacks: callbacks,
     errors: errors,
-  };
+  }
 }
 
 export async function serviceAuthAssessCookie() {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
-    console.log("serviceAuthAssessCookie");
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceAuthAssessCookie')
   }
 
   try {
     // Load token from cookies
-    let token = Cookies.get("musacolor_token");
+    let token = Cookies.get('musacolor_token')
     if (token === undefined) {
-      if (process.env.REACT_APP_DEBUG === "TRUE") {
-        console.log("serviceAuthAssessCookie no token from cookies");
+      if (process.env.REACT_APP_DEBUG === 'TRUE') {
+        console.log('serviceAuthAssessCookie no token from cookies')
       }
-      serviceAuthAccessDeny();
+      serviceAuthAccessDeny()
     } else {
       // API call
-      const data = await apiAuthAssess(token);
+      const data = await apiAuthAssess(token)
 
       // Response management
       switch (data.type) {
-        case "auth.assess.success.validtoken":
+        case 'auth.assess.success.validtoken':
           // Sign in token
           serviceAuthGrantAccess({ token: token }).then((proceedOutcome) => {
             if (proceedOutcome.errors.length > 0) {
-              if (process.env.REACT_APP_DEBUG === "TRUE") {
-                console.log("proceedOutcome errors");
-                console.log(proceedOutcome.errors);
+              if (process.env.REACT_APP_DEBUG === 'TRUE') {
+                console.log('proceedOutcome errors')
+                console.log(proceedOutcome.errors)
               }
             }
-          });
-          break;
+          })
+          break
         default:
-          serviceAuthAccessDeny();
-          break;
+          serviceAuthAccessDeny()
+          break
       }
     }
   } catch (error) {
-    if (process.env.REACT_APP_DEBUG === "TRUE") {
-      console.log("service caught error");
-      console.log(error);
+    if (process.env.REACT_APP_DEBUG === 'TRUE') {
+      console.log('service caught error')
+      console.log(error)
     }
-    serviceAuthAccessDeny();
+    serviceAuthAccessDeny()
   }
 }
 
 export async function serviceAuthSendPassword() {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
-    console.log("serviceAuthSendPassword");
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceAuthSendPassword')
   }
-  await serviceProceed(authSendPasswordInputs);
+  await serviceProceed(authSendPasswordInputs)
 }
 
 export async function serviceAuthPasswordReset() {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
-    console.log("serviceAuthPasswordReset");
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceAuthPasswordReset')
   }
-  await serviceProceed(authPasswordResetInputs);
+  await serviceProceed(authPasswordResetInputs)
 }
 /*
 export async function serviceAuthExistingPseudo() {

@@ -1,16 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const patientModalSlice = createSlice({
-  name: 'patientModalSlice',
+const examModalSlice = createSlice({
+  name: 'examModalSlice',
   initialState: {
     disabled: false,
     loading: false,
     open: false,
     inputs: {
-      name: '',
+      type: '',
+      date: Date.now(),
+      results: {},
     },
     errors: {
       name: false,
+      date: false,
+      results: false,
     },
   },
   reducers: {
@@ -26,33 +30,39 @@ const patientModalSlice = createSlice({
     },
     new: (state) => {
       state.open = true
-      state.inputs.name = ''
-      state.errors.name = false
+      state.inputs.type = ''
+      state.errors.type = false
       state.disabled = false
       state.loading = false
     },
     close: (state) => {
       state.open = false
-      state.inputs.name = ''
-      state.errors.name = false
+      state.inputs.type = ''
+      state.errors.type = false
       state.disabled = false
       state.loading = false
     },
     change: (state, action) => {
-      //console.log("patientModalSlice/change", action.payload)
+      //console.log("examModalSlice/change", action.payload)
       if (action.payload.open !== undefined) {
         state.open = action.payload.open
       }
       // Inputs
       if (action.payload.inputs !== undefined) {
-        if (action.payload.inputs.name !== undefined) {
-          state.inputs.name = action.payload.inputs.name
+        if (action.payload.inputs.type !== undefined) {
+          state.inputs.type = action.payload.inputs.type
+        }
+        if (action.payload.inputs.date !== undefined) {
+          state.inputs.date = action.payload.inputs.date
+        }
+        if (action.payload.inputs.results !== undefined) {
+          state.inputs.results = action.payload.inputs.results
         }
       }
       // Errors
       if (action.payload.errors !== undefined) {
-        if (action.payload.errors.name !== undefined) {
-          state.errors.name = action.payload.errors.name
+        if (action.payload.errors.type !== undefined) {
+          state.errors.type = action.payload.errors.type
         }
       }
       // Lock
@@ -66,4 +76,4 @@ const patientModalSlice = createSlice({
   },
 })
 
-export default patientModalSlice.reducer
+export default examModalSlice.reducer

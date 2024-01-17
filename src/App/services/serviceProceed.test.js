@@ -1,74 +1,74 @@
 //require("@jest/globals");
 
 // Services
-import serviceProceed from "./serviceProceed.js";
+import serviceProceed from './serviceProceed.js'
 
-describe.skip("TEST OF SERVICE : serviceProceed", () => {
-  describe("Assessment proceeding", () => {
-    describe("When proceeding is successful", () => {
-      test("then all functions are called", async () => {
-        let log = [];
+describe.skip('TEST OF SERVICE : serviceProceed', () => {
+  describe('Assessment proceeding', () => {
+    describe('When proceeding is successful', () => {
+      test('then all functions are called', async () => {
+        let log = []
         let testProceedInputs = {
           lockuifunction: (log) => {
             log.push({
               date: new Date(),
-              message: "serviceProceed.lockuifunction",
-              tags: ["function"],
-            });
+              message: 'serviceProceed.lockuifunction',
+              tags: ['function'],
+            })
           },
           unlockuifunction: (log) => {
             log.push({
               date: new Date(),
-              message: "serviceProceed.unlockuifunction",
-              tags: ["function"],
-            });
+              message: 'serviceProceed.unlockuifunction',
+              tags: ['function'],
+            })
           },
           getinputsfunction: (log) => {
             log.push({
               date: new Date(),
-              message: "serviceProceed.getinputsfunction",
-              tags: ["function"],
-            });
+              message: 'serviceProceed.getinputsfunction',
+              tags: ['function'],
+            })
             return {
               inputs: {
-                fieldA: "A",
+                fieldA: 'A',
                 field1: 1,
                 fieldList: [1, 2, 3],
               },
-            };
+            }
           },
           wrappingfunction: (serviceInputs, log) => {
-            let wrappedServiceInputs = serviceInputs;
+            let wrappedServiceInputs = serviceInputs
             wrappedServiceInputs.field1A =
-              "" + serviceInputs.field1 + serviceInputs.fieldA;
+              '' + serviceInputs.field1 + serviceInputs.fieldA
             log.push({
               date: new Date(),
-              message: "serviceProceed.wrappingfunction",
-              tags: ["function"],
+              message: 'serviceProceed.wrappingfunction',
+              tags: ['function'],
               wrappedServiceInputs: wrappedServiceInputs,
-            });
-            return wrappedServiceInputs;
+            })
+            return wrappedServiceInputs
           },
           sercivechecks: [
             {
               // Check input root is available
-              field: "inputs",
-              error: "test.error.inputs",
+              field: 'inputs',
+              error: 'test.error.inputs',
               subchecks: [
                 {
                   // Check field A is available
-                  field: "fieldA",
-                  error: "test.error.fieldA",
+                  field: 'fieldA',
+                  error: 'test.error.fieldA',
                 },
                 {
                   // Check field 1 is available
-                  field: "field1",
-                  error: "test.error.field1",
+                  field: 'field1',
+                  error: 'test.error.field1',
                 },
                 {
                   // Check fieldList is available
-                  field: "fieldList",
-                  error: "test.error.fieldList",
+                  field: 'fieldList',
+                  error: 'test.error.fieldList',
                 },
               ],
             },
@@ -76,106 +76,106 @@ describe.skip("TEST OF SERVICE : serviceProceed", () => {
           getcheckoutcomedispatchfunction: (log) => {
             log.push({
               date: new Date(),
-              message: "serviceProceed.getcheckoutcomedispatchfunction",
-              tags: ["function"],
-            });
-            return "dummyslice/command";
+              message: 'serviceProceed.getcheckoutcomedispatchfunction',
+              tags: ['function'],
+            })
+            return 'dummyslice/command'
           },
           repackagingfunction: (serviceInputs, log) => {
-            let repackagedServiceInputs = { ...serviceInputs };
-            delete repackagedServiceInputs.field1A;
+            let repackagedServiceInputs = { ...serviceInputs }
+            delete repackagedServiceInputs.field1A
             log.push({
               date: new Date(),
-              message: "serviceProceed.repackagingfunction",
-              tags: ["function"],
+              message: 'serviceProceed.repackagingfunction',
+              tags: ['function'],
               repackagedServiceInputs: repackagedServiceInputs,
-            });
-            return repackagedServiceInputs;
+            })
+            return repackagedServiceInputs
           },
           apicall: async (serviceInputs, log) => {
             log.push({
               date: new Date(),
-              message: "serviceProceed.apicall",
-              tags: ["function"],
-            });
+              message: 'serviceProceed.apicall',
+              tags: ['function'],
+            })
             return {
-              type: "test.success",
+              type: 'test.success',
               serviceInputs: serviceInputs,
-            };
+            }
           },
           getmanageresponsefunction: (response, log) => {
             log.push({
               date: new Date(),
-              message: "serviceProceed.getmanageresponsefunction",
-              tags: ["function"],
-            });
+              message: 'serviceProceed.getmanageresponsefunction',
+              tags: ['function'],
+            })
             let responses = {
-              "test.success": (log) => {
+              'test.success': (log) => {
                 log.push({
                   date: new Date(),
-                  message: "serviceProceed.manageresponse.success",
-                  tags: ["function"],
-                });
+                  message: 'serviceProceed.manageresponse.success',
+                  tags: ['function'],
+                })
               },
-              "test.failure": (log) => {
+              'test.failure': (log) => {
                 log.push({
                   date: new Date(),
-                  message: "serviceProceed.manageresponse.failure",
-                  tags: ["function"],
-                });
+                  message: 'serviceProceed.manageresponse.failure',
+                  tags: ['function'],
+                })
               },
-            };
-            return responses[response];
+            }
+            return responses[response]
           },
-        };
-        await serviceProceed(testProceedInputs, log);
+        }
+        await serviceProceed(testProceedInputs, log)
         //console.log("log",log)
         expect(
           log.filter((l) => {
-            return l.message.includes("serviceProceed.lockuifunction");
-          }).length,
-        ).toBe(1);
+            return l.message.includes('serviceProceed.lockuifunction')
+          }).length
+        ).toBe(1)
         //expect(log.filter(l => {return l.message.includes("serviceProceed.unlockuifunction")}).length).toBe(1)
         expect(
           log.filter((l) => {
-            return l.message.includes("serviceProceed.getinputsfunction");
-          }).length,
-        ).toBe(1);
+            return l.message.includes('serviceProceed.getinputsfunction')
+          }).length
+        ).toBe(1)
         expect(
           log.filter((l) => {
-            return l.message.includes("serviceProceed.wrappingfunction");
-          }).length,
-        ).toBe(1);
-        expect(
-          log.filter((l) => {
-            return l.message.includes(
-              "serviceProceed.getcheckoutcomedispatchfunction",
-            );
-          }).length,
-        ).toBe(1);
-        expect(
-          log.filter((l) => {
-            return l.message.includes("serviceProceed.repackagingfunction");
-          }).length,
-        ).toBe(1);
-        expect(
-          log.filter((l) => {
-            return l.message.includes("serviceProceed.apicall");
-          }).length,
-        ).toBe(1);
+            return l.message.includes('serviceProceed.wrappingfunction')
+          }).length
+        ).toBe(1)
         expect(
           log.filter((l) => {
             return l.message.includes(
-              "serviceProceed.getmanageresponsefunction",
-            );
-          }).length,
-        ).toBe(1);
+              'serviceProceed.getcheckoutcomedispatchfunction'
+            )
+          }).length
+        ).toBe(1)
         expect(
           log.filter((l) => {
-            return l.message.includes("serviceProceed.manageresponse.success");
-          }).length,
-        ).toBe(1);
-      });
-    });
-  });
-});
+            return l.message.includes('serviceProceed.repackagingfunction')
+          }).length
+        ).toBe(1)
+        expect(
+          log.filter((l) => {
+            return l.message.includes('serviceProceed.apicall')
+          }).length
+        ).toBe(1)
+        expect(
+          log.filter((l) => {
+            return l.message.includes(
+              'serviceProceed.getmanageresponsefunction'
+            )
+          }).length
+        ).toBe(1)
+        expect(
+          log.filter((l) => {
+            return l.message.includes('serviceProceed.manageresponse.success')
+          }).length
+        ).toBe(1)
+      })
+    })
+  })
+})

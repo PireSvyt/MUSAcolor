@@ -1,24 +1,35 @@
 // Inputs
-import { 
+import {
   patientCreateInputs,
-  patientDeleteInputs
-} from "./patient.services.inputs.js";
+  patientDeleteInputs,
+  patientGetInputs,
+} from './patient.services.inputs.js'
 // Services
-import serviceProceed from "./serviceProceed.js";
+import serviceProceed from './serviceProceed.js'
 
 export async function servicePatientCreate() {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
-    console.log("servicePatientCreate");
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('servicePatientCreate')
   }
-  await serviceProceed(patientCreateInputs);
+  await serviceProceed(patientCreateInputs)
 }
 
 export async function servicePatientDelete(patientid) {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
-    console.log("servicePatientDelete");
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('servicePatientDelete')
   }
   let directInputs = {
-    patientid: patientid
+    patientid: patientid,
   }
-  await serviceProceed(patientDeleteInputs, directInputs);
+  await serviceProceed(patientDeleteInputs, directInputs)
+}
+
+export async function servicePatientGet(patientid) {
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('servicePatientGet')
+  }
+  let directInputs = {
+    patientid: patientid,
+  }
+  await serviceProceed(patientGetInputs, directInputs)
 }

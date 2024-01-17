@@ -14,7 +14,8 @@
     "input": {
       "name": "Nom",
       "email": "Email",
-      "password": "Mot de passe"
+      "password": "Mot de passe",
+      "type": "Type"
     },
     "button": {
       "add": "Ajouter",
@@ -68,18 +69,36 @@
   },
   "home": {
     "label": {
-      "mypatients": "Mes sujets"
+      "mypatients": "Mes sujets",
+      "nopatients": "Aucun sujet",
+      "nopatientsexplanation": "Vous trouverez vos sujets ici à l'avenir.\nAjoutez un sujet avec l'icon '+'"
+    },
+    "confirm": {
+      "deletepatient": {
+        "title": "Suppression du sujet",
+        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à ce sujet."
+      }
     }
   },
   "patient": {
     "label": {
-      "title": "Sujet"
+      "title": "Sujet",
+      "new": "Nouveau sujet",
+      "exams": "Analyses",
+      "noexams": "Aucune analyse",
+      "noexamsexplanation": "Vous trouverez les analyses de ce sujet ici à l'avenir.\nAjoutez une analyse avec l'icon '+'"
     },
     "confirm": {
-      "delete": {
-        "title": "Suppression du sujet",
-        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à ce sujet."
+      "deleteexam": {
+        "title": "Suppression de l'analyse",
+        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à cette analyse."
       }
+    }
+  },
+  "exam": {
+    "label": {
+      "title": "Analyse",
+      "new": "Nouvelle analyse"
     }
   }
 }

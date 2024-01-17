@@ -14,30 +14,30 @@ import AddIcon from '@mui/icons-material/Add.js'
 import LinearProgress from '@mui/material/LinearProgress'
 
 // Components
-import PatientCard from './PatientCard/PatientCard.js'
+import ExamCard from './ExamCard/ExamCard.js'
 
-import appStore from '../../../store.js'
+import appStore from '../../store.js'
 
-export default function MyPatients() {
+export default function PatientExams() {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('MyPatients')
+    console.log('PatientExams')
   }
   // i18n
   const { t } = useTranslation()
 
   // Selects
   const select = {
-    userState: useSelector((state) => state.userSlice.state),
-    mypatients: useSelector((state) => state.userSlice.patients),
+    patientState: useSelector((state) => state.patientSlice.state),
+    patientExams: useSelector((state) => state.patientSlice.exams),
   }
 
-  console.log('MyPatients.select', select)
+  console.log('PatientExams.select', select)
 
   // Changes
   let changes = {
     new: () => {
       appStore.dispatch({
-        type: 'patientModalSlice/new',
+        type: 'examModalSlice/new',
       })
     },
   }
@@ -45,26 +45,21 @@ export default function MyPatients() {
   let c = -1
 
   return (
-    <Box data-testid="component-my patients">
+    <Box>
       <Stack direction="row" justifyContent="space-between">
         <Typography sx={{ p: 2 }} variant="h6" component="span">
-          {t('home.label.mypatients')}
+          {t('patient.label.exams')}
         </Typography>
-        <IconButton
-          data-testid="component-my patients-button-new patient"
-          sx={{ p: 2 }}
-          onClick={changes.new}
-          color="secondary"
-        >
+        <IconButton sx={{ p: 2 }} onClick={changes.new} color="secondary">
           <AddIcon />
         </IconButton>
       </Stack>
 
-      {select.userState.details !== 'available' ? (
+      {select.patientState.details !== 'available' ? (
         <Box sx={{ left: '10%', right: '10%' }}>
           <LinearProgress color="secondary" />
         </Box>
-      ) : select.mypatients.length === 0 ? (
+      ) : select.patientExams.length === 0 ? (
         <Box
           sx={{
             m: 2,
@@ -72,7 +67,6 @@ export default function MyPatients() {
             flexDirection: 'column',
             alignItems: 'center',
           }}
-          data-testid="component-my patients-box-no patient note"
         >
           <Typography
             sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
@@ -80,7 +74,7 @@ export default function MyPatients() {
             component="span"
             align="center"
           >
-            {t('home.label.nopatients')}
+            {t('patient.label.noexams')}
           </Typography>
           <SmsFailedIcon
             sx={{ mt: 2, mb: 2 }}
@@ -93,16 +87,20 @@ export default function MyPatients() {
             component="span"
             align="center"
           >
-            {t('home.label.nopatientsexplanation')}
+            {t('patient.label.noexamsexplanation')}
           </Typography>
         </Box>
       ) : (
-        <List dense={false} data-testid="component-my patients-list-patient">
-          {select.mypatients.map((mypatient) => {
+        <List dense={false}>
+          {select.patientExams.map((exam) => {
             c += 1
             return (
-              <ListItem key={'patient-' + mypatient.patientid}>
-                <PatientCard patient={mypatient} index={c} />
+              <ListItem key={'exam-' + exam.examid}>
+                <ExamCard
+                  exam={exam}
+                  index={c}
+                  patientid={window.location.href.split('/patient/')[1]}
+                />
               </ListItem>
             )
           })}

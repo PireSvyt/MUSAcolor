@@ -3,12 +3,12 @@ import axios from 'axios'
 
 let apiURL = process.env.REACT_APP_SERVER_URL
 
-export async function apiPatientCreate(patientCreateInputs, token) {
+export async function apiExamCreate(examCreateInputs, token) {
   try {
     const res = await axios({
       method: 'post',
-      url: apiURL + 'patient/v1/create',
-      data: patientCreateInputs,
+      url: apiURL + 'exam/v1/create',
+      data: examCreateInputs,
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -19,11 +19,11 @@ export async function apiPatientCreate(patientCreateInputs, token) {
   }
 }
 
-export async function apiPatientDelete(deleteInputs, token) {
+export async function apiExamDelete(deleteInputs, token) {
   try {
     const res = await axios({
       method: 'post',
-      url: apiURL + 'patient/v1/delete',
+      url: apiURL + 'exam/v1/delete',
       data: deleteInputs,
       headers: {
         Authorization: 'Bearer ' + token,
@@ -35,11 +35,11 @@ export async function apiPatientDelete(deleteInputs, token) {
   }
 }
 
-export async function apiPatientGet(getInputs, token) {
+export async function apiExamGet(getInputs, token) {
   try {
     const res = await axios({
       method: 'get',
-      url: apiURL + 'patient/v1/' + getInputs.patientid,
+      url: apiURL + 'exam/v1/' + getInputs.examid,
       headers: {
         Authorization: 'Bearer ' + token,
       },

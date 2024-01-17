@@ -14,14 +14,14 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
 
-// Services
-import { servicePatientCreate } from '../../services/patient.services.js'
+import { serviceExamCreate } from '../../services/exam.services.js'
 // Reducers
 import appStore from '../../store.js'
+import { servicePatientGet } from '../../services/patient.services.js'
 
-export default function PatientModal() {
+export default function ExamModal() {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    //console.log("PatientModal");
+    //console.log("ExamModal");
   }
   // i18n
   const { t } = useTranslation()
@@ -31,49 +31,63 @@ export default function PatientModal() {
 
   // Selects
   const select = {
-    open: useSelector((state) => state.patientModalSlice.open),
-    disabled: useSelector((state) => state.patientModalSlice.disabled),
-    loading: useSelector((state) => state.patientModalSlice.loading),
-    inputs: useSelector((state) => state.patientModalSlice.inputs),
-    errors: useSelector((state) => state.patientModalSlice.errors),
+    open: useSelector((state) => state.examModalSlice.open),
+    disabled: useSelector((state) => state.examModalSlice.disabled),
+    loading: useSelector((state) => state.examModalSlice.loading),
+    inputs: useSelector((state) => state.examModalSlice.inputs),
+    errors: useSelector((state) => state.examModalSlice.errors),
   }
 
   // Changes
   const changes = {
     close: () => {
       appStore.dispatch({
-        type: 'patientModalSlice/close',
+        type: 'examModalSlice/close',
       })
     },
-    name: (e) => {
+    type: (e) => {
       appStore.dispatch({
-        type: 'patientModalSlice/change',
+        type: 'examModalSlice/change',
         payload: {
           inputs: {
-            name: e.target.value,
+            type: e.target.value,
           },
           errors: {
-            name: false,
+            type: false,
           },
         },
       })
     },
-    create: () => {
-      console.log('PatientModal.create')
-      servicePatientCreate()
+    launch: () => {
+      console.log('ExamModal.launch')
+
+      /**
+       * TEMPORARY WORKAROUND
+       * dummy exam creation
+       */
+      appStore.dispatch({
+        type: 'examModalSlice/change',
+        payload: {
+          inputs: {
+            type: 'dummy',
+            date: Date.now(),
+            results: { dummy: 'dummy' },
+          },
+          errors: {
+            type: false,
+          },
+        },
+      })
+      serviceExamCreate()
+      // END OF WORKAROUND
     },
   }
 
   // Render
   return (
     <Box>
-      <Dialog
-        open={select.open}
-        onClose={changes.close}
-        fullWidth={true}
-        data-testid="modal-patient"
-      >
-        <DialogTitle>{t('patient.label.new')}</DialogTitle>
+      <Dialog open={select.open} onClose={changes.close} fullWidth={true}>
+        <DialogTitle>{t('exam.label.new')}</DialogTitle>
         <DialogContent
           sx={{
             height: componentHeight,
@@ -89,15 +103,15 @@ export default function PatientModal() {
           >
             <FormControl>
               <TextField
-                name="name"
+                name="type"
                 required
-                label={t('generic.input.name')}
+                label={t('generic.input.type')}
                 variant="standard"
-                value={select.inputs.name}
-                onChange={changes.name}
+                value={select.inputs.type}
+                onChange={changes.type}
                 autoComplete="off"
-                error={select.errors.name}
-                data-testid="modal-patient-input-name"
+                error={select.errors.type}
+                data-testid="modal-patient-input-type"
               />
             </FormControl>
           </Box>
@@ -112,7 +126,7 @@ export default function PatientModal() {
           </Button>
           <LoadingButton
             variant="contained"
-            onClick={changes.create}
+            onClick={changes.launch}
             disabled={select.disabled}
             loading={select.loading}
             data-testid="modal-patient-button-proceed"

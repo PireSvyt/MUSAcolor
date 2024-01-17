@@ -1,8 +1,8 @@
-let debugProceedCheck = false;
+let debugProceedCheck = false
 
 function serviceProceedCheck(serviceInputs, serciveChecks) {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
-    console.log("serviceProceedCheck");
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceProceedCheck')
   }
 
   let serviceCheckOutcome = {
@@ -12,7 +12,7 @@ function serviceProceedCheck(serviceInputs, serciveChecks) {
       errors: {},
     },
     confirmation: undefined,
-  };
+  }
 
   // Check functions
   function failedCheck(check) {
@@ -23,23 +23,23 @@ function serviceProceedCheck(serviceInputs, serciveChecks) {
         errors: {},
       },
       confirmation: undefined,
-    };
-    failedOutcome.errors.push(check.error);
+    }
+    failedOutcome.errors.push(check.error)
     // Fields to flag in error
     check.fieldsinerror.forEach((error) => {
-      failedOutcome.stateChanges.errors[error] = true;
-    });
+      failedOutcome.stateChanges.errors[error] = true
+    })
     // Trigger confirmation
     if (check.confirmation !== undefined) {
-      failedOutcome.confirmation = check.confirmation;
+      failedOutcome.confirmation = check.confirmation
     }
-    return failedOutcome;
+    return failedOutcome
   }
   function checkField(field, check) {
     if (debugProceedCheck === true) {
-      console.log("checkField")
-      console.log(". check", check)
-      console.log(". field", field)
+      console.log('checkField')
+      console.log('. check', check)
+      console.log('. field', field)
     }
     let checkFieldFunctOutcome = {
       proceed: true,
@@ -48,141 +48,141 @@ function serviceProceedCheck(serviceInputs, serciveChecks) {
         errors: {},
       },
       confirmation: undefined,
-    };
+    }
     if (field === undefined || field === null) {
       checkFieldFunctOutcome = updateOutcome(
         checkFieldFunctOutcome,
-        failedCheck(check),
-      );
+        failedCheck(check)
+      )
     } else {
       switch (typeof field) {
-        case "string":
-          if (field === "") {
+        case 'string':
+          if (field === '') {
             checkFieldFunctOutcome = updateOutcome(
               checkFieldFunctOutcome,
-              failedCheck(check),
-            );
+              failedCheck(check)
+            )
           }
-          break;
-        case "number":
+          break
+        case 'number':
           if (field === null) {
             checkFieldFunctOutcome = updateOutcome(
               checkFieldFunctOutcome,
-              failedCheck(check),
-            );
+              failedCheck(check)
+            )
           }
-          break;
-        case "object":
+          break
+        case 'object':
           if (Object.keys(field).length === 0) {
             checkFieldFunctOutcome = updateOutcome(
               checkFieldFunctOutcome,
-              failedCheck(check),
-            );
+              failedCheck(check)
+            )
           }
-          break;
-        case "boolean":
+          break
+        case 'boolean':
           if ((field !== true) & (field !== false)) {
             checkFieldFunctOutcome = updateOutcome(
               checkFieldFunctOutcome,
-              failedCheck(check),
-            );
+              failedCheck(check)
+            )
           }
-          break;
+          break
         default:
           console.log(
-            "serviceProceedCheck unmanaged field type : ",
+            'serviceProceedCheck unmanaged field type : ',
             typeof field,
-            " of inputs ",
-            field,
-          );
+            ' of inputs ',
+            field
+          )
           checkFieldFunctOutcome = updateOutcome(
             checkFieldFunctOutcome,
-            failedCheck(check),
-          );
+            failedCheck(check)
+          )
       }
       // Custom checks
       if (check.checkfunction !== undefined) {
-        let checkfunctionOutcome = check.checkfunction(serviceInputs);
+        let checkfunctionOutcome = check.checkfunction(serviceInputs)
         checkFieldFunctOutcome = updateOutcome(
           checkFieldFunctOutcome,
-          checkfunctionOutcome,
-        );
+          checkfunctionOutcome
+        )
       }
       // Subsequent checks
       if (checkFieldFunctOutcome.proceed && check.subchecks !== undefined) {
         check.subchecks.forEach((subcheck) => {
-          let subcheckOutcome = {};
+          let subcheckOutcome = {}
           if (subcheck.field !== undefined) {
-            subcheckOutcome = checkField(field[subcheck.field], subcheck);
+            subcheckOutcome = checkField(field[subcheck.field], subcheck)
           } else {
-            subcheckOutcome = checkField(field, subcheck);
+            subcheckOutcome = checkField(field, subcheck)
           }
           checkFieldFunctOutcome = updateOutcome(
             checkFieldFunctOutcome,
-            subcheckOutcome,
-          );
-        });
+            subcheckOutcome
+          )
+        })
       }
     }
-    return checkFieldFunctOutcome;
+    return checkFieldFunctOutcome
   }
 
   // Run checks
-      console.log("serciveChecks serviceInputs", serviceInputs)
+  console.log('serciveChecks serviceInputs', serviceInputs)
   serciveChecks.forEach((check) => {
     if (debugProceedCheck === true) {
-      console.log("serciveChecks[check]", check)
+      console.log('serciveChecks[check]', check)
     }
-    let checkFieldOutcome = checkField(serviceInputs[check.field], check);
-    serviceCheckOutcome = updateOutcome(serviceCheckOutcome, checkFieldOutcome);
-  });
+    let checkFieldOutcome = checkField(serviceInputs[check.field], check)
+    serviceCheckOutcome = updateOutcome(serviceCheckOutcome, checkFieldOutcome)
+  })
 
   //console.log(">> serviceCheckOutcome ", serviceCheckOutcome)
 
   // Outcome
-  return serviceCheckOutcome;
+  return serviceCheckOutcome
 }
 
 function appendObject(obj, append) {
   Object.keys(append).forEach((key) => {
     if (obj[key] === undefined) {
-      obj[key] = append[key];
+      obj[key] = append[key]
     } else {
-      if (typeof obj[key] === "object") {
-        obj[key] = appendObject(obj[key], append[key]);
+      if (typeof obj[key] === 'object') {
+        obj[key] = appendObject(obj[key], append[key])
       } else {
-        obj[key] = append[key];
+        obj[key] = append[key]
       }
     }
-  });
-  return obj;
+  })
+  return obj
 }
 
 export function updateOutcome(outcome, suboutcome) {
   if (suboutcome.proceed === false) {
     // Outcome
-    outcome.proceed = false;
+    outcome.proceed = false
     // Errors
     if (suboutcome.errors !== undefined) {
       suboutcome.errors.forEach((err) => {
         if (!outcome.errors.includes(err)) {
-          outcome.errors.push(err);
+          outcome.errors.push(err)
         }
-      });
+      })
     }
     // State changes
     if (suboutcome.stateChanges !== undefined) {
       outcome.stateChanges = appendObject(
         outcome.stateChanges,
-        suboutcome.stateChanges,
-      );
+        suboutcome.stateChanges
+      )
     }
     // Confirmation
     if (suboutcome.confirmation !== undefined) {
-      outcome.confirmation = suboutcome.confirmation;
+      outcome.confirmation = suboutcome.confirmation
     }
   }
-  return outcome;
+  return outcome
 }
 
-export default serviceProceedCheck;
+export default serviceProceedCheck

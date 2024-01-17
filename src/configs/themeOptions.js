@@ -1,6 +1,6 @@
 export const themeOptions = {
   palette: {
-    mode: "light",
+    mode: 'light',
     /*primary: {
       main: '#00838F', 
       // History 2d7683 > 00838F
@@ -25,4 +25,4 @@ export const themeOptions = {
       },
     },
   },*/
-};
+}
