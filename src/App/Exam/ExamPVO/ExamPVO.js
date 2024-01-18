@@ -28,29 +28,38 @@ export default function ExamPVO(props) {
     10: { color: '#FF007F', name: "rubis" },
     11: { color: '#FF00FF', name: "magenta" }
   }
+  let numberOfRows = 12
+  let numberOfCols = 8
+
   // Functions
   function randomColorSelection() {
     let outcome = {
         rows: {},
         invalid: true
     }
-    for (let r = 0; r < 12; r++) {
+    let availableColors = []
+    Object.keys(testColors).forEach(testColor => {
+        for (let c = 0; c < numberOfCols; c++) {
+            availableColors.push(testColors[testColor].color)
+        }
+    })
+    //console.log("availableColors", availableColors)
+    for (let r = 0; r < numberOfRows; r++) {
         outcome.rows[r] = {
             id: r,
             cols: {},
             invalid: true
         }
-        for (let c = 0; c < 8; c++) {
-            let colorPos = Math.floor(Math.random() * Object.keys(testColors).length)
-            //console.log("colorPos", colorPos)
+        for (let c = 0; c < numberOfCols; c++) {
             outcome.rows[r].cols[c] = {
                 id: c,
-                color: testColors[colorPos].color,
+                color: availableColors.splice(Math.floor(Math.random() * availableColors.length), 1)[0],
                 state: 'visible'
             }
         }
     }
     //console.log("randomColorSelection", outcome)
+    //console.log("availableColors", availableColors)
     return outcome        
   }
   function checkInputValidity() {
@@ -160,7 +169,7 @@ export default function ExamPVO(props) {
         name: "test",
         render: () => {
             const m = 3
-            const tileSize = (window.innerHeight/2)/12
+            const tileSize = (window.innerHeight/2)/numberOfRows
             return (
                 <Box
                     sx={{                        
@@ -171,7 +180,7 @@ export default function ExamPVO(props) {
                         alignItems: 'center',
                     }}
                 >
-                    <Typography sx={{ p: 2 }} component="span" variant="h6" gutterBottom>
+                    <Typography sx={{ p: 2 }} component="span" variant="h6">
                         {t("exam.label.test")}
                     </Typography>
 

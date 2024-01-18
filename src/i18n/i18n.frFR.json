@@ -101,7 +101,8 @@
   "exam": {
     "label": {
       "title": "Analyse",
-      "new": "Nouvelle analyse"
+      "new": "Nouvelle analyse",
+      "test": "C'est à vous!"
     },
     "exams": {
       "unknown": {
