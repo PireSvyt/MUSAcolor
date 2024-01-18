@@ -73,7 +73,7 @@ export default function Exam() {
       console.log("examFlowInputs", examFlowInputs)
       if (Object.keys(examFlowInputs).includes('examid')) {
         // Aims at providing exam analysis
-        if (select.examState.details === undefined) {
+        if (select.examState.analysis === undefined) {
           // details not loaded nor loading
           serviceExamGet({
             examid: examFlowInputs.examid,

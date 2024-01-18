@@ -236,6 +236,16 @@ export const examDeleteInputs = {
 }
 
 export const examGetInputs = {
+  lockuifunction: (log) => {
+    log.push({
+      date: new Date(),
+      message: 'examGetInputs.lockuifunction',
+      tags: ['function'],
+    })
+    appStore.dispatch({
+      type: 'examSlice/loadAnalysis',
+    })
+  },
   getinputsfunction: (log, directInputs) => {
     log.push({
       date: new Date(),
@@ -293,6 +303,15 @@ export const examGetInputs = {
         })
       },
       'exam.getanalysis.error.onfind': () => {
+        appStore.dispatch({
+          type: 'sliceSnack/change',
+          payload: {
+            uid: random_id(),
+            id: 'generic.snack.error.wip',
+          },
+        })
+      },
+      'exam.getanalysis.error.undefined': () => {
         appStore.dispatch({
           type: 'sliceSnack/change',
           payload: {

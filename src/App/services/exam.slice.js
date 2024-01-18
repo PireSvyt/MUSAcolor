@@ -16,6 +16,10 @@ const examSlice = createSlice({
       state.patientid = action.payload.patientid
       state.state.type = 'available'
     },
+    existing: (state, action) => {
+      state.examid = action.payload.examid
+      state.patientid = action.payload.patientid
+    },
     storingResults: (state) => {
       state.state.storage = 'loading'
     },

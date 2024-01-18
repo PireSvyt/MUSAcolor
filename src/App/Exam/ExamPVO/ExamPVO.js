@@ -78,6 +78,10 @@ export default function ExamPVO(props) {
             currentInputs.rows[row].invalid = false
         }
     })
+
+    // WORKAROUND
+    //currentInputs.invalid = false
+
     setInputs(currentInputs)
   }
 
@@ -316,10 +320,87 @@ export default function ExamPVO(props) {
     )
   }
   const Analysis = () => {
+    const m = 3
+    const tileSize = (window.innerHeight/2)/numberOfRows
     return (
-        <Box>
+        <Box
+            sx={{                        
+                height: window.innerHeight -100,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+            }}
+        >
             <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
-                {"ANALYSIS"}
+                {t('exam.label.results')}
+            </Typography>
+
+            <Box>
+                {Object.keys(testColors).map(testColor => {
+                    //console.log("testColor", testColor, testColors[testColor])
+                    //console.log("props.exam.analysis.colors", props.exam.analysis.colors[testColors[testColor].color])
+                    return (
+                        <Box
+                        key={'color-'+testColors[testColor].color}
+                        sx={{                        
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            width: tileSize * 14,
+                        }}
+                        >
+                            <Box
+                                sx={{   
+                                    m: m+'px',                     
+                                    height: tileSize,
+                                    width: tileSize * props.exam.analysis.colors[testColors[testColor].color],
+                                    background: testColors[testColor].color
+                                }}
+                            />
+                            <Box
+                            sx={{                        
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                            }}
+                            >
+                                <Box
+                                sx={{               
+                                    width: tileSize * 2,
+                                    textAlign: 'right',
+                                    m: 0.5,
+                                }}
+                                >
+                                    <Typography>
+                                        {Math.floor(100*props.exam.analysis.colors[testColors[testColor].color]/8) + '%'}
+                                    </Typography>
+                                </Box>
+                                <Box
+                                sx={{               
+                                    width: tileSize * 3,
+                                    textAlign: 'left',
+                                    m: 0.5,
+                                }}
+                                >
+                                    <Typography color="grey">
+                                        {t("exam.label."+testColors[testColor].name)}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                    )
+                })}
+            </Box>
+
+            <Typography
+                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
+                component="span"
+                align="center"
+                variant="caption"
+            >
+                {t('exam.exams.all.disclaimer')}
             </Typography>
         </Box>
     )
