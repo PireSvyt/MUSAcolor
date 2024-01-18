@@ -7,20 +7,27 @@ import {
 // Services
 import serviceProceed from './serviceProceed.js'
 
-export async function serviceExamCreate() {
+export async function serviceExamCreate(directInputs) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
     console.log('serviceExamCreate')
   }
-  await serviceProceed(examCreateInputs)
+  await serviceProceed(examCreateInputs, directInputs)
 }
 
-export async function serviceExamDelete(inputs) {
+export async function serviceExamDelete(directInputs) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
     console.log('serviceExamDelete')
   }
-  let directInputs = {
-    examid: inputs.examid,
-    patientid: inputs.patientid,
+  let inputs = {
+    examid: directInputs.examid,
+    patientid: directInputs.patientid,
   }
-  await serviceProceed(examDeleteInputs, directInputs)
+  await serviceProceed(examDeleteInputs, inputs)
+}
+
+export async function serviceExamGet(directInputs) {
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceExamGet')
+  }
+  await serviceProceed(examGetInputs, directInputs)
 }

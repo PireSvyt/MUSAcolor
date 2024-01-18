@@ -150,6 +150,9 @@ export default function Appbar(props) {
       menuItems.push(potentialMenuItems.signOut)
       showLanguageSwitcher = true
       break
+    case 'exam':
+      showLanguageSwitcher = true
+      break
     case 'activation':
       showLanguageSwitcher = true
       break

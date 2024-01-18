@@ -30,7 +30,10 @@
       "proceed": "Procéder",
       "tocome": "A venir...",
       "signin": "Se connecter",
-      "tohome": "Accueil"
+      "tohome": "Accueil",
+      "begin": "Commencer",
+      "next": "Suivant",
+      "finish": "Terminer"
     },
     "language": {
       "enGB": {
@@ -99,6 +102,22 @@
     "label": {
       "title": "Analyse",
       "new": "Nouvelle analyse"
+    },
+    "exams": {
+      "unknown": {
+        "name": "inconnue"
+      },
+      "all": {
+        "reminder": "Rappel : N'utilisez pas les touches 'retour' et 'rafraichir' durant le l'analyse.",
+        "givebackdevice": "Merci de render la tablette."
+      },
+      "pvo": {
+        "name": "PVO",
+        "intro":"Introduction",
+        "introdetails": " bla bla bla\nCONSIGNES\nbla bla bla",
+        "outro":"Outro",
+        "outrodetails": " bla bla bla\nMERCI\nbla bla bla"
+      }
     }
   }
 }

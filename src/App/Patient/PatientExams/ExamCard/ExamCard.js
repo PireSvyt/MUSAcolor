@@ -27,7 +27,7 @@ export default function ExamCard(props) {
   // Changes
   let changes = {
     goto: () => {
-      window.location = '/exam/' + props.exam.examid
+      window.location = '/exam?examid=' + props.exam.examid + '&patientid=' + props.patientid
     },
     openMenu: (event) => {
       setAnchorEl(event.currentTarget)
@@ -59,7 +59,7 @@ export default function ExamCard(props) {
           examid: props.exam.examid,
           patientid: props.patientid,
         }).then(() => {
-            console.log("ExamCard/delete props", props)
+          console.log('ExamCard/delete props', props)
           setDeleting(false)
           servicePatientGet(props.patientid)
         })
@@ -70,8 +70,8 @@ export default function ExamCard(props) {
   }
 
   function stringifyDate() {
-    let date = new Date(props.exam.date);
-    return date.toLocaleString("fr-FR");
+    let date = new Date(props.exam.date)
+    return date.toLocaleString('fr-FR')
     //{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
   }
 
@@ -129,10 +129,10 @@ export default function ExamCard(props) {
               width: '100%',
             }}
             onClick={changes.goto}
-          >      
-            <Typography>{props.exam.type}</Typography>
+          >
+            <Typography>{t('exam.exams.'+props.exam.type+'.name')}</Typography>
             <Typography variant="caption">{stringifyDate()}</Typography>
-        </Box>
+          </Box>
         </Box>
       </Box>
 

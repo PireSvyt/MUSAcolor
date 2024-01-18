@@ -38,8 +38,9 @@ export async function apiExamDelete(deleteInputs, token) {
 export async function apiExamGet(getInputs, token) {
   try {
     const res = await axios({
-      method: 'get',
-      url: apiURL + 'exam/v1/' + getInputs.examid,
+      method: 'post',
+      url: apiURL + 'exam/v1/getanalysis',
+      data: getInputs,
       headers: {
         Authorization: 'Bearer ' + token,
       },

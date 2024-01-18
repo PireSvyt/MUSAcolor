@@ -16,8 +16,8 @@ const patientSlice = createSlice({
       delete state.state.details
     },
     set: (state, action) => {
-        state.patientid = action.payload.patientid
-        state.name = action.payload.name
+      state.patientid = action.payload.patientid
+      state.name = action.payload.name
       if (action.payload.exams === undefined) {
         state.exams = []
       } else {
@@ -31,10 +31,10 @@ const patientSlice = createSlice({
 export default patientSlice.reducer
 
 function sortExams(exams) {
-    let sortedExams = exams.sort(compareExams)
-    return sortedExams
-  
-    function compareExams(a, b) {
-      return a.date - b.date
-    }
+  let sortedExams = exams.sort(compareExams)
+  return sortedExams
+
+  function compareExams(a, b) {
+    return a.date - b.date
   }
+}

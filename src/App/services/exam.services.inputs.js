@@ -3,6 +3,7 @@ import { apiExamCreate, apiExamDelete, apiExamGet } from './exam.api.js'
 // Services
 import { random_id, random_string } from './toolkit.js'
 import appStore from '../store.js'
+import { serviceExamGet } from './exam.services.js'
 
 export const examCreateInputs = {
   lockuifunction: (log) => {
@@ -12,7 +13,7 @@ export const examCreateInputs = {
       tags: ['function'],
     })
     appStore.dispatch({
-      type: 'examModalSlice/lock',
+      type: 'examSlice/storingResults',
     })
   },
   unlockuifunction: (log) => {
@@ -22,19 +23,16 @@ export const examCreateInputs = {
       tags: ['function'],
     })
     appStore.dispatch({
-      type: 'examModalSlice/unlock',
+      type: 'examSlice/storedResults',
     })
   },
-  getinputsfunction: (log) => {
+  getinputsfunction: (log, directInputs) => {
     log.push({
       date: new Date(),
       message: 'examCreateInputs.getinputsfunction',
       tags: ['function'],
     })
-    let inputs = {
-      inputs: appStore.getState().examModalSlice.inputs,
-    }
-    return inputs
+    return {...directInputs}
   },
   sercivechecks: [
     {
@@ -73,19 +71,13 @@ export const examCreateInputs = {
               },
             },
           ],
-        },        
+        },
         {
-            // Check date is available
-            field: 'date',
-            error: 'generic.error.missingdate',
-            fieldsinerror: ['date'],
-        },        
-        {
-            // Check results is available
-            field: 'results',
-            error: 'generic.error.missingresults',
-            fieldsinerror: ['results'],
-        }
+          // Check results is available
+          field: 'results',
+          error: 'generic.error.missingresults',
+          fieldsinerror: ['results'],
+        },
       ],
     },
   ],
@@ -95,7 +87,7 @@ export const examCreateInputs = {
       message: 'examCreateInputs.getcheckoutcomedispatchfunction',
       tags: ['function'],
     })
-    return 'examModalSlice/change'
+    return 'examSlice/change'
   },
   repackagingfunction: (serviceInputs, log) => {
     log.push({
@@ -107,9 +99,8 @@ export const examCreateInputs = {
     let repackagedInputs = {}
     repackagedInputs.inputs = {}
     repackagedInputs.inputs.examid = random_string()
-    repackagedInputs.inputs.patientid = appStore.getState().patientSlice.patientid
+    repackagedInputs.inputs.patientid = appStore.getState().examSlice.patientid
     repackagedInputs.inputs.type = serviceInputs.inputs.type
-    repackagedInputs.inputs.date = serviceInputs.inputs.date
     repackagedInputs.inputs.results = serviceInputs.inputs.results
     console.log('repackagedInputs', repackagedInputs)
     return repackagedInputs
@@ -138,13 +129,20 @@ export const examCreateInputs = {
     let responses = {
       'exam.create.success': () => {
         appStore.dispatch({
-          type: 'examModalSlice/close',
+          type: 'examSlice/storedResults',
+          payload: {
+            examid: response.data.examid
+          }
         })
-        window.location = '/exam/' + response.data.examid
       },
       'exam.create.error.oncreate': () => {
         appStore.dispatch({
-          type: 'examModalSlice/unlock',
+          type: 'examSlice/change',
+          payload: {
+            state: {
+              storage: 'error'
+            }
+          }
         })
         appStore.dispatch({
           type: 'sliceSnack/change',
@@ -236,3 +234,75 @@ export const examDeleteInputs = {
     return responses[response.type]()
   },
 }
+
+export const examGetInputs = {
+  getinputsfunction: (log, directInputs) => {
+    log.push({
+      date: new Date(),
+      message: 'serviceExamGet.getinputsfunction',
+      tags: ['function'],
+    })
+    return {
+      inputs: {...directInputs},
+    }
+  },
+  sercivechecks: [
+    {
+      // Check inputs root is available
+      field: 'inputs',
+      error: 'exam.error.missinginputs',
+      subchecks: [
+        {
+          // Check patientid is available
+          field: 'examid',
+          error: 'patient.error.missingexamid',
+        },
+        {
+          // Check patientid is available
+          field: 'patientid',
+          error: 'patient.error.missingpatientid',
+        },
+      ],
+    },
+  ],
+  apicall: async (inputs, log) => {
+    log.push({
+      date: new Date(),
+      message: 'serviceExamGet.apicall',
+      inputs: inputs,
+      tags: ['function'],
+    })
+    try {
+      return await apiExamGet(inputs, appStore.getState().authSlice.token)
+    } catch (err) {
+      return err
+    }
+  },
+  getmanageresponsefunction: (response, log) => {
+    log.push({
+      date: new Date(),
+      message: 'serviceExamGet.getmanageresponsefunction',
+      response: response,
+      tags: ['function'],
+    })
+    let responses = {
+      'exam.getanalysis.success': () => {
+        appStore.dispatch({
+          type: 'examSlice/setAnalysis',
+          payload: response.data.exam,
+        })
+      },
+      'exam.getanalysis.error.onfind': () => {
+        appStore.dispatch({
+          type: 'sliceSnack/change',
+          payload: {
+            uid: random_id(),
+            id: 'generic.snack.error.wip',
+          },
+        })
+      },
+    }
+    return responses[response.type]()
+  },
+}
+

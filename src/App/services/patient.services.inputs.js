@@ -166,7 +166,7 @@ export const patientDeleteInputs = {
     {
       // Check inputs root is available
       field: 'inputs',
-      error: 'game.error.missinginputs',
+      error: 'patient.error.missinginputs',
       subchecks: [
         {
           // Check patientid is available
@@ -237,7 +237,7 @@ export const patientGetInputs = {
     {
       // Check inputs root is available
       field: 'inputs',
-      error: 'game.error.missinginputs',
+      error: 'patient.error.missinginputs',
       subchecks: [
         {
           // Check patientid is available

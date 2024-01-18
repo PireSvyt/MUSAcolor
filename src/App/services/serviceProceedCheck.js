@@ -1,4 +1,4 @@
-let debugProceedCheck = false
+let debugProceedCheck = true
 
 function serviceProceedCheck(serviceInputs, serciveChecks) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {

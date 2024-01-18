@@ -9,15 +9,12 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  Typography,
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
 
-import { serviceExamCreate } from '../../services/exam.services.js'
 // Reducers
 import appStore from '../../store.js'
-import { servicePatientGet } from '../../services/patient.services.js'
 
 export default function ExamModal() {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
@@ -36,6 +33,7 @@ export default function ExamModal() {
     loading: useSelector((state) => state.examModalSlice.loading),
     inputs: useSelector((state) => state.examModalSlice.inputs),
     errors: useSelector((state) => state.examModalSlice.errors),
+    patientid: useSelector((state) => state.patientSlice.patientid),
   }
 
   // Changes
@@ -60,26 +58,9 @@ export default function ExamModal() {
     },
     launch: () => {
       console.log('ExamModal.launch')
-
-      /**
-       * TEMPORARY WORKAROUND
-       * dummy exam creation
-       */
-      appStore.dispatch({
-        type: 'examModalSlice/change',
-        payload: {
-          inputs: {
-            type: 'dummy',
-            date: Date.now(),
-            results: { dummy: 'dummy' },
-          },
-          errors: {
-            type: false,
-          },
-        },
-      })
-      serviceExamCreate()
-      // END OF WORKAROUND
+      window.location = 
+        '/exam?type=' + select.inputs.type + 
+        '&patientid=' + select.patientid
     },
   }
 
