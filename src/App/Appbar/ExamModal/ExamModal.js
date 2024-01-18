@@ -9,6 +9,9 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  Select,
+  InputLabel,
+  MenuItem
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
@@ -34,6 +37,18 @@ export default function ExamModal() {
     inputs: useSelector((state) => state.examModalSlice.inputs),
     errors: useSelector((state) => state.examModalSlice.errors),
     patientid: useSelector((state) => state.patientSlice.patientid),
+  }
+
+  // Defaults
+  if (select.inputs.type === '') {
+    appStore.dispatch({
+      type: 'examModalSlice/change',
+      payload: {
+        inputs: {
+          type: "pvo",
+        },
+      },
+    })
   }
 
   // Changes
@@ -82,18 +97,16 @@ export default function ExamModal() {
               justifyContent: 'space-evenly',
             }}
           >
-            <FormControl>
-              <TextField
-                name="type"
-                required
-                label={t('generic.input.type')}
-                variant="standard"
+            <FormControl variant="standard">
+              <InputLabel>{t("generic.input.type")}</InputLabel>
+              <Select
                 value={select.inputs.type}
+                label={t("generic.input.type")}
                 onChange={changes.type}
-                autoComplete="off"
                 error={select.errors.type}
-                data-testid="modal-patient-input-type"
-              />
+              >
+                <MenuItem value={'pvo'}>{t('exam.exams.pvo.name')}</MenuItem>
+              </Select>
             </FormControl>
           </Box>
         </DialogContent>

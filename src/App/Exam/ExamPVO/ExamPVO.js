@@ -1,18 +1,76 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { Box, Button, Typography, IconButton, colors } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add.js'
+import { Box, Button, Typography, IconButton } from '@mui/material'
 import LinearProgress from '@mui/material/LinearProgress'
-import { PropaneSharp } from '@mui/icons-material'
+import DoneIcon from '@mui/icons-material/Done';
 
 
 export default function ExamPVO(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('ExamPVO', props.exam)
+    console.log('ExamPVO')//, props.exam)
   }
   // i18n
   const { t } = useTranslation()
+
+  // Const
+  const flippedColor = 'lightgrey'
+  const testColors = {
+    0: { color: '#7F00FF', name: "violet" },
+    1: { color: '#0000FF', name: "indogo" },
+    2: { color: '#007FFF', name: "bleu" },
+    3: { color: '#00FFFF', name: "cyan" },
+    4: { color: '#00FFBF', name: "turquoise" },
+    5: { color: '#00FF00', name: "vert" },
+    6: { color: '#BFFF00', name: "chartreuse" },
+    7: { color: '#FFFF00', name: "jaune" },
+    8: { color: '#FF7F00', name: "orange" },
+    9: { color: '#FF0000', name: "rouge" },
+    10: { color: '#FF007F', name: "rubis" },
+    11: { color: '#FF00FF', name: "magenta" }
+  }
+  // Functions
+  function randomColorSelection() {
+    let outcome = {
+        rows: {},
+        invalid: true
+    }
+    for (let r = 0; r < 12; r++) {
+        outcome.rows[r] = {
+            id: r,
+            cols: {},
+            invalid: true
+        }
+        for (let c = 0; c < 8; c++) {
+            let colorPos = Math.floor(Math.random() * Object.keys(testColors).length)
+            //console.log("colorPos", colorPos)
+            outcome.rows[r].cols[c] = {
+                id: c,
+                color: testColors[colorPos].color,
+                state: 'visible'
+            }
+        }
+    }
+    //console.log("randomColorSelection", outcome)
+    return outcome        
+  }
+  function checkInputValidity() {
+    let currentInputs = {...inputs}
+    Object.keys(inputs.rows).forEach(row => {
+        let rowFlips = 0
+        Object.keys(inputs.rows[row].cols).forEach(col => {
+            if (inputs.rows[row].cols[col].state === 'hidden') {
+                rowFlips += 1
+            }
+        })
+        if (rowFlips !== 4) {
+            currentInputs.invalid = true
+            currentInputs.rows[row].invalid = true
+        } else {
+            currentInputs.rows[row].invalid = false
+        }
+    })
+    setInputs(currentInputs)
+  }
 
   // Changes
   let changes = {
@@ -27,6 +85,8 @@ export default function ExamPVO(props) {
             currentInputs.rows[c.row].cols[c.col].state = 'visible'
         }
         setInputs(currentInputs)
+        // Check inputs
+        checkInputValidity()
     },
     store: () => {
         props.store({
@@ -117,6 +177,7 @@ export default function ExamPVO(props) {
 
                     <Box>
                         {Object.keys(inputs.rows).map(row => {
+                            //console.log("row", row, inputs.rows[row])
                             return (
                                 <Box
                                     key={'row-'+row}
@@ -127,10 +188,19 @@ export default function ExamPVO(props) {
                                         alignItems: 'center',
                                     }}
                                 >
+                                    <Box
+                                        key={'row-'+row+'-flagbalance'}
+                                        sx={{   
+                                            m: m+'px',                     
+                                            height: tileSize,
+                                            width: tileSize,
+                                        }}
+                                    />
                                     {Object.keys(inputs.rows[row].cols).map(col => {
+                                        //console.log("col", col, inputs.rows[row].cols[col])
                                         let cellColor = 'yellow'
                                         if (inputs.rows[row].cols[col].state === 'hidden') {
-                                            cellColor = 'grey'
+                                            cellColor = flippedColor
                                         } else {
                                             cellColor = inputs.rows[row].cols[col].color
                                         }
@@ -141,7 +211,7 @@ export default function ExamPVO(props) {
                                                     m: m+'px',                     
                                                     height: tileSize,
                                                     width: tileSize,
-                                                    backgroundColor: cellColor
+                                                    background: cellColor
                                                 }}
                                                 onClick={() => changes.flip({
                                                     row: row,
@@ -150,6 +220,25 @@ export default function ExamPVO(props) {
                                             />
                                         )
                                     })}
+                                    <Box
+                                        key={'row-'+row+'-flag'}
+                                        sx={{   
+                                            m: m+'px',                     
+                                            height: tileSize,
+                                            width: tileSize,
+                                            alignItems: 'center',
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-evenly',
+                                        }}
+                                        
+                                    >
+                                        <DoneIcon color={
+                                            inputs.rows[row].invalid === true 
+                                            ? 'disabled'
+                                            : "success"
+                                        }/>
+                                    </Box>
                                 </Box>
                             )
                         })}
@@ -159,7 +248,7 @@ export default function ExamPVO(props) {
                         onClick={changes.store}
                         variant="contained"
                         size="large"
-                        disabled={props.exam.state.storage !== undefined}
+                        disabled={props.exam.state.storage !== undefined || inputs.invalid === true}
                     >
                         {t('generic.button.finish')}
                     </Button>
@@ -229,7 +318,8 @@ export default function ExamPVO(props) {
 
   // state
   const [stage, setStage] = useState(0)
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = useState(randomColorSelection())
+  /*const [inputs, setInputs] = useState({
     rows: {
         0: {
             cols: {
@@ -376,12 +466,12 @@ export default function ExamPVO(props) {
             }
         }
     }
-  })
+  })*/
 
   return (
     <Box>
         { props.exam.state.analysis === 'available' 
-          ? (<Analysis inputs={props.exam.analysis}/>)
+          ? (<Analysis/>)
           : props.exam.state.storage !== undefined 
           ? (<Outro/>)
           : (stages[stage].render())
