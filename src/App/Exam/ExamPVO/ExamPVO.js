@@ -16,7 +16,7 @@ export default function ExamPVO(props) {
   const flippedColor = 'lightgrey'
   const testColors = {
     0: { color: '#7F00FF', name: "violet" },
-    1: { color: '#0000FF', name: "indogo" },
+    1: { color: '#0000FF', name: "indigo" },
     2: { color: '#007FFF', name: "bleu" },
     3: { color: '#00FFFF', name: "cyan" },
     4: { color: '#00FFBF', name: "turquoise" },
@@ -416,7 +416,7 @@ export default function ExamPVO(props) {
                                 }}
                                 >
                                     <Typography>
-                                        {Math.floor(100*props.exam.analysis.colors[testColors[testColor].color]/8) + '%'}
+                                        {Math.floor(100*props.exam.analysis.colors[testColors[testColor].color]/numberOfRows) + '%'}
                                     </Typography>
                                 </Box>
                                 <Box
