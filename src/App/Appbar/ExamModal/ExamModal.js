@@ -73,6 +73,9 @@ export default function ExamModal() {
     },
     launch: () => {
       console.log('ExamModal.launch')
+      appStore.dispatch({
+        type: 'examModalSlice/close',
+      })
       window.location = 
         '/exam?type=' + select.inputs.type + 
         '&patientid=' + select.patientid
