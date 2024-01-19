@@ -64,6 +64,7 @@ export default function ExamPVO(props) {
   }
   function checkInputValidity() {
     let currentInputs = {...inputs}
+    let overallIsInvalid = false
     Object.keys(inputs.rows).forEach(row => {
         let rowFlips = 0
         Object.keys(inputs.rows[row].cols).forEach(col => {
@@ -72,12 +73,13 @@ export default function ExamPVO(props) {
             }
         })
         if (rowFlips !== 4) {
-            currentInputs.invalid = true
+            overallIsInvalid = true
             currentInputs.rows[row].invalid = true
         } else {
             currentInputs.rows[row].invalid = false
         }
     })
+    currentInputs.invalid = overallIsInvalid
 
     // WORKAROUND
     //currentInputs.invalid = false

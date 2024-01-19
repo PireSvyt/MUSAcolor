@@ -35,7 +35,7 @@ export default function SignInModal() {
   // Selects
   const select = {
     open: useSelector((state) => state.signinModalSlice.open),
-    status: useSelector((state) => state.signinModalSlice.status),
+    userState: useSelector((state) => state.signinModalSlice.state),
     disabled: useSelector((state) => state.signinModalSlice.disabled),
     loading: useSelector((state) => state.signinModalSlice.loading),
     inputs: useSelector((state) => state.signinModalSlice.inputs),
@@ -151,7 +151,7 @@ export default function SignInModal() {
                 sx={{ mt: 2, mb: 1 }}
                 disabled={
                   select.sendpassword.disbaled ||
-                  select.sendpassword.status === 'sent'
+                  select.userState.sendpassword === 'available'
                 }
                 loading={select.sendpassword.loading}
                 data-testid="modal-sign in-button-reset password"
@@ -159,8 +159,8 @@ export default function SignInModal() {
                 {t('signin.button.resetpassword')}
               </LoadingButton>
 
-              {select.status === 'notfound' ||
-              select.sendpassword.status === 'notfound' ? (
+              {select.userState.signingin === 'notfound' ||
+              select.userState.sendpassword === 'notfound' ? (
                 <Box
                   sx={{
                     display: 'flex',
@@ -192,7 +192,7 @@ export default function SignInModal() {
                 </Box>
               ) : null}
 
-              {select.sendpassword.status === 'sent' ? (
+              {select.userState.sendpassword === 'available' ? (
                 <Box
                   sx={{
                     display: 'flex',
@@ -229,7 +229,7 @@ export default function SignInModal() {
           <LoadingButton
             variant="contained"
             onClick={changes.signin}
-            disabled={select.disabled || select.status === 'inactivated'}
+            disabled={select.disabled || select.userState.signingin === 'inactivated'}
             loading={select.loading}
             data-testid="modal-sign in-button-proceed"
           >
@@ -244,7 +244,7 @@ export default function SignInModal() {
 /**
  * 
 
-              {select.sendactivation.status === "sent" ? (
+              {select.userState.sendactivation === "available" ? (
                 <Box
                   sx={{
                     display: "flex",
@@ -265,7 +265,7 @@ export default function SignInModal() {
               ) : null}
  
 
-              {select.status === "inactivated" ? (
+              {select.userState.signingin === "inactivated" ? (
                 <Box
                   sx={{
                     display: "flex",
@@ -287,7 +287,7 @@ export default function SignInModal() {
                     sx={{ mt: 1, width: "100%" }}
                     onClick={changes.sendactivation}
                     disabled={
-                      select.sendactivation.disabled || select.sendactivation.status === "sent"
+                      select.sendactivation.disabled || select.userState.sendactivation === "available"
                     }
                     loading={select.sendactivation.loading}
                     data-testid="modal-sign in-button-send activation"

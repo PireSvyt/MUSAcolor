@@ -15,6 +15,7 @@
       "name": "Nom",
       "email": "Email",
       "password": "Mot de passe",
+      "passwordrepeat": "Répétition du mot de passe",
       "type": "Type"
     },
     "button": {
@@ -33,6 +34,7 @@
       "tohome": "Accueil",
       "begin": "Commencer",
       "next": "Suivant",
+      "continue": "Continuer",
       "finish": "Terminer"
     },
     "language": {
@@ -52,7 +54,9 @@
   },
   "signin": {
     "label": {
-      "title": "Se connecter"
+      "title": "Se connecter",
+      "notfoundaccount": "Cet email n'est associé à aucun de nos comptes.",
+      "successsendingpassword": "Un email vous a été envoyer pour mettre à jour votre mot de passe.\nVerifiez bien vos spams."
     },
     "input": {},
     "button": {
@@ -68,6 +72,14 @@
       "signedin": "Connecté!",
       "unauthorized": "Mot de passe incorrect",
       "notfound": "Compte introuvable"
+    }
+  },
+  "passwordreset": {
+    "label": {
+      "title": "Renouvellement de mot de passe",
+      "explanations": "Entrez votre nouveau mot de passe,\npuis clicker sur le bouton 'continuer'.",
+      "erroronreset": "Nous n'avons pas pu mettre à jour votre mot de passe pour le moment.\nMerci de re-essayer plus pard.",
+      "successfulreset": "Votre mot de passe a été mis à jour!\nVous pouvez maintenant vous connecter..."
     }
   },
   "home": {

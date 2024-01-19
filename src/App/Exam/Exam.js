@@ -70,7 +70,7 @@ export default function Exam() {
         let queryBreakdown = query.split('=')
         examFlowInputs[queryBreakdown[0]] = queryBreakdown[1]
       })
-      console.log("examFlowInputs", examFlowInputs)
+      //console.log("examFlowInputs", examFlowInputs)
       if (Object.keys(examFlowInputs).includes('examid')) {
         // Aims at providing exam analysis
         if (select.examState.analysis === undefined) {

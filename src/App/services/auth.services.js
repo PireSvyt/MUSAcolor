@@ -211,11 +211,11 @@ export async function serviceAuthSendPassword() {
   await serviceProceed(authSendPasswordInputs)
 }
 
-export async function serviceAuthPasswordReset() {
+export async function serviceAuthPasswordReset(directinputs) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
     console.log('serviceAuthPasswordReset')
   }
-  await serviceProceed(authPasswordResetInputs)
+  await serviceProceed(authPasswordResetInputs, {...directinputs})
 }
 /*
 export async function serviceAuthExistingPseudo() {

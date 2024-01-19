@@ -4,7 +4,8 @@ const emptyState = {
   open: false,
   disabled: false,
   loading: false,
-  status: 'onhold', // inactivated, notfound
+  state: {},
+  //status: 'onhold', // inactivated, notfound
   inputs: {
     login: '',
     password: '',
@@ -14,12 +15,12 @@ const emptyState = {
     password: false,
   },
   sendactivation: {
-    status: '',
+    //status: '',
     loading: false,
     disabled: false,
   },
   sendpassword: {
-    status: '',
+    //status: '',
     loading: false,
     disabled: false,
   },
@@ -35,14 +36,15 @@ const signinModalSlice = createSlice({
       state.inputs.password = ''
       state.errors.login = false
       state.errors.password = false
-      state.sendactivation.status = ''
-      state.sendactivation.loading = false
-      state.sendactivation.disabled = false
-      state.sendpassword.status = ''
-      state.sendpassword.loading = false
-      state.sendpassword.disabled = false
+      state.state = {}
       state.disabled = false
       state.loading = false
+      //state.sendactivation.status = ''
+      state.sendactivation.loading = false
+      state.sendactivation.disabled = false
+      //state.sendpassword.status = ''
+      state.sendpassword.loading = false
+      state.sendpassword.disabled = false
     },
     close: (state) => {
       state.open = false
@@ -51,8 +53,16 @@ const signinModalSlice = createSlice({
       if (action.payload.open !== undefined) {
         state.open = action.payload.open
       }
-      if (action.payload.status !== undefined) {
-        state.status = action.payload.status
+      if (action.payload.state !== undefined) {
+        if (action.payload.state.signingin !== undefined) {
+          state.state.signingin = action.payload.state.signingin
+        }
+        if (action.payload.state.sendactivation !== undefined) {
+          state.state.sendactivation = action.payload.state.sendactivation
+        }
+        if (action.payload.state.sendpassword !== undefined) {
+          state.state.sendpassword = action.payload.state.sendpassword
+        }
       }
       // Inputs
       if (action.payload.inputs !== undefined) {
@@ -81,9 +91,6 @@ const signinModalSlice = createSlice({
       }
       // Send activation
       if (action.payload.sendactivation !== undefined) {
-        if (action.payload.sendactivation.status !== undefined) {
-          state.sendactivation.status = action.payload.sendactivation.status
-        }
         if (action.payload.sendactivation.loading !== undefined) {
           state.sendactivation.loading = action.payload.sendactivation.loading
         }
@@ -93,9 +100,6 @@ const signinModalSlice = createSlice({
       }
       // Send password
       if (action.payload.sendpassword !== undefined) {
-        if (action.payload.sendpassword.status !== undefined) {
-          state.sendpassword.status = action.payload.sendpassword.status
-        }
         if (action.payload.sendpassword.loading !== undefined) {
           state.sendpassword.loading = action.payload.sendpassword.loading
         }
@@ -110,22 +114,59 @@ const signinModalSlice = createSlice({
       }
       if (Object.keys(action.payload).length === 0) {
         // Locking the modal
+        state.state.signingin = "loading"
         state.disabled = true
         state.loading = true
       } else {
         switch (action.payload) {
           case 'activation':
+            state.state.sendactivation = "loading"
             state.sendactivation.disabled = true
             state.sendactivation.loading = true
+            state.disabled = true
+            state.loading = true
             break
           case 'password':
+            state.state.sendpassword = "loading"
             state.sendpassword.disabled = true
             state.sendpassword.loading = true
+            state.disabled = true
+            state.loading = true
             break
           case 'modal':
           default:
             state.disabled = true
             state.loading = true
+            break
+        }
+      }
+    },
+    unlock: (state, action) => {
+      if (action.payload === undefined) {
+        action = { payload: {} }
+      }
+      if (Object.keys(action.payload).length === 0) {
+        // Locking the modal
+        state.disabled = false
+        state.loading = false
+      } else {
+        switch (action.payload) {
+          case 'activation':
+            state.sendactivation.disabled = false
+            state.sendactivation.loading = false
+            state.disabled = false
+            state.loading = false
+            break
+          case 'password':
+            state.sendpassword.disabled = false
+            state.sendpassword.loading = false
+            state.disabled = false
+            state.loading = false
+            break
+          case 'modal':
+          default:
+            state.disabled = false
+            state.loading = false
             break
         }
       }

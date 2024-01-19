@@ -29,6 +29,7 @@ export default function Landing() {
           onClick={changes.signin}
           size="large"
           data-testid="page-landing-button-sign in"
+          variant='contained'
         >
           {t('generic.button.signin')}
         </Button>

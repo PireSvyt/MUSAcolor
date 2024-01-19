@@ -24,7 +24,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route path="/passwordreset/:token" element={<PasswordReset />} />
+        <Route path="/passwordreset" element={<PasswordReset />} />
         <Route path="/patient/:patientid" element={<Patient />} />
         <Route path="/exam" element={<Exam />} />
         <Route path="/admin" element={<Admin />} />

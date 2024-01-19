@@ -153,6 +153,9 @@ export default function Appbar(props) {
     case 'exam':
       showLanguageSwitcher = true
       break
+    case 'passwordreset':
+      showLanguageSwitcher = true
+      break
     case 'activation':
       showLanguageSwitcher = true
       break

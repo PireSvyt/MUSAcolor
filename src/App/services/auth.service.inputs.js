@@ -701,13 +701,8 @@ export const authSendPasswordInputs = {
       tags: ['function'],
     })
     appStore.dispatch({
-      type: 'signinModalSlice/change',
-      payload: {
-        sendpassword: {
-          disabled: false,
-          loading: false,
-        },
-      },
+      type: 'signinModalSlice/unlock',
+      payload: 'sendpassword',
     })
   },
   getinputsfunction: (log) => {
@@ -717,7 +712,9 @@ export const authSendPasswordInputs = {
       tags: ['function'],
     })
     return {
-      inputs: { ...appStore.getState().signinModalSlice.inputs },
+      inputs: {
+        login: appStore.getState().signinModalSlice.inputs.login 
+      },
     }
   },
   sercivechecks: [
@@ -765,6 +762,44 @@ export const authSendPasswordInputs = {
     })
     return 'signinModalSlice/change'
   },
+  repackagingfunction: async (inputs, log) => {
+    log.push({
+      date: new Date(),
+      message: 'serviceProceed.repackagingfunction',
+      inputs: inputs,
+      tags: ['function'],
+    })
+    console.log('authSendPasswordInputs.repackagingfunction', inputs)
+    try {
+      let repackagedInputs = { ...inputs }
+      //if (process.env.NODE_ENV === "_production" ) {
+      //console.log("AES.encrypt", inputs.inputs.password,
+      //process.env.REACT_APP_ENCRYPTION_KEY)
+      let hash = AES.encrypt(
+        inputs.inputs.password,
+        process.env.REACT_APP_ENCRYPTION_KEY
+      ).toString()
+      console.log('repackagedInputs hash', hash)
+      /*repackagedInputs.inputs.password = AES.encrypt(
+        inputs.inputs.password,
+        process.env.REACT_APP_ENCRYPTION_KEY
+      ).toString()
+      console.log('repackagedInputs.inputs.password', repackagedInputs)*/
+      repackagedInputs.inputs.login = AES.encrypt(
+        inputs.inputs.login,
+        process.env.REACT_APP_ENCRYPTION_KEY
+      ).toString()
+      console.log('repackagedInputs.inputs.login', repackagedInputs)
+      repackagedInputs.inputs.encryption = true
+      /*} else {
+        repackagedInputs.inputs.encryption = false;
+      }*/
+      console.log('authSigninInputs', repackagedInputs)
+      return repackagedInputs
+    } catch (err) {
+      return err
+    }
+  },
   apicall: async (inputs, log) => {
     log.push({
       date: new Date(),
@@ -790,9 +825,15 @@ export const authSendPasswordInputs = {
         appStore.dispatch({
           type: 'signinModalSlice/change',
           payload: {
-            sendpassword: {
-              status: 'sent',
+            state: {
+              sendpassword: 'available',
             },
+            disabled: false,
+            loading: false,
+            sendpassword: {
+              disabled: false,
+              loading: false
+            }
           },
         })
       },
@@ -800,9 +841,15 @@ export const authSendPasswordInputs = {
         appStore.dispatch({
           type: 'signinModalSlice/change',
           payload: {
-            sendpassword: {
-              status: 'notfound',
+            state: {
+              sendpassword: 'notfound',
             },
+            disabled: false,
+            loading: false,
+            sendpassword: {
+              disabled: false,
+              loading: false
+            }
           },
         })
         appStore.dispatch({
@@ -817,12 +864,18 @@ export const authSendPasswordInputs = {
         appStore.dispatch({
           type: 'signinModalSlice/change',
           payload: {
-            sendpassword: {
-              status: 'notfound',
+            state: {
+              sendpassword: 'notfound',
             },
             errors: {
               login: true,
             },
+            disabled: false,
+            loading: false,
+            sendpassword: {
+              disabled: false,
+              loading: false
+            }
           },
         })
         appStore.dispatch({
@@ -837,9 +890,18 @@ export const authSendPasswordInputs = {
         appStore.dispatch({
           type: 'signinModalSlice/change',
           payload: {
-            sendpassword: {
-              status: 'notfound',
+            state: {
+              sendpassword: 'notfound',
             },
+            errors: {
+              login: true,
+            },
+            disabled: false,
+            loading: false,
+            sendpassword: {
+              disabled: false,
+              loading: false
+            }
           },
         })
         appStore.dispatch({
@@ -852,7 +914,7 @@ export const authSendPasswordInputs = {
       },
     }
     console.log('response', response)
-    responses[response]()
+    responses[response.type]()
     return
   },
 }
@@ -861,38 +923,34 @@ export const authPasswordResetInputs = {
   lockuifunction: (log) => {
     log.push({
       date: new Date(),
-      message: 'authSendPasswordInputs.lockuifunction',
+      message: 'authPasswordResetInputs.lockuifunction',
       tags: ['function'],
     })
     appStore.dispatch({
-      type: 'signinModalSlice/lock',
-      payload: 'sendpassword',
+      type: 'passwordResetSlice/lock',
     })
   },
   unlockuifunction: (log) => {
     log.push({
       date: new Date(),
-      message: 'authSendPasswordInputs.unlockuifunction',
+      message: 'authPasswordResetInputs.lockuifunction',
       tags: ['function'],
     })
     appStore.dispatch({
-      type: 'signinModalSlice/change',
-      payload: {
-        sendpassword: {
-          disabled: false,
-          loading: false,
-        },
-      },
+      type: 'passwordResetSlice/unlock',
     })
   },
-  getinputsfunction: (log) => {
+  getinputsfunction: (log, directInputs) => {
     log.push({
       date: new Date(),
-      message: 'authSendPasswordInputs.getinputsfunction',
+      message: 'authPasswordResetInputs.getinputsfunction',
       tags: ['function'],
     })
+    let inputs = {...appStore.getState().passwordResetSlice.inputs}
+    inputs.urllogin = directInputs.urllogin
+    inputs.urltoken = directInputs.urltoken
     return {
-      inputs: { ...appStore.getState().signinModalSlice.inputs },
+      inputs: inputs,
     }
   },
   sercivechecks: [
@@ -903,19 +961,20 @@ export const authPasswordResetInputs = {
       subchecks: [
         {
           // Check login is available
-          field: 'login',
+          field: 'urllogin',
           error: 'generic.error.missinlogin',
-          fieldsinerror: ['login'],
+          fieldsinerror: ['url'],
           subchecks: [
             {
               // Check email validity
               checkfunction: (serviceInputs) => {
-                if (!validateEmail(serviceInputs.inputs.login)) {
+                if (!validateEmail(serviceInputs.inputs.urllogin)) {
                   return {
                     errors: ['generic.error.invalidlogin'],
+                    fieldsinerror: ['url'],
                     stateChanges: {
                       errors: {
-                        login: true,
+                        urllogin: true,
                       },
                     },
                     proceed: false,
@@ -925,30 +984,103 @@ export const authPasswordResetInputs = {
                 }
               },
               error: 'generic.error.invalidlogin',
-              fieldsinerror: ['login'],
             },
           ],
         },
+        {
+          // Check token is available
+          field: 'urltoken',
+          error: 'generic.error.missingtoken',
+          fieldsinerror: ['url'],
+        },
+        {
+          // Check password is available
+          field: 'password',
+          error: 'generic.error.missingpassword',
+          fieldsinerror: ['password'],
+        },
+        {
+          // Check passwordrepeat is available
+          field: 'passwordrepeat',
+          error: 'generic.error.missingpasswordrepeat',
+          fieldsinerror: ['passwordrepeat'],
+          subchecks: [
+            {
+              // Check passwordrepeat is same as password
+              checkfunction: (serviceInputs) => {
+                if (serviceInputs.inputs.password !== serviceInputs.inputs.passwordrepeat) {
+                  return {
+                    errors: ['generic.error.passwordmissmatch'],
+                    stateChanges: {
+                      errors: {
+                        passwordrepeat: true,
+                      },
+                    },
+                    proceed: false,
+                  }
+                } else {
+                  return { proceed: true }
+                }
+              },
+              error: 'generic.error.passwordmissmatch',
+            },
+          ]
+        }
       ],
     },
   ],
   getcheckoutcomedispatchfunction: (log) => {
     log.push({
       date: new Date(),
-      message: 'authSendPasswordInputs.getcheckoutcomedispatchfunction',
+      message: 'authPasswordResetInputs.getcheckoutcomedispatchfunction',
       tags: ['function'],
     })
-    return 'signinModalSlice/change'
+    return 'passwordResetSlice/change'
+  },
+  repackagingfunction: async (inputs, log) => {
+    log.push({
+      date: new Date(),
+      message: 'serviceProceed.repackagingfunction',
+      inputs: inputs,
+      tags: ['function'],
+    })
+    console.log('authPasswordResetInputs.repackagingfunction', inputs)
+    try {
+      let repackagedInputs = { ...inputs }
+      // Encrypt
+      //console.log('repackagedInputs hash', hash)
+      repackagedInputs.inputs.password = bcrypt.hashSync(inputs.inputs.password);
+      //console.log('repackagedInputs.inputs.password', repackagedInputs)
+      repackagedInputs.inputs.token = AES.encrypt(
+        inputs.inputs.urltoken,
+        process.env.REACT_APP_ENCRYPTION_KEY
+      ).toString()
+      //console.log('repackagedInputs.inputs.token', repackagedInputs)
+      repackagedInputs.inputs.login = AES.encrypt(
+        inputs.inputs.urllogin,
+        process.env.REACT_APP_ENCRYPTION_KEY
+      ).toString()
+      //console.log('repackagedInputs.inputs.token', repackagedInputs)
+      repackagedInputs.inputs.encryption = true
+      // Clean
+      delete repackagedInputs.inputs.passwordrepeat
+      delete repackagedInputs.inputs.urltoken
+      delete repackagedInputs.inputs.urllogin
+      //console.log('authPasswordResetInputs', repackagedInputs)
+      return repackagedInputs
+    } catch (err) {
+      return err
+    }
   },
   apicall: async (inputs, log) => {
     log.push({
       date: new Date(),
-      message: 'authSendPasswordInputs.apicall',
+      message: 'authPasswordResetInputs.apicall',
       inputs: inputs,
       tags: ['function'],
     })
     try {
-      return await apiAuthSendPassword(inputs)
+      return await apiAuthPasswordReset(inputs)
     } catch (err) {
       return err
     }
@@ -956,78 +1088,39 @@ export const authPasswordResetInputs = {
   getmanageresponsefunction: (response, log) => {
     log.push({
       date: new Date(),
-      message: 'authSendPasswordInputs.getmanageresponsefunction',
+      message: 'authPasswordResetInputs.getmanageresponsefunction',
       response: response,
       tags: ['function'],
     })
     let responses = {
-      'auth.sendpassword.success': () => {
+      'auth.resetpassword.success': () => {
         appStore.dispatch({
-          type: 'signinModalSlice/change',
-          payload: {
-            sendpassword: {
-              status: 'sent',
-            },
-          },
+          type: 'passwordResetSlice/resetedpassword',
         })
       },
-      'auth.sendpassword.error.onfind': () => {
+      'auth.passwordreset.error.onmodify': () => {
         appStore.dispatch({
-          type: 'signinModalSlice/change',
+          type: 'passwordResetSlice/change',
           payload: {
-            sendpassword: {
-              status: 'notfound',
-            },
-          },
-        })
-        appStore.dispatch({
-          type: 'sliceSnack/change',
-          payload: {
-            uid: random_id(),
-            id: 'signin.snack.errorsendingpassword',
-          },
+            state: {
+              passwordreset: 'error'
+            }
+          }
         })
       },
-      'auth.sendpassword.error.accountnotfound': () => {
+      'auth.passwordreset.error.inputs': () => {
         appStore.dispatch({
-          type: 'signinModalSlice/change',
+          type: 'passwordResetSlice/change',
           payload: {
-            sendpassword: {
-              status: 'notfound',
-            },
-            errors: {
-              login: true,
-            },
-          },
-        })
-        appStore.dispatch({
-          type: 'sliceSnack/change',
-          payload: {
-            uid: random_id(),
-            id: 'signin.snack.errorsendingpassword',
-          },
-        })
-      },
-      'auth.sendpassword.error.updatingtoken': () => {
-        appStore.dispatch({
-          type: 'signinModalSlice/change',
-          payload: {
-            sendpassword: {
-              status: 'notfound',
-            },
-          },
-        })
-        appStore.dispatch({
-          type: 'sliceSnack/change',
-          payload: {
-            uid: random_id(),
-            id: 'signin.snack.errorsendingpassword',
-          },
+            state: {
+              passwordreset: 'error'
+            }
+          }
         })
       },
     }
     console.log('response', response)
-    responses[response]()
+    responses[response.type]()
     return
   },
 }
