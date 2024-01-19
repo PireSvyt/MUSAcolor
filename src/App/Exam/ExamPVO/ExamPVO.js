@@ -38,28 +38,68 @@ export default function ExamPVO(props) {
         invalid: true
     }
     let availableColors = []
-    Object.keys(testColors).forEach(testColor => {
-        for (let c = 0; c < numberOfCols; c++) {
-            availableColors.push(testColors[testColor].color)
-        }
-    })
-    //console.log("availableColors", availableColors)
-    for (let r = 0; r < numberOfRows; r++) {
-        outcome.rows[r] = {
-            id: r,
-            cols: {},
-            invalid: true
-        }
-        for (let c = 0; c < numberOfCols; c++) {
-            outcome.rows[r].cols[c] = {
-                id: c,
-                color: availableColors.splice(Math.floor(Math.random() * availableColors.length), 1)[0],
-                state: 'visible'
+    const randmoness = 'pseudo random'
+    switch (randmoness) {
+        case 'fully random': 
+            Object.keys(testColors).forEach(testColor => {
+                for (let c = 0; c < numberOfCols; c++) {
+                    availableColors.push(testColors[testColor].color)
+                }
+            })
+            //console.log("availableColors", availableColors)
+            for (let r = 0; r < numberOfRows; r++) {
+                outcome.rows[r] = {
+                    id: r,
+                    cols: {},
+                    invalid: true
+                }
+                for (let c = 0; c < numberOfCols; c++) {
+                    outcome.rows[r].cols[c] = {
+                        id: c,
+                        color: availableColors.splice(Math.floor(Math.random() * availableColors.length), 1)[0],
+                        state: 'visible'
+                    }
+                }
             }
-        }
+            break
+        case 'pseudo random': 
+            let isPseudoRandom = true
+            Object.keys(testColors).forEach(testColor => {
+                for (let c = 0; c < numberOfCols; c++) {
+                    availableColors.push(testColors[testColor].color)
+                }
+            })
+            //console.log("availableColors", availableColors)
+            for (let r = 0; r < numberOfRows; r++) {
+                outcome.rows[r] = {
+                    id: r,
+                    cols: {},
+                    invalid: true
+                }
+                if (isPseudoRandom === true) {
+                    for (let c = 0; c < numberOfCols; c++) {
+                        let constrainedColors = availableColors.filter(availableColor => {
+                            return ! Object.values(outcome.rows[r].cols).map(selectedColor => {
+                                return selectedColor.color
+                            }).includes(availableColor)
+                        })
+                        if (constrainedColors.length === 0) {
+                            isPseudoRandom = false
+                        } else {
+                            outcome.rows[r].cols[c] = {
+                                id: c,
+                                color: constrainedColors.splice(Math.floor(Math.random() * constrainedColors.length), 1)[0],
+                                state: 'visible'
+                            }
+                        }
+                    }
+                }
+            }
+            if (isPseudoRandom === false) {
+                outcome = randomColorSelection()
+            }
+            break
     }
-    //console.log("randomColorSelection", outcome)
-    //console.log("availableColors", availableColors)
     return outcome        
   }
   function checkInputValidity() {
@@ -411,154 +451,6 @@ export default function ExamPVO(props) {
   // state
   const [stage, setStage] = useState(0)
   const [inputs, setInputs] = useState(randomColorSelection())
-  /*const [inputs, setInputs] = useState({
-    rows: {
-        0: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        1: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        2: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        3: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        4: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        5: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        6: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        7: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        8: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        9: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        10: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        },
-        11: {
-            cols: {
-                0: { color: "#D3D3D3", state: "visible" },
-                1: { color: "#D3D3D3", state: "visible" },
-                2: { color: "#D3D3D3", state: "visible" },
-                3: { color: "#D3D3D3", state: "visible" },
-                4: { color: "#D3D3D3", state: "visible" },
-                5: { color: "#D3D3D3", state: "visible" },
-                6: { color: "#D3D3D3", state: "visible" },
-                7: { color: "#D3D3D3", state: "visible" },
-            }
-        }
-    }
-  })*/
 
   return (
     <Box>
