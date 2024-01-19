@@ -416,7 +416,7 @@ export default function ExamPVO(props) {
                                 }}
                                 >
                                     <Typography>
-                                        {Math.floor(100*props.exam.analysis.colors[testColors[testColor].color]/numberOfRows) + '%'}
+                                        {Math.floor(100*props.exam.analysis.colors[testColors[testColor].color]/numberOfCols) + '%'}
                                     </Typography>
                                 </Box>
                                 <Box
