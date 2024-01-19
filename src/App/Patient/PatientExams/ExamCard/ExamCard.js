@@ -12,14 +12,14 @@ import MenuIcon from '@mui/icons-material/Menu.js'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // Services
-import { servicePatientDelete } from '../../../../services/patient.services.js'
-import ConfirmModal from '../../../../ConfirmModal/ConfirmModal.js'
-import { random_id } from '../../../../services/toolkit.js'
-import { serviceUserGetDetails } from '../../../../services/user.services.js'
+import { serviceExamDelete } from '../../../services/exam.services.js'
+import ConfirmModal from '../../../ConfirmModal/ConfirmModal.js'
+import { random_id } from '../../../services/toolkit.js'
+import { servicePatientGet } from '../../../services/patient.services.js'
 
-export default function PatientCard(props) {
+export default function ExamCard(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('PatientCard ' + props.patient.patientid)
+    console.log('ExamCard ' + props.exam.examid)
   }
   // i18n
   const { t } = useTranslation()
@@ -27,7 +27,7 @@ export default function PatientCard(props) {
   // Changes
   let changes = {
     goto: () => {
-      window.location = '/patient/' + props.patient.patientid
+      window.location = '/exam?examid=' + props.exam.examid + '&patientid=' + props.patientid
     },
     openMenu: (event) => {
       setAnchorEl(event.currentTarget)
@@ -55,14 +55,24 @@ export default function PatientCard(props) {
         setMenuOpen(false)
         setConfirmOpen(false)
         setDeleting(true)
-        servicePatientDelete(props.patient.patientid).then(() => {
+        serviceExamDelete({
+          examid: props.exam.examid,
+          patientid: props.patientid,
+        }).then(() => {
+          console.log('ExamCard/delete props', props)
           setDeleting(false)
-          serviceUserGetDetails()
+          servicePatientGet(props.patientid)
         })
         break
       default:
-        console.error('PatientCard.confirmCallback unmatched ' + choice)
+        console.error('ExamCard.confirmCallback unmatched ' + choice)
     }
+  }
+
+  function stringifyDate() {
+    let date = new Date(props.exam.date)
+    return date.toLocaleString('fr-FR')
+    //{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
   }
 
   return (
@@ -114,12 +124,14 @@ export default function PatientCard(props) {
             sx={{
               display: 'flex',
               flexDirection: 'row',
+              justifyContent: 'space-between',
               alignItems: 'center',
               width: '100%',
             }}
             onClick={changes.goto}
           >
-            <Typography>{props.patient.name}</Typography>
+            <Typography>{t('exam.exams.'+props.exam.type+'.name')}</Typography>
+            <Typography variant="caption">{stringifyDate()}</Typography>
           </Box>
         </Box>
       </Box>
@@ -128,8 +140,8 @@ export default function PatientCard(props) {
         <ConfirmModal
           open={confirmOpen}
           data={{
-            title: 'home.confirm.deletepatient.title',
-            content: 'home.confirm.deletepatient.content',
+            title: 'patient.confirm.deleteexam.title',
+            content: 'patient.confirm.deleteexam.content',
             callToActions: [
               {
                 label: 'generic.button.cancel',
@@ -154,8 +166,8 @@ export default function PatientCard(props) {
  
 
         <IconButton 
-            id={props.patient.patientid}
-            data-testid={"component-my patients-listitem-patient-button-delete patient"}
+            id={props.exam.examid}
+            data-testid={"component-my exams-listitem-exam-button-delete exam"}
             index={props.index}
             onClick={() => setConfirmOpen(true)} disabled={deleting}
         >

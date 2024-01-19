@@ -1,76 +1,150 @@
 {
-    "generic": {
-      "label": {
-        "product": "MUSAcolor©",
-        "account": "Compte",
-        "help": "Aide",
-        "patient": "Patient"
-      },
-      "menu": {
-        "home": "Accueil",
-        "account": "Mon compte",
-        "help": "Aide",
-        "signout": "Se deconnecter"
-      },
-      "input": {
-        "name": "Nom",
-        "email": "Email",
-        "password": "Mot de passe"
-      },
-      "button": {
-        "add": "Ajouter",
-        "save": "Sauver",
-        "delete": "Supprimer",
-        "select": "Selectionner",
-        "confirm": "Confirmer",
-        "cancel": "Annuler",
-        "close": "Fermer",
-        "view": "Voir",
-        "edit": "Modifier",
-        "proceed": "Procéder",
-        "tocome": "A venir...",
-        "signin": "Se connecter",
-        "tohome": "Accueil"
-      },
-      "language": {
-        "enGB": {
-          "short": "EN",
-          "long": "Anglais"
-        },
-        "frFR": {
-          "short": "FR",
-          "long": "Français"
-        },
-        "nlNL": {
-          "short": "NL",
-          "long": "Néerlandais"
-        }
-      }
+  "generic": {
+    "label": {
+      "product": "MUSAcolor©",
+      "account": "Compte",
+      "help": "Aide"
     },
-    "signin": {
-      "label": {
-        "title": "Se connecter"
-      },
-      "input": {},
-      "button": {
-        "signin": "Se connecter",
-        "resetpassword": "Mot de passe oublié?"
-      },
-      "error": {
-        "missinglogin": "email manquant",
-        "invalidlogin": "email non valide",
-        "missingpassword": "mot de passe manquant"
-      },
-      "snack": {
-        "signedin": "Connecté!",
-        "unauthorized": "Mot de passe incorrect",
-        "notfound": "Compte introuvable"
-      }
+    "menu": {
+      "home": "Accueil",
+      "account": "Mon compte",
+      "help": "Aide",
+      "signout": "Se deconnecter"
     },
-    "home": {
-        "label": {
-            "mypatients": "Mes patients"
-        }
+    "input": {
+      "name": "Nom",
+      "email": "Email",
+      "password": "Mot de passe",
+      "passwordrepeat": "Répétition du mot de passe",
+      "type": "Type"
+    },
+    "button": {
+      "add": "Ajouter",
+      "save": "Sauver",
+      "delete": "Supprimer",
+      "select": "Selectionner",
+      "confirm": "Confirmer",
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "view": "Voir",
+      "edit": "Modifier",
+      "proceed": "Procéder",
+      "tocome": "A venir...",
+      "signin": "Se connecter",
+      "tohome": "Accueil",
+      "begin": "Commencer",
+      "next": "Suivant",
+      "continue": "Continuer",
+      "finish": "Terminer"
+    },
+    "language": {
+      "enGB": {
+        "short": "EN",
+        "long": "Anglais"
+      },
+      "frFR": {
+        "short": "FR",
+        "long": "Français"
+      },
+      "nlNL": {
+        "short": "NL",
+        "long": "Néerlandais"
+      }
     }
+  },
+  "signin": {
+    "label": {
+      "title": "Se connecter",
+      "notfoundaccount": "Cet email n'est associé à aucun de nos comptes.",
+      "successsendingpassword": "Un email vous a été envoyer pour mettre à jour votre mot de passe.\nVerifiez bien vos spams."
+    },
+    "input": {},
+    "button": {
+      "signin": "Se connecter",
+      "resetpassword": "Mot de passe oublié?"
+    },
+    "error": {
+      "missinglogin": "email manquant",
+      "invalidlogin": "email non valide",
+      "missingpassword": "mot de passe manquant"
+    },
+    "snack": {
+      "signedin": "Connecté!",
+      "unauthorized": "Mot de passe incorrect",
+      "notfound": "Compte introuvable"
+    }
+  },
+  "passwordreset": {
+    "label": {
+      "title": "Renouvellement de mot de passe",
+      "explanations": "Entrez votre nouveau mot de passe,\npuis clicker sur le bouton 'continuer'.",
+      "erroronreset": "Nous n'avons pas pu mettre à jour votre mot de passe pour le moment.\nMerci de re-essayer plus pard.",
+      "successfulreset": "Votre mot de passe a été mis à jour!\nVous pouvez maintenant vous connecter..."
+    }
+  },
+  "home": {
+    "label": {
+      "mypatients": "Mes sujets",
+      "nopatients": "Aucun sujet",
+      "nopatientsexplanation": "Vous trouverez vos sujets ici à l'avenir.\nAjoutez un sujet avec l'icon '+'"
+    },
+    "confirm": {
+      "deletepatient": {
+        "title": "Suppression du sujet",
+        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à ce sujet."
+      }
+    }
+  },
+  "patient": {
+    "label": {
+      "title": "Sujet",
+      "new": "Nouveau sujet",
+      "exams": "Analyses",
+      "noexams": "Aucune analyse",
+      "noexamsexplanation": "Vous trouverez les analyses de ce sujet ici à l'avenir.\nAjoutez une analyse avec l'icon '+'"
+    },
+    "confirm": {
+      "deleteexam": {
+        "title": "Suppression de l'analyse",
+        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à cette analyse."
+      }
+    }
+  },
+  "exam": {
+    "label": {
+      "title": "Analyse",
+      "new": "Nouvelle analyse",
+      "test": "C'est à vous!",
+      "results": "Résultats",
+      "violet": "violet",
+      "indogo": "indogo",
+      "bleu": "bleu",
+      "cyan": "cyan",
+      "turquoise": "turquoise",
+      "vert": "vert",
+      "chartreuse": "chartreuse",
+      "jaune": "jaune",
+      "orange": "orange",
+      "rouge": "rouge",
+      "rubis": "rubis",
+      "magenta": "magenta"
+    },
+    "exams": {
+      "unknown": {
+        "name": "inconnue"
+      },
+      "all": {
+        "reminder": "Rappel : N'utilisez pas les touches 'retour' et 'rafraichir' durant le l'analyse.",
+        "givebackdevice": "Merci de render la tablette.",
+        "disclaimer": "Les concepteurs et les distributeurs de cette application ne peuvent être tenus responsables des interpretations de ces résultats et de leurs conséquences."
+      },
+      "pvo": {
+        "name": "PVO",
+        "intro":"Introduction",
+        "introdetails": " bla bla bla\nCONSIGNES\nbla bla bla",
+        "outro":"Outro",
+        "outrodetails": " bla bla bla\nMERCI\nbla bla bla"
+      }
+    }
+  }
 }
-  

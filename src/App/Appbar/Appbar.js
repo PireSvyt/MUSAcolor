@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import {
   AppBar,
   Toolbar,
@@ -9,161 +9,170 @@ import {
   Menu,
   MenuItem,
   Box,
-} from "@mui/material";
+} from '@mui/material'
 
-import MenuIcon from "@mui/icons-material/Menu.js";
-import CloseIcon from "@mui/icons-material/Close.js";
-import EditIcon from "@mui/icons-material/Edit.js";
+import MenuIcon from '@mui/icons-material/Menu.js'
+import CloseIcon from '@mui/icons-material/Close.js'
+import EditIcon from '@mui/icons-material/Edit.js'
 
 // Services
-import { random_id } from "../services/toolkit.js";
-import { serviceAuthAccessDeny } from "../services/auth.services.js";
+import { random_id } from '../services/toolkit.js'
+import { serviceAuthAccessDeny } from '../services/auth.services.js'
 // Components
-import LanguageSwitcher from "./LanguageSwitcher/LanguageSwitcher.js";
-import SignInModal from "./SignInModal/SignInModal.js";
-// Reducers
-import appStore from "../store.js";
+import LanguageSwitcher from './LanguageSwitcher/LanguageSwitcher.js'
+import SignInModal from './SignInModal/SignInModal.js'
+import PatientModal from './PatientModal/PatientModal.js'
+import ExamModal from './ExamModal/ExamModal.js'
 
 export default function Appbar(props) {
-  if (process.env.REACT_APP_DEBUG === "TRUE") {
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
     //console.log("Appbar");
   }
   // i18n
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   // States
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
 
   // Selects
   const select = {
     signedin: useSelector((state) => state.authSlice.signedin),
     usertype: useSelector((state) => state.userSlice.usertype),
     signInModal: useSelector((state) => state.signinModalSlice.open),
-  };
+    patientModal: useSelector((state) => state.patientModalSlice.open),
+    examModal: useSelector((state) => state.examModalSlice.open),
+  }
 
   // Handles
   const action = {
     openMenu: (event) => {
-      setAnchorEl(event.currentTarget);
-      setMenuOpen(true);
+      setAnchorEl(event.currentTarget)
+      setMenuOpen(true)
     },
     closeMenu: () => {
-      setMenuOpen(false);
+      setMenuOpen(false)
     },
     toHome: () => {
-      setMenuOpen(false);
-      window.location = "/";
+      setMenuOpen(false)
+      window.location = '/'
     },
     toHelp: () => {
-      setMenuOpen(false);
-      window.location = "/help";
+      setMenuOpen(false)
+      window.location = '/help'
     },
     toAbout: () => {
-      setMenuOpen(false);
-      window.location = "/about";
+      setMenuOpen(false)
+      window.location = '/about'
     },
     toAccount: () => {
-      setMenuOpen(false);
-      window.location = "/account";
+      setMenuOpen(false)
+      window.location = '/account'
     },
     toAdmin: () => {
-      setMenuOpen(false);
-      window.location = "/admin";
+      setMenuOpen(false)
+      window.location = '/admin'
     },
     signOut: () => {
-      setMenuOpen(false);
-      serviceAuthAccessDeny();
-      window.location = "/";
+      setMenuOpen(false)
+      serviceAuthAccessDeny()
+      window.location = '/'
     },
-  };
+  }
 
   // MenuItems
   let potentialMenuItems = {
     signOut: {
-      item: "signout",
-      label: "generic.menu.signout",
+      item: 'signout',
+      label: 'generic.menu.signout',
       onclick: () => {
-        action.signOut();
-        action.closeMenu();
+        action.signOut()
+        action.closeMenu()
       },
       signed: true,
     },
     toAccount: {
-      item: "account",
-      label: "generic.menu.account",
+      item: 'account',
+      label: 'generic.menu.account',
       onclick: action.toAccount,
       signed: true,
     },
     toHome: {
-      item: "home",
-      label: "generic.menu.home",
+      item: 'home',
+      label: 'generic.menu.home',
       onclick: action.toHome,
       signed: true,
     },
     toHelp: {
-      item: "help",
-      label: "generic.menu.help",
+      item: 'help',
+      label: 'generic.menu.help',
       onclick: action.toHelp,
       signed: false,
     },
     toAbout: {
-      item: "about",
-      label: "generic.menu.about",
+      item: 'about',
+      label: 'generic.menu.about',
       onclick: action.toAbout,
       signed: false,
     },
     toAdmin: {
-      item: "admin",
-      label: "Admin",
+      item: 'admin',
+      label: 'Admin',
       onclick: action.toAdmin,
       signed: true,
     },
-  };
+  }
 
   // Constants
-  let menuItems = [];
-  let showLanguageSwitcher = false;
+  let menuItems = []
+  let showLanguageSwitcher = false
   switch (props.route) {
-    case "home":
+    case 'home':
       //menuItems.push(potentialMenuItems.toAccount);
-      menuItems.push(potentialMenuItems.toHelp);
+      menuItems.push(potentialMenuItems.toHelp)
       //menuItems.push(potentialMenuItems.toAbout);
-      if (select.usertype === "admin") {
-        menuItems.push(potentialMenuItems.toAdmin);
+      if (select.usertype === 'admin') {
+        menuItems.push(potentialMenuItems.toAdmin)
       }
       //menuItems.push(potentialMenuItems.toContact);
-      menuItems.push(potentialMenuItems.signOut);
-      showLanguageSwitcher = true;
-      break;
-    case "patient":
-      menuItems.push(potentialMenuItems.toHome);
+      menuItems.push(potentialMenuItems.signOut)
+      showLanguageSwitcher = true
+      break
+    case 'patient':
+      menuItems.push(potentialMenuItems.toHome)
       //menuItems.push(potentialMenuItems.toAccount);
-      menuItems.push(potentialMenuItems.toHelp);
+      menuItems.push(potentialMenuItems.toHelp)
       //menuItems.push(potentialMenuItems.toAbout);
-      if (select.usertype === "admin") {
-        menuItems.push(potentialMenuItems.toAdmin);
+      if (select.usertype === 'admin') {
+        menuItems.push(potentialMenuItems.toAdmin)
       }
       //menuItems.push(potentialMenuItems.toContact);
-      menuItems.push(potentialMenuItems.signOut);
-      showLanguageSwitcher = false;
-      break;
-    case "activation":
-      showLanguageSwitcher = true;
-      break;
-    case "account":
-      showLanguageSwitcher = true;
-      break;
-    case "documentation":
-      showLanguageSwitcher = false;
-      break;
-    case "about":
-      showLanguageSwitcher = false;
-      break;
-    case "admin":
-      showLanguageSwitcher = false;
-      break;
+      menuItems.push(potentialMenuItems.signOut)
+      showLanguageSwitcher = true
+      break
+    case 'exam':
+      showLanguageSwitcher = true
+      break
+    case 'passwordreset':
+      showLanguageSwitcher = true
+      break
+    case 'activation':
+      showLanguageSwitcher = true
+      break
+    case 'account':
+      showLanguageSwitcher = true
+      break
+    case 'documentation':
+      showLanguageSwitcher = false
+      break
+    case 'about':
+      showLanguageSwitcher = false
+      break
+    case 'admin':
+      showLanguageSwitcher = false
+      break
     default:
+      console.error('Appbar unmatched route', props.route)
   }
 
   return (
@@ -172,33 +181,33 @@ export default function Appbar(props) {
         position="fixed"
         sx={{
           top: 0,
-          bottom: "auto",
+          bottom: 'auto',
         }}
-        color={props.route === "admin" ? "error" : "primary"}
-        data-testid="component-app bar" 
+        color={props.route === 'admin' ? 'error' : 'primary'}
+        data-testid="component-app bar"
       >
         <Toolbar>
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
             }}
           >
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
               }}
             >
-              <Typography 
-                variant="h6" 
-                component="div" 
+              <Typography
+                variant="h6"
+                component="div"
                 sx={{ flexGrow: 1 }}
-                data-testid="component-app bar-text-title" 
+                data-testid="component-app bar-text-title"
               >
                 {props.title}
               </Typography>
@@ -206,21 +215,21 @@ export default function Appbar(props) {
 
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
               }}
             >
-              {showLanguageSwitcher === true ? <LanguageSwitcher /> : null}
+              {/*showLanguageSwitcher === true ? <LanguageSwitcher /> : null*/}
 
               {menuItems.length !== 0 ? (
                 <Box>
-                  <IconButton 
-                    size="large" 
+                  <IconButton
+                    size="large"
                     onClick={action.openMenu}
-                    data-testid="component-app bar-button-open menu" 
+                    data-testid="component-app bar-button-open menu"
                   >
-                    <MenuIcon sx={{ color: "white" }} />
+                    <MenuIcon sx={{ color: 'white' }} />
                   </IconButton>
 
                   <Menu
@@ -228,36 +237,36 @@ export default function Appbar(props) {
                     onClose={action.closeMenu}
                     anchorEl={anchorEl}
                     MenuListProps={{
-                      "aria-labelledby": "basic-button",
+                      'aria-labelledby': 'basic-button',
                     }}
-                    data-testid="list-app bar menu" 
+                    data-testid="list-app bar menu"
                   >
                     {menuItems.map((item) => {
                       if (item.signed && select.signedin) {
                         return (
                           <MenuItem
                             hidden={!(item.signed && select.signedin)}
-                            data-testid={"list-app bar menu-listitem"}
+                            data-testid={'list-app bar menu-listitem'}
                             key={random_id()}
                             onClick={item.onclick}
                           >
                             {t(item.label)}
                           </MenuItem>
-                        );
+                        )
                       } else {
                         if (item.signed === false) {
                           return (
                             <MenuItem
                               hidden={!(item.signed && select.signedin)}
-                              data-testid={"list-app bar menu-listitem"}
+                              data-testid={'list-app bar menu-listitem'}
                               key={random_id()}
                               onClick={item.onclick}
                             >
                               {t(item.label)}
                             </MenuItem>
-                          );
+                          )
                         } else {
-                          return null;
+                          return null
                         }
                       }
                     })}
@@ -268,7 +277,7 @@ export default function Appbar(props) {
                   size="large"
                   color="inherit"
                   onClick={() => history.back()}
-                  data-testid="component-app bar-button-close menu" 
+                  data-testid="component-app bar-button-close menu"
                 >
                   <CloseIcon />
                 </IconButton>
@@ -279,6 +288,8 @@ export default function Appbar(props) {
       </AppBar>
 
       {select.signInModal === true ? <SignInModal /> : null}
+      {select.patientModal === true ? <PatientModal /> : null}
+      {select.examModal === true ? <ExamModal /> : null}
     </Box>
-  );
+  )
 }
