@@ -1093,7 +1093,7 @@ export const authPasswordResetInputs = {
       tags: ['function'],
     })
     let responses = {
-      'auth.resetpassword.success': () => {
+      'auth.passwordreset.success': () => {
         appStore.dispatch({
           type: 'passwordResetSlice/resetedpassword',
         })

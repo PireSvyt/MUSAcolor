@@ -175,8 +175,16 @@ export default function PasswordReset() {
             {'ERROR URL'}
           </Typography>
         )}
-        { select.passwordResetState.passwordreset !== 'confirmed' ? (null) : (
-          <Box>
+        { select.passwordResetState.passwordreset !== 'available' ? (null) : (
+          <Box 
+          sx={{                        
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              textAlign: 'center'
+          }}
+          >
             <Typography sx={{ p: 2, whiteSpace: 'pre-line' }} component="span" gutterBottom>
               {t('passwordreset.label.successfulreset')}
             </Typography>
