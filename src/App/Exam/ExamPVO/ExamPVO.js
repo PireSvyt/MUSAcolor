@@ -14,22 +14,86 @@ export default function ExamPVO(props) {
 
   // Const
   const flippedColor = 'lightgrey'
-  const testColors = {
-    0: { color: '#7F00FF', name: "violet" },
-    1: { color: '#0000FF', name: "indigo" },
-    2: { color: '#007FFF', name: "bleu" },
-    3: { color: '#00FFFF', name: "cyan" },
-    4: { color: '#00FFBF', name: "turquoise" },
-    5: { color: '#00FF00', name: "vert" },
-    6: { color: '#BFFF00', name: "chartreuse" },
-    7: { color: '#FFFF00', name: "jaune" },
-    8: { color: '#FF7F00', name: "orange" },
-    9: { color: '#FF0000', name: "rouge" },
-    10: { color: '#FF007F', name: "rubis" },
-    11: { color: '#FF00FF', name: "magenta" }
-  }
-  let numberOfRows = 12
+  const testColors = [
+    { color: '#7F00FF', name: "violet" },
+    { color: '#0000FF', name: "indigo" },
+    { color: '#007FFF', name: "bleu" },
+    { color: '#00FFFF', name: "cyan" },
+    { color: '#00FFBF', name: "turquoise" },
+    { color: '#00FF00', name: "vert" },
+    { color: '#BFFF00', name: "chartreuse" },
+    { color: '#FFFF00', name: "jaune" },
+    { color: '#FF7F00', name: "orange" },
+    { color: '#FF0000', name: "rouge" },
+    { color: '#FF007F', name: "rubis" },
+    { color: '#FF00FF', name: "magenta" }
+  ]
+  let numberOfRows = testColors.length
   let numberOfCols = 8
+  let debugGrid = false
+
+  function getEmptyGrid() {
+    let grid = {}
+    for (let r = 0; r < numberOfRows; r++ ) {
+        grid[r] = {}
+        for (let c = 0; c < numberOfCols; c++) {
+            grid[r][c] = undefined
+        }
+    }     
+    return grid
+  }
+  function getRow(grid, r) {
+    let row = []
+    for (let c = 0; c < numberOfCols; c++) {
+        row.push(grid[r][c])
+    }     
+    return row
+  }
+  function setRow(grid, r, newRow) {
+    /*if (newRow.length !== numberOfRows) {
+        console.log("! setRow with inconsistent data")
+        return undefined
+    } else {*/
+        let newGrid = {...grid}
+        for (let c = 0; c < numberOfRows; c++) {
+            newGrid[r][c] = newRow[c]
+        }   
+        return newGrid  
+    //}
+  }
+  function getColumn(grid, c) {
+    let column = []
+    for (let r = 0; r < numberOfRows; r++ ) {
+        column.push(grid[r][c])
+    }     
+    return column
+  }
+  function setColumn(grid, c, newColumn) {
+    //console.log("setColumn " + c + " with " + newColumn)
+    let newGrid = {...grid}
+    for (let r = 0; r < numberOfRows; r++) {
+        newGrid[r][c] = newColumn[r] + ''
+    }   
+    return newGrid  
+  }
+  function shuffleList (list) {
+    let newList = []
+    let listLength = 0 + list.length
+    for (let l = 0; l < listLength; l++) {
+        newList.push(list.splice(Math.floor(Math.random() * list.length), 1)[0])
+    }
+    return newList
+  }
+  function removeDuplicate (list) {
+    let noDuplicateList = [];
+    for(let l = 0; l < list.length; l++) {
+        if (list.indexOf(list[l])
+            !== list.lastIndexOf(list[l])) {
+                noDuplicateList.push(list[l]);
+        }
+    }
+    return [...new Set(noDuplicateList)]
+  }
 
   // Functions
   function randomColorSelection() {
@@ -38,9 +102,9 @@ export default function ExamPVO(props) {
         invalid: true
     }
     let availableColors = []
-    const randmoness = 'pseudo random'
+    const randmoness = 'pseudorandom'
     switch (randmoness) {
-        case 'fully random': 
+        case 'fullyrandom': 
             Object.keys(testColors).forEach(testColor => {
                 for (let c = 0; c < numberOfCols; c++) {
                     availableColors.push(testColors[testColor].color)
@@ -62,45 +126,65 @@ export default function ExamPVO(props) {
                 }
             }
             break
-        case 'pseudo random': 
-            let isPseudoRandom = true
-            Object.keys(testColors).forEach(testColor => {
-                for (let c = 0; c < numberOfCols; c++) {
-                    availableColors.push(testColors[testColor].color)
+        case 'pseudorandom':
+            let initialGrid = getEmptyGrid()
+            // Get tiles
+            for (let r = 0; r < numberOfRows; r++ ) {
+                for (let c = 0; c < numberOfCols; c++ ) {
+                    availableColors.push(testColors[r].color)
                 }
-            })
-            //console.log("availableColors", availableColors)
+            } 
+            // Fill in tiles
+            for (let c = 0; c < numberOfCols; c++ ) {
+                for (let r = 0; r < numberOfRows; r++ ) {
+                    initialGrid[r][c] = availableColors.pop()
+                }
+            }
+            // Suffle rows
+            for (let r = 0; r < numberOfRows; r++ ) {
+                let currentRow = getRow(initialGrid, r)
+                currentRow = shuffleList(currentRow)
+                initialGrid = setRow(initialGrid, r, currentRow)
+            }
+            // Wrapping as outcome
             for (let r = 0; r < numberOfRows; r++) {
                 outcome.rows[r] = {
                     id: r,
                     cols: {},
                     invalid: true
                 }
-                if (isPseudoRandom === true) {
-                    for (let c = 0; c < numberOfCols; c++) {
-                        let constrainedColors = availableColors.filter(availableColor => {
-                            return ! Object.values(outcome.rows[r].cols).map(selectedColor => {
-                                return selectedColor.color
-                            }).includes(availableColor)
-                        })
-                        if (constrainedColors.length === 0) {
-                            isPseudoRandom = false
-                        } else {
-                            outcome.rows[r].cols[c] = {
-                                id: c,
-                                color: constrainedColors.splice(Math.floor(Math.random() * constrainedColors.length), 1)[0],
-                                state: 'visible'
-                            }
-                        }
+                for (let c = 0; c < numberOfCols; c++) {
+                    outcome.rows[r].cols[c] = {
+                        id: c,
+                        color: initialGrid[r][c] + '',
+                        state: 'visible'
                     }
                 }
             }
-            if (isPseudoRandom === false) {
-                outcome = randomColorSelection()
-            }
             break
     }
-    return outcome        
+    logOutcome()
+    return outcome 
+    
+    function logOutcome() {
+        let colorCount = {}
+        testColors.forEach(testColor => {
+            colorCount[testColor.color] = {
+                count: 0,
+                name: testColor.name
+            }
+        })
+        Object.keys(outcome.rows).map(row => {
+            Object.keys(outcome.rows[row].cols).map(col => {
+                if (Object.keys(colorCount).includes(outcome.rows[row].cols[col].color)) {
+                    colorCount[outcome.rows[row].cols[col].color].count += 1
+                }
+            })
+        })
+        Object.values(colorCount).forEach(colorCounted => {
+            console.log(colorCounted.count + '\t' + colorCounted.name)
+        })
+    }      
   }
   function checkInputValidity() {
     let currentInputs = {...inputs}
@@ -183,13 +267,6 @@ export default function ExamPVO(props) {
                     >
                         {t('exam.exams.'+props.exam.type+'.introdetails')}
                     </Typography>
-                    <Box sx={{
-                        height: 100,
-                        width: 200,
-                        background: 'yellow'
-                    }}>
-
-                    </Box>
                     <Typography
                         sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
                         component="span"
@@ -335,13 +412,6 @@ export default function ExamPVO(props) {
             >
                 {t('exam.exams.'+props.exam.type+'.outrodetails')}
             </Typography>
-            <Box sx={{
-                height: 100,
-                width: 200,
-                background: 'yellow'
-            }}>
-
-            </Box>
             <Typography
                 sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
                 component="span"
@@ -416,7 +486,7 @@ export default function ExamPVO(props) {
                                 }}
                                 >
                                     <Typography>
-                                        {Math.floor(100*props.exam.analysis.colors[testColors[testColor].color]/numberOfRows) + '%'}
+                                        {Math.floor(100*props.exam.analysis.colors[testColors[testColor].color]/numberOfCols) + '%'}
                                     </Typography>
                                 </Box>
                                 <Box
