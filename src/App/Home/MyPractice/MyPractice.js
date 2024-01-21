@@ -16,8 +16,10 @@ export default function MyPractice() {
   const { t } = useTranslation()
 
   return (
-    <Box>
-      <MyPatients />
+    <Box
+    >
+      <MyPatients 
+      />
     </Box>
   )
 }

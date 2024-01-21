@@ -42,19 +42,32 @@ export default function Patient() {
   return (
     <Box>
       <Appbar route="patient" title={t('patient.label.title')} />
-      <Box sx={{ height: 80 }} />
+      <Box sx={{ height: 100 }} />
       {select.authloaded === true &&
       select.signedin === true &&
       select.patientState.details === 'available' ? (
-        <Box>
-          <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
+        <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+        >
+          <Box
+            sx={{
+              width: '80%',
+              textAlign: 'center',
+            }}
+          >
+          <Typography component="span" variant="h5" gutterBottom>
             {select.patientName}
           </Typography>
           <PatientExams />
+          </Box>
         </Box>
       ) : (
         <Box sx={{ left: '10%', right: '10%' }}>
-          <LinearProgress color="secondary" />
+          <LinearProgress />
         </Box>
       )}
     </Box>

@@ -32,6 +32,125 @@ export default function ExamPVO(props) {
   let numberOfCols = 8
   let debugGrid = false
 
+  // Functions
+  function randomColorSelection() {
+    let outcome = {
+        rows: {},
+        invalid: true
+    }
+    let availableColors = []
+    const randmoness = 'pseudorandom'
+    switch (randmoness) {
+        case 'fullyrandom': 
+            Object.keys(testColors).forEach(testColor => {
+                for (let c = 0; c < numberOfCols; c++) {
+                    availableColors.push(testColors[testColor].color)
+                }
+            })
+            //console.log("availableColors", availableColors)
+            for (let r = 0; r < numberOfRows; r++) {
+                outcome.rows[r] = {
+                    id: r,
+                    cols: {},
+                    invalid: true
+                }
+                for (let c = 0; c < numberOfCols; c++) {
+                    outcome.rows[r].cols[c] = {
+                        id: c,
+                        color: availableColors.splice(Math.floor(Math.random() * availableColors.length), 1)[0],
+                        state: 'visible'
+                    }
+                }
+            }
+            break
+        case 'pseudorandom':
+            let initialGrid = getEmptyGrid()
+            // Get tiles
+            for (let r = 0; r < numberOfRows; r++ ) {
+                for (let c = 0; c < numberOfCols; c++ ) {
+                    availableColors.push(testColors[r].color)
+                }
+            } 
+            // Fill in tiles
+            for (let c = 0; c < numberOfCols; c++ ) {
+                for (let r = 0; r < numberOfRows; r++ ) {
+                    initialGrid[r][c] = availableColors.pop()
+                }
+            }
+            // Suffle tiles within rows
+            for (let r = 0; r < numberOfRows; r++ ) {
+                let currentRow = getRow(initialGrid, r)
+                currentRow = shuffleList(currentRow)
+                initialGrid = setRow(initialGrid, r, currentRow)
+            }
+            // Suffle rows
+            //initialGrid = shuffleList(initialGrid)
+            // Wrapping as outcome
+            for (let r = 0; r < numberOfRows; r++) {
+                outcome.rows[r] = {
+                    id: r,
+                    cols: {},
+                    invalid: true
+                }
+                for (let c = 0; c < numberOfCols; c++) {
+                    outcome.rows[r].cols[c] = {
+                        id: c,
+                        color: initialGrid[r][c] + '',
+                        state: 'visible'
+                    }
+                }
+            }
+            break
+    }
+    logOutcome()
+    return outcome 
+    
+    function logOutcome() {
+        let colorCount = {}
+        testColors.forEach(testColor => {
+            colorCount[testColor.color] = {
+                count: 0,
+                name: testColor.name
+            }
+        })
+        Object.keys(outcome.rows).map(row => {
+            Object.keys(outcome.rows[row].cols).map(col => {
+                if (Object.keys(colorCount).includes(outcome.rows[row].cols[col].color)) {
+                    colorCount[outcome.rows[row].cols[col].color].count += 1
+                }
+            })
+        })
+        if (debugGrid) {
+            Object.values(colorCount).forEach(colorCounted => {
+                console.log(colorCounted.count + '\t' + colorCounted.name)
+            })
+        }
+    }      
+  }
+  function checkInputValidity() {
+    let currentInputs = {...inputs}
+    let overallIsInvalid = false
+    Object.keys(inputs.rows).forEach(row => {
+        let rowFlips = 0
+        Object.keys(inputs.rows[row].cols).forEach(col => {
+            if (inputs.rows[row].cols[col].state === 'hidden') {
+                rowFlips += 1
+            }
+        })
+        if (rowFlips !== 4) {
+            overallIsInvalid = true
+            currentInputs.rows[row].invalid = true
+        } else {
+            currentInputs.rows[row].invalid = false
+        }
+    })
+    currentInputs.invalid = overallIsInvalid
+
+    // WORKAROUND
+    //currentInputs.invalid = false
+
+    setInputs(currentInputs)
+  }
   function getEmptyGrid() {
     let grid = {}
     for (let r = 0; r < numberOfRows; r++ ) {
@@ -95,121 +214,6 @@ export default function ExamPVO(props) {
     return [...new Set(noDuplicateList)]
   }
 
-  // Functions
-  function randomColorSelection() {
-    let outcome = {
-        rows: {},
-        invalid: true
-    }
-    let availableColors = []
-    const randmoness = 'pseudorandom'
-    switch (randmoness) {
-        case 'fullyrandom': 
-            Object.keys(testColors).forEach(testColor => {
-                for (let c = 0; c < numberOfCols; c++) {
-                    availableColors.push(testColors[testColor].color)
-                }
-            })
-            //console.log("availableColors", availableColors)
-            for (let r = 0; r < numberOfRows; r++) {
-                outcome.rows[r] = {
-                    id: r,
-                    cols: {},
-                    invalid: true
-                }
-                for (let c = 0; c < numberOfCols; c++) {
-                    outcome.rows[r].cols[c] = {
-                        id: c,
-                        color: availableColors.splice(Math.floor(Math.random() * availableColors.length), 1)[0],
-                        state: 'visible'
-                    }
-                }
-            }
-            break
-        case 'pseudorandom':
-            let initialGrid = getEmptyGrid()
-            // Get tiles
-            for (let r = 0; r < numberOfRows; r++ ) {
-                for (let c = 0; c < numberOfCols; c++ ) {
-                    availableColors.push(testColors[r].color)
-                }
-            } 
-            // Fill in tiles
-            for (let c = 0; c < numberOfCols; c++ ) {
-                for (let r = 0; r < numberOfRows; r++ ) {
-                    initialGrid[r][c] = availableColors.pop()
-                }
-            }
-            // Suffle rows
-            for (let r = 0; r < numberOfRows; r++ ) {
-                let currentRow = getRow(initialGrid, r)
-                currentRow = shuffleList(currentRow)
-                initialGrid = setRow(initialGrid, r, currentRow)
-            }
-            // Wrapping as outcome
-            for (let r = 0; r < numberOfRows; r++) {
-                outcome.rows[r] = {
-                    id: r,
-                    cols: {},
-                    invalid: true
-                }
-                for (let c = 0; c < numberOfCols; c++) {
-                    outcome.rows[r].cols[c] = {
-                        id: c,
-                        color: initialGrid[r][c] + '',
-                        state: 'visible'
-                    }
-                }
-            }
-            break
-    }
-    logOutcome()
-    return outcome 
-    
-    function logOutcome() {
-        let colorCount = {}
-        testColors.forEach(testColor => {
-            colorCount[testColor.color] = {
-                count: 0,
-                name: testColor.name
-            }
-        })
-        Object.keys(outcome.rows).map(row => {
-            Object.keys(outcome.rows[row].cols).map(col => {
-                if (Object.keys(colorCount).includes(outcome.rows[row].cols[col].color)) {
-                    colorCount[outcome.rows[row].cols[col].color].count += 1
-                }
-            })
-        })
-        Object.values(colorCount).forEach(colorCounted => {
-            console.log(colorCounted.count + '\t' + colorCounted.name)
-        })
-    }      
-  }
-  function checkInputValidity() {
-    let currentInputs = {...inputs}
-    let overallIsInvalid = false
-    Object.keys(inputs.rows).forEach(row => {
-        let rowFlips = 0
-        Object.keys(inputs.rows[row].cols).forEach(col => {
-            if (inputs.rows[row].cols[col].state === 'hidden') {
-                rowFlips += 1
-            }
-        })
-        if (rowFlips !== 4) {
-            overallIsInvalid = true
-            currentInputs.rows[row].invalid = true
-        } else {
-            currentInputs.rows[row].invalid = false
-        }
-    })
-    currentInputs.invalid = overallIsInvalid
-
-    // WORKAROUND
-    //currentInputs.invalid = false
-
-    setInputs(currentInputs)
-  }
 
   // Changes
   let changes = {
@@ -260,15 +264,16 @@ export default function ExamPVO(props) {
                     </Typography>
 
                     <Typography
-                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
+                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
                         variant="h6"
                         component="span"
                         align="center"
                     >
                         {t('exam.exams.'+props.exam.type+'.introdetails')}
                     </Typography>
+                    
                     <Typography
-                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
+                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
                         component="span"
                         align="center"
                         variant="caption"
@@ -292,7 +297,10 @@ export default function ExamPVO(props) {
         name: "test",
         render: () => {
             const m = 3
-            const tileSize = (window.innerHeight/2)/numberOfRows
+            const tileSize = Math.min(
+                (window.innerHeight - 300 - numberOfRows * m)/numberOfRows,
+                (window.innerWidth - 180 - numberOfCols * m )/(numberOfCols + 2)
+            )
             return (
                 <Box
                     sx={{                        
@@ -303,9 +311,7 @@ export default function ExamPVO(props) {
                         alignItems: 'center',
                     }}
                 >
-                    <Typography sx={{ p: 2 }} component="span" variant="h6">
-                        {t("exam.label.test")}
-                    </Typography>
+                    <Box/>
 
                     <Box>
                         {Object.keys(inputs.rows).map(row => {
@@ -405,20 +411,12 @@ export default function ExamPVO(props) {
             </Typography>
 
             <Typography
-                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
+                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
                 variant="h6"
                 component="span"
                 align="center"
             >
-                {t('exam.exams.'+props.exam.type+'.outrodetails')}
-            </Typography>
-            <Typography
-                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
-                component="span"
-                align="center"
-                variant="caption"
-            >
-                {t('exam.exams.all.givebackdevice')}
+            {t('exam.exams.all.givebackdevice')}
             </Typography>
 
             <Button

@@ -134,16 +134,15 @@
         "name": "inconnue"
       },
       "all": {
-        "reminder": "Rappel : N'utilisez pas les touches 'retour' et 'rafraichir' durant le l'analyse.",
-        "givebackdevice": "Merci de render la tablette.",
+        "reminder": "N'utilisez pas les touches 'retour' et 'rafraichir' durant le l'analyse.",
+        "givebackdevice": "Vous pouvez rendre la tablette à votre praticien qui va procéder à son analyse.\n\nMERCI",
         "disclaimer": "Les concepteurs et les distributeurs de cette application ne peuvent être tenus responsables des interpretations de ces résultats et de leurs conséquences."
       },
       "pvo": {
         "name": "PVO",
-        "intro":"Introduction",
-        "introdetails": " bla bla bla\nCONSIGNES\nbla bla bla",
-        "outro":"Outro",
-        "outrodetails": " bla bla bla\nMERCI\nbla bla bla"
+        "intro":"Test d’analyse des couleurs",
+        "introdetails": "CONSIGNES\nUn tableau de couleurs va apparaître à la page suivante.\nVous devrez éliminer 4 couleurs sur chacune des lignes en touchant les cases de couleurs à éliminer.\nEliminez les couleurs qui ne vous conviennent pas ou que vous rejetez. Pour cela laissez votre intuition vous guider. Ne réfléchissez pas.\n\nVous pouvez commencer.",
+        "outro":"Vous avez terminé votre test."
       }
     }
   }
