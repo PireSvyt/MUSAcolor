@@ -110,7 +110,8 @@ export default function ExamLuscher8(props) {
     },
     flip: (c) => {
         let currentInputs = {...inputs}
-        if (currentInputs.rows[c.row].invalid === true) {
+        if (currentInputs.rows[c.row].invalid === true
+            && currentInputs.rows[c.row].cols[c.col].state === 'visible') {
             if (currentInputs.rows[c.row].cols[c.col].state == 'visible') {
                 currentInputs.rows[c.row].cols[c.col].state = 'hidden'
                 currentInputs.rows[c.row].cols[c.col].time =  Date.now()
@@ -269,7 +270,7 @@ export default function ExamLuscher8(props) {
                 >
                     
                     <Typography sx={{ p: 2 }} component="span" variant="h6" gutterBottom>
-                        {t('exam.exams.'+props.exam.type+'.intro')}
+                        {t('exam.exams.'+props.exam.type+'.intro2')}
                     </Typography>
 
                     <Typography
@@ -278,7 +279,7 @@ export default function ExamLuscher8(props) {
                         component="span"
                         align="center"
                     >
-                        {t('exam.exams.'+props.exam.type+'.introdetails')}
+                        {t('exam.exams.'+props.exam.type+'.intro2details')}
                     </Typography>
                     
                     <Typography
@@ -324,7 +325,7 @@ export default function ExamLuscher8(props) {
 
                     <Box>
                         <Box
-                            key={'row-'+1.1}
+                            key={'row-'+1.2}
                             sx={{                        
                                 display: 'flex',
                                 flexDirection: 'row',
@@ -424,62 +425,52 @@ export default function ExamLuscher8(props) {
                 {t('exam.label.results')}
             </Typography>
 
-            <Box>
-                {Object.keys(testColors).map(testColor => {
-                    //console.log("testColor", testColor, testColors[testColor])
-                    //console.log("props.exam.analysis.colors", props.exam.analysis.colors[testColors[testColor].color])
+            <Box
+            sx={{                        
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                height: window.innerHeight/3
+            }}
+            >   
+                <Box/>
+                {Object.keys(props.exam.analysis.rows).map(row => {
                     return (
                         <Box
-                        key={'color-'+testColors[testColor].color}
+                        key={'analysis-row-'+row}
                         sx={{                        
-                            display: 'flex',
+                            display: 'inline-flex',
                             flexDirection: 'row',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            width: tileSize * 14,
+                            width: window.innerWidth/2
                         }}
                         >
-                            <Box
-                                sx={{   
-                                    m: m+'px',                     
-                                    height: tileSize,
-                                    width: tileSize * props.exam.analysis.colors[testColors[testColor].color],
-                                    background: testColors[testColor].color
-                                }}
-                            />
-                            <Box
-                            sx={{                        
-                                display: 'flex',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                            }}
-                            >
-                                <Box
-                                sx={{               
-                                    width: tileSize * 2,
-                                    textAlign: 'right',
-                                    m: 0.5,
-                                }}
-                                >
-                                    <Typography>
-                                        {Math.floor(100*props.exam.analysis.colors[testColors[testColor].color]/numberOfCols) + '%'}
-                                    </Typography>
-                                </Box>
-                                <Box
-                                sx={{               
-                                    width: tileSize * 3,
-                                    textAlign: 'left',
-                                    m: 0.5,
-                                }}
-                                >
-                                    <Typography color="grey">
-                                        {t("exam.label."+testColors[testColor].name)}
-                                    </Typography>
-                                </Box>
-                            </Box>
+                            {Object.keys(props.exam.analysis.rows[row].terms).map(term => {
+                                return (
+                                    <Box
+                                    key={'analysis-row-'+row+'-term-'+term}
+                                    sx={{                        
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-evenly',
+                                        textAlign: 'center'
+                                    }}
+                                    >
+                                        <Typography variant='h5'>
+                                            {t('exam.exams.'+props.exam.type+'.'+term)}
+                                        </Typography>
+                                        <Typography variant='h5'>
+                                            {props.exam.analysis.rows[row].terms[term][0] + " " + props.exam.analysis.rows[row].terms[term][1]}
+                                        </Typography>
+                                    </Box>
+                                )
+                            })}
                         </Box>
                     )
                 })}
+                <Box/>
             </Box>
 
             <Typography
