@@ -108,9 +108,9 @@ export default function SignInModal() {
       >
         <DialogTitle>{t('signin.label.title')}</DialogTitle>
         <DialogContent
-          sx={{
+          /*sx={{
             height: componentHeight,
-          }}
+          }}*/
         >
           <Box
             component="form"
