@@ -28,10 +28,10 @@ export default function Home() {
   return (
     <Box>
       <Appbar route="home" title={t('generic.label.product')} />
-      <Box sx={{ height: 80 }} />
+      <Box sx={{ height: 100 }} />
       {select.loaded === false ? (
         <Box sx={{ left: '10%', right: '10%' }}>
-          <LinearProgress color="secondary" />
+          <LinearProgress />
         </Box>
       ) : select.signedin === false ? (
         <Landing />
@@ -44,7 +44,7 @@ export default function Home() {
         </Box>
       ) : (
         <Box sx={{ left: '10%', right: '10%' }}>
-          <LinearProgress color="secondary" />
+          <LinearProgress />
         </Box>
       )}
     </Box>

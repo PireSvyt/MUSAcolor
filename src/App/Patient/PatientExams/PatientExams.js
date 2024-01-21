@@ -10,7 +10,7 @@ import {
   ListItem,
 } from '@mui/material'
 import SmsFailedIcon from '@mui/icons-material/SmsFailed'
-import AddIcon from '@mui/icons-material/Add.js'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LinearProgress from '@mui/material/LinearProgress'
 
 // Components
@@ -50,14 +50,14 @@ export default function PatientExams() {
         <Typography sx={{ p: 2 }} variant="h6" component="span">
           {t('patient.label.exams')}
         </Typography>
-        <IconButton sx={{ p: 2 }} onClick={changes.new} color="secondary">
-          <AddIcon />
+        <IconButton sx={{ p: 2 }} onClick={changes.new} color='primary'>
+          <AddCircleIcon />
         </IconButton>
       </Stack>
 
       {select.patientState.details !== 'available' ? (
         <Box sx={{ left: '10%', right: '10%' }}>
-          <LinearProgress color="secondary" />
+          <LinearProgress/>
         </Box>
       ) : select.patientExams.length === 0 ? (
         <Box

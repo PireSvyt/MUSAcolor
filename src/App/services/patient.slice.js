@@ -31,10 +31,13 @@ const patientSlice = createSlice({
 export default patientSlice.reducer
 
 function sortExams(exams) {
-  let sortedExams = exams.sort(compareExams)
+  let sortedExams = [...exams]
+  sortedExams.sort(compareExams)
   return sortedExams
 
   function compareExams(a, b) {
-    return a.date - b.date
+    let aDate = new Date(a.date)
+    let bDate = new Date(b.date)
+    return bDate - aDate
   }
 }

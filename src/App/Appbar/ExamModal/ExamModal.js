@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Button,
-  TextField,
+  FormLabel,
   Box,
   Dialog,
   DialogActions,
@@ -11,7 +11,10 @@ import {
   FormControl,
   Select,
   InputLabel,
-  MenuItem
+  MenuItem,
+  FormControlLabel,
+  Radio,
+  RadioGroup
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
@@ -88,9 +91,9 @@ export default function ExamModal() {
       <Dialog open={select.open} onClose={changes.close} fullWidth={true}>
         <DialogTitle>{t('exam.label.new')}</DialogTitle>
         <DialogContent
-          sx={{
-            height: componentHeight,
-          }}
+          //sx={{
+          //  height: componentHeight,
+          //}}
         >
           <Box
             component="form"
@@ -100,16 +103,18 @@ export default function ExamModal() {
               justifyContent: 'space-evenly',
             }}
           >
-            <FormControl variant="standard">
-              <InputLabel>{t("generic.input.type")}</InputLabel>
-              <Select
-                value={select.inputs.type}
-                label={t("generic.input.type")}
+            <FormControl>
+              <FormLabel>
+                {t("generic.input.type")}
+              </FormLabel>
+              <RadioGroup
+                defaultValue={select.inputs.type}
+                name="radio-buttons-group"
                 onChange={changes.type}
-                error={select.errors.type}
               >
-                <MenuItem value={'pvo'}>{t('exam.exams.pvo.name')}</MenuItem>
-              </Select>
+                <FormControlLabel value="pvo" control={<Radio />} label={t('exam.exams.pvo.name')} />
+                <FormControlLabel value='luscher8' control={<Radio />} label={t('exam.exams.luscher8.name')} />
+              </RadioGroup>
             </FormControl>
           </Box>
         </DialogContent>

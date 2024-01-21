@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Typography, IconButton } from '@mui/material'
-import LinearProgress from '@mui/material/LinearProgress'
-import DoneIcon from '@mui/icons-material/Done';
+import { Box, Button, Typography } from '@mui/material'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import {getRow, setRow, shuffleList} from '../utils.js'
 
 
 export default function ExamPVO(props) {
@@ -31,69 +31,6 @@ export default function ExamPVO(props) {
   let numberOfRows = testColors.length
   let numberOfCols = 8
   let debugGrid = false
-
-  function getEmptyGrid() {
-    let grid = {}
-    for (let r = 0; r < numberOfRows; r++ ) {
-        grid[r] = {}
-        for (let c = 0; c < numberOfCols; c++) {
-            grid[r][c] = undefined
-        }
-    }     
-    return grid
-  }
-  function getRow(grid, r) {
-    let row = []
-    for (let c = 0; c < numberOfCols; c++) {
-        row.push(grid[r][c])
-    }     
-    return row
-  }
-  function setRow(grid, r, newRow) {
-    /*if (newRow.length !== numberOfRows) {
-        console.log("! setRow with inconsistent data")
-        return undefined
-    } else {*/
-        let newGrid = {...grid}
-        for (let c = 0; c < numberOfRows; c++) {
-            newGrid[r][c] = newRow[c]
-        }   
-        return newGrid  
-    //}
-  }
-  function getColumn(grid, c) {
-    let column = []
-    for (let r = 0; r < numberOfRows; r++ ) {
-        column.push(grid[r][c])
-    }     
-    return column
-  }
-  function setColumn(grid, c, newColumn) {
-    //console.log("setColumn " + c + " with " + newColumn)
-    let newGrid = {...grid}
-    for (let r = 0; r < numberOfRows; r++) {
-        newGrid[r][c] = newColumn[r] + ''
-    }   
-    return newGrid  
-  }
-  function shuffleList (list) {
-    let newList = []
-    let listLength = 0 + list.length
-    for (let l = 0; l < listLength; l++) {
-        newList.push(list.splice(Math.floor(Math.random() * list.length), 1)[0])
-    }
-    return newList
-  }
-  function removeDuplicate (list) {
-    let noDuplicateList = [];
-    for(let l = 0; l < list.length; l++) {
-        if (list.indexOf(list[l])
-            !== list.lastIndexOf(list[l])) {
-                noDuplicateList.push(list[l]);
-        }
-    }
-    return [...new Set(noDuplicateList)]
-  }
 
   // Functions
   function randomColorSelection() {
@@ -140,12 +77,14 @@ export default function ExamPVO(props) {
                     initialGrid[r][c] = availableColors.pop()
                 }
             }
-            // Suffle rows
+            // Suffle tiles within rows
             for (let r = 0; r < numberOfRows; r++ ) {
                 let currentRow = getRow(initialGrid, r)
                 currentRow = shuffleList(currentRow)
                 initialGrid = setRow(initialGrid, r, currentRow)
             }
+            // Suffle rows
+            //initialGrid = shuffleList(initialGrid)
             // Wrapping as outcome
             for (let r = 0; r < numberOfRows; r++) {
                 outcome.rows[r] = {
@@ -181,9 +120,11 @@ export default function ExamPVO(props) {
                 }
             })
         })
-        Object.values(colorCount).forEach(colorCounted => {
-            console.log(colorCounted.count + '\t' + colorCounted.name)
-        })
+        if (debugGrid) {
+            Object.values(colorCount).forEach(colorCounted => {
+                console.log(colorCounted.count + '\t' + colorCounted.name)
+            })
+        }
     }      
   }
   function checkInputValidity() {
@@ -210,6 +151,16 @@ export default function ExamPVO(props) {
 
     setInputs(currentInputs)
   }
+  function getEmptyGrid() {
+    let grid = {}
+    for (let r = 0; r < numberOfRows; r++ ) {
+        grid[r] = {}
+        for (let c = 0; c < numberOfCols; c++) {
+            grid[r][c] = undefined
+        }
+    }     
+    return grid
+  }
 
   // Changes
   let changes = {
@@ -218,14 +169,17 @@ export default function ExamPVO(props) {
     },
     flip: (c) => {
         let currentInputs = {...inputs}
-        if (currentInputs.rows[c.row].cols[c.col].state == 'visible') {
-            currentInputs.rows[c.row].cols[c.col].state = 'hidden'
-        } else {
-            currentInputs.rows[c.row].cols[c.col].state = 'visible'
+        if (currentInputs.rows[c.row].invalid === true 
+            && currentInputs.rows[c.row].cols[c.col].state === 'visible') {
+            if (currentInputs.rows[c.row].cols[c.col].state == 'visible') {
+                currentInputs.rows[c.row].cols[c.col].state = 'hidden'
+            } else {
+                currentInputs.rows[c.row].cols[c.col].state = 'visible'
+            }
+            setInputs(currentInputs)
+            // Check inputs
+            checkInputValidity()
         }
-        setInputs(currentInputs)
-        // Check inputs
-        checkInputValidity()
     },
     store: () => {
         props.store({
@@ -260,15 +214,16 @@ export default function ExamPVO(props) {
                     </Typography>
 
                     <Typography
-                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
+                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
                         variant="h6"
                         component="span"
                         align="center"
                     >
                         {t('exam.exams.'+props.exam.type+'.introdetails')}
                     </Typography>
+                    
                     <Typography
-                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
+                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
                         component="span"
                         align="center"
                         variant="caption"
@@ -292,7 +247,10 @@ export default function ExamPVO(props) {
         name: "test",
         render: () => {
             const m = 3
-            const tileSize = (window.innerHeight/2)/numberOfRows
+            const tileSize = Math.min(
+                (window.innerHeight - 300 - numberOfRows * m)/numberOfRows,
+                (window.innerWidth - 180 - numberOfCols * m )/(numberOfCols + 2)
+            )
             return (
                 <Box
                     sx={{                        
@@ -303,9 +261,7 @@ export default function ExamPVO(props) {
                         alignItems: 'center',
                     }}
                 >
-                    <Typography sx={{ p: 2 }} component="span" variant="h6">
-                        {t("exam.label.test")}
-                    </Typography>
+                    <Box/>
 
                     <Box>
                         {Object.keys(inputs.rows).map(row => {
@@ -365,7 +321,7 @@ export default function ExamPVO(props) {
                                         }}
                                         
                                     >
-                                        <DoneIcon color={
+                                        <CheckCircleIcon color={
                                             inputs.rows[row].invalid === true 
                                             ? 'disabled'
                                             : "success"
@@ -405,20 +361,12 @@ export default function ExamPVO(props) {
             </Typography>
 
             <Typography
-                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
+                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
                 variant="h6"
                 component="span"
                 align="center"
             >
-                {t('exam.exams.'+props.exam.type+'.outrodetails')}
-            </Typography>
-            <Typography
-                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
-                component="span"
-                align="center"
-                variant="caption"
-            >
-                {t('exam.exams.all.givebackdevice')}
+            {t('exam.exams.all.givebackdevice')}
             </Typography>
 
             <Button
