@@ -111,7 +111,8 @@ export default function ExamLuscher8(props) {
     flip: (c) => {
         let currentInputs = {...inputs}
         if (currentInputs.rows[c.row].invalid === true
-            && currentInputs.rows[c.row].cols[c.col].state === 'visible') {
+            //&& currentInputs.rows[c.row].cols[c.col].state === 'visible'
+            ) {
             if (currentInputs.rows[c.row].cols[c.col].state == 'visible') {
                 currentInputs.rows[c.row].cols[c.col].state = 'hidden'
                 currentInputs.rows[c.row].cols[c.col].time =  Date.now()
