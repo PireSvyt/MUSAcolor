@@ -127,7 +127,7 @@ export default function Exam() {
         </Box>
       ) : (
         <Box sx={{ left: '10%', right: '10%' }}>
-          <LinearProgress color="secondary" />
+          <LinearProgress />
         </Box>
       )}
     </Box>
