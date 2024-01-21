@@ -140,8 +140,14 @@
       },
       "pvo": {
         "name": "PVO",
-        "intro":"Test d’analyse des couleurs",
+        "intro":"Test d'analyse des couleurs",
         "introdetails": "CONSIGNES\nUn tableau de couleurs va apparaître à la page suivante.\nVous devrez éliminer 4 couleurs sur chacune des lignes en touchant les cases de couleurs à éliminer.\nEliminez les couleurs qui ne vous conviennent pas ou que vous rejetez. Pour cela laissez votre intuition vous guider. Ne réfléchissez pas.\n\nVous pouvez commencer.",
+        "outro":"Vous avez terminé votre test."
+      },
+      "luscher8": {
+        "name": "Lusher (8)",
+        "intro":"Test d'analyse des couleurs",
+        "introdetails": "CONSIGNES\nBLA BLA BLA\n\nVous pouvez commencer.",
         "outro":"Vous avez terminé votre test."
       }
     }

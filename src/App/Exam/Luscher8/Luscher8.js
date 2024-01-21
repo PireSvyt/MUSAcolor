@@ -5,9 +5,9 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {getRow, setRow, shuffleList} from '../utils.js'
 
 
-export default function ExamPVO(props) {
+export default function ExamLuscher8(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('ExamPVO')//, props.exam)
+    console.log('ExamLuscher8')//, props.exam)
   }
   // i18n
   const { t } = useTranslation()
@@ -15,20 +15,16 @@ export default function ExamPVO(props) {
   // Const
   const flippedColor = 'lightgrey'
   const testColors = [
-    { color: '#7F00FF', name: "violet" },
-    { color: '#0000FF', name: "indigo" },
-    { color: '#007FFF', name: "bleu" },
-    { color: '#00FFFF', name: "cyan" },
-    { color: '#00FFBF', name: "turquoise" },
-    { color: '#00FF00', name: "vert" },
-    { color: '#BFFF00', name: "chartreuse" },
+    { color: '#BF00BF', name: "pourpre" },
+    { color: '#2A9248', name: "foret" },
     { color: '#FFFF00', name: "jaune" },
-    { color: '#FF7F00', name: "orange" },
+    { color: '#8C4600', name: "marron" },
+    { color: '#007FFF', name: "bleu" },
     { color: '#FF0000', name: "rouge" },
-    { color: '#FF007F', name: "rubis" },
-    { color: '#FF00FF', name: "magenta" }
+    { color: '#000000', name: "noir" },
+    { color: '#999999', name: "gris" },
   ]
-  let numberOfRows = testColors.length
+  let numberOfRows = 2
   let numberOfCols = 8
   let debugGrid = false
 
@@ -39,93 +35,37 @@ export default function ExamPVO(props) {
         invalid: true
     }
     let availableColors = []
-    const randmoness = 'pseudorandom'
-    switch (randmoness) {
-        case 'fullyrandom': 
-            Object.keys(testColors).forEach(testColor => {
-                for (let c = 0; c < numberOfCols; c++) {
-                    availableColors.push(testColors[testColor].color)
-                }
-            })
-            //console.log("availableColors", availableColors)
-            for (let r = 0; r < numberOfRows; r++) {
-                outcome.rows[r] = {
-                    id: r,
-                    cols: {},
-                    invalid: true
-                }
-                for (let c = 0; c < numberOfCols; c++) {
-                    outcome.rows[r].cols[c] = {
-                        id: c,
-                        color: availableColors.splice(Math.floor(Math.random() * availableColors.length), 1)[0],
-                        state: 'visible'
-                    }
-                }
-            }
-            break
-        case 'pseudorandom':
-            let initialGrid = getEmptyGrid()
-            // Get tiles
-            for (let r = 0; r < numberOfRows; r++ ) {
-                for (let c = 0; c < numberOfCols; c++ ) {
-                    availableColors.push(testColors[r].color)
-                }
-            } 
-            // Fill in tiles
-            for (let c = 0; c < numberOfCols; c++ ) {
-                for (let r = 0; r < numberOfRows; r++ ) {
-                    initialGrid[r][c] = availableColors.pop()
-                }
-            }
-            // Suffle tiles within rows
-            for (let r = 0; r < numberOfRows; r++ ) {
-                let currentRow = getRow(initialGrid, r)
-                currentRow = shuffleList(currentRow)
-                initialGrid = setRow(initialGrid, r, currentRow)
-            }
-            // Suffle rows
-            //initialGrid = shuffleList(initialGrid)
-            // Wrapping as outcome
-            for (let r = 0; r < numberOfRows; r++) {
-                outcome.rows[r] = {
-                    id: r,
-                    cols: {},
-                    invalid: true
-                }
-                for (let c = 0; c < numberOfCols; c++) {
-                    outcome.rows[r].cols[c] = {
-                        id: c,
-                        color: initialGrid[r][c] + '',
-                        state: 'visible'
-                    }
-                }
-            }
-            break
-    }
-    logOutcome()
-    return outcome 
-    
-    function logOutcome() {
-        let colorCount = {}
-        testColors.forEach(testColor => {
-            colorCount[testColor.color] = {
-                count: 0,
-                name: testColor.name
-            }
-        })
-        Object.keys(outcome.rows).map(row => {
-            Object.keys(outcome.rows[row].cols).map(col => {
-                if (Object.keys(colorCount).includes(outcome.rows[row].cols[col].color)) {
-                    colorCount[outcome.rows[row].cols[col].color].count += 1
-                }
-            })
-        })
-        if (debugGrid) {
-            Object.values(colorCount).forEach(colorCounted => {
-                console.log(colorCounted.count + '\t' + colorCounted.name)
-            })
+
+    let initialGrid = getEmptyGrid()
+    // Fill in tiles
+    for (let c = 0; c < numberOfCols; c++ ) {
+        for (let r = 0; r < numberOfRows; r++ ) {
+            initialGrid[r][c] = testColors[c].color
         }
-    }      
+    }
+    // Suffle tiles within rows
+    for (let r = 0; r < numberOfRows; r++ ) {
+        let currentRow = getRow(initialGrid, r)
+        currentRow = shuffleList(currentRow)
+        initialGrid = setRow(initialGrid, r, currentRow)
+    }
+    // Wrapping as outcome
+    for (let r = 0; r < numberOfRows; r++) {
+        outcome.rows[r] = {
+            id: r,
+            cols: {},
+            invalid: true
+        }
+        for (let c = 0; c < numberOfCols; c++) {
+            outcome.rows[r].cols[c] = {
+                id: c,
+                color: initialGrid[r][c] + '',
+                state: 'visible',
+                time: null
+            }
+        }
+    }
+    return outcome  
   }
   function checkInputValidity() {
     let currentInputs = {...inputs}
@@ -137,7 +77,7 @@ export default function ExamPVO(props) {
                 rowFlips += 1
             }
         })
-        if (rowFlips !== 4) {
+        if (rowFlips !== numberOfCols) {
             overallIsInvalid = true
             currentInputs.rows[row].invalid = true
         } else {
@@ -162,6 +102,7 @@ export default function ExamPVO(props) {
     return grid
   }
 
+
   // Changes
   let changes = {
     nextstage: () => {
@@ -169,10 +110,10 @@ export default function ExamPVO(props) {
     },
     flip: (c) => {
         let currentInputs = {...inputs}
-        if (currentInputs.rows[c.row].invalid === true 
-            && currentInputs.rows[c.row].cols[c.col].state === 'visible') {
+        if (currentInputs.rows[c.row].invalid === true) {
             if (currentInputs.rows[c.row].cols[c.col].state == 'visible') {
                 currentInputs.rows[c.row].cols[c.col].state = 'hidden'
+                currentInputs.rows[c.row].cols[c.col].time =  Date.now()
             } else {
                 currentInputs.rows[c.row].cols[c.col].state = 'visible'
             }
@@ -185,7 +126,7 @@ export default function ExamPVO(props) {
         props.store({
             inputs: {
                 results: {...inputs},
-                type: 'pvo'
+                type: 'luscher8'
             }
         })
     },
@@ -196,7 +137,7 @@ export default function ExamPVO(props) {
 
   const stages = [
     {
-        name: "intro",
+        name: "intro1",
         render: () => {
             return (
                 <Box
@@ -244,7 +185,7 @@ export default function ExamPVO(props) {
         }
     },
     {
-        name: "test",
+        name: "test1",
         render: () => {
             const m = 3
             const tileSize = Math.min(
@@ -264,72 +205,159 @@ export default function ExamPVO(props) {
                     <Box/>
 
                     <Box>
-                        {Object.keys(inputs.rows).map(row => {
-                            //console.log("row", row, inputs.rows[row])
-                            return (
-                                <Box
-                                    key={'row-'+row}
-                                    sx={{                        
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-evenly',
-                                        alignItems: 'center',
-                                    }}
-                                >
+                        <Box
+                            key={'row-'+1.1}
+                            sx={{                        
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-evenly',
+                                alignItems: 'center',
+                            }}
+                        >
+                            {Object.keys(inputs.rows[0].cols).map(col => {
+                                let row = 0
+                                //console.log("col", col, inputs.rows[row].cols[col])
+                                let cellColor = 'yellow'
+                                if (inputs.rows[row].cols[col].state === 'hidden') {
+                                    cellColor = flippedColor
+                                } else {
+                                    cellColor = inputs.rows[row].cols[col].color
+                                }
+                                return (
                                     <Box
-                                        key={'row-'+row+'-flagbalance'}
+                                        key={'row-'+row+'-col-'+col}
                                         sx={{   
                                             m: m+'px',                     
                                             height: tileSize,
                                             width: tileSize,
+                                            background: cellColor
                                         }}
+                                        onClick={() => changes.flip({
+                                            row: row,
+                                            col: col
+                                        })}
                                     />
-                                    {Object.keys(inputs.rows[row].cols).map(col => {
-                                        //console.log("col", col, inputs.rows[row].cols[col])
-                                        let cellColor = 'yellow'
-                                        if (inputs.rows[row].cols[col].state === 'hidden') {
-                                            cellColor = flippedColor
-                                        } else {
-                                            cellColor = inputs.rows[row].cols[col].color
-                                        }
-                                        return (
-                                            <Box
-                                                key={'row-'+row+'-col-'+col}
-                                                sx={{   
-                                                    m: m+'px',                     
-                                                    height: tileSize,
-                                                    width: tileSize,
-                                                    background: cellColor
-                                                }}
-                                                onClick={() => changes.flip({
-                                                    row: row,
-                                                    col: col
-                                                })}
-                                            />
-                                        )
-                                    })}
+                                )
+                            })}
+                        </Box>
+                    </Box>
+                    
+                    <Button
+                        onClick={changes.nextstage}
+                        variant="contained"
+                        size="large"
+                        disabled={inputs.rows[0].invalid === true}
+                    >
+                        {t('generic.button.next')}
+                    </Button>
+                </Box>
+            )
+        }
+    },
+    {
+        name: "intro2",
+        render: () => {
+            return (
+                <Box
+                    sx={{                        
+                        height: window.innerHeight -100,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
+                    
+                    <Typography sx={{ p: 2 }} component="span" variant="h6" gutterBottom>
+                        {t('exam.exams.'+props.exam.type+'.intro')}
+                    </Typography>
+
+                    <Typography
+                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
+                        variant="h6"
+                        component="span"
+                        align="center"
+                    >
+                        {t('exam.exams.'+props.exam.type+'.introdetails')}
+                    </Typography>
+                    
+                    <Typography
+                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
+                        component="span"
+                        align="center"
+                        variant="caption"
+                    >
+                        {t('exam.exams.all.reminder')}
+                    </Typography>
+                    
+                    <Button
+                        onClick={changes.nextstage}
+                        variant="contained"
+                        size="large"
+                    >
+                        {t('generic.button.next')}
+                    </Button>
+
+                </Box>
+            )
+        }
+    },
+    {
+        name: "test2",
+        render: () => {
+            const m = 3
+            const tileSize = Math.min(
+                (window.innerHeight - 300 - numberOfRows * m)/numberOfRows,
+                (window.innerWidth - 180 - numberOfCols * m )/(numberOfCols + 2)
+            )
+            return (
+                <Box
+                    sx={{                        
+                        height: window.innerHeight -100,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Box/>
+
+                    <Box>
+                        <Box
+                            key={'row-'+1.1}
+                            sx={{                        
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-evenly',
+                                alignItems: 'center',
+                            }}
+                        >
+                            {Object.keys(inputs.rows[1].cols).map(col => {
+                                let row = 1
+                                //console.log("col", col, inputs.rows[row].cols[col])
+                                let cellColor = 'yellow'
+                                if (inputs.rows[row].cols[col].state === 'hidden') {
+                                    cellColor = flippedColor
+                                } else {
+                                    cellColor = inputs.rows[row].cols[col].color
+                                }
+                                return (
                                     <Box
-                                        key={'row-'+row+'-flag'}
+                                        key={'row-'+row+'-col-'+col}
                                         sx={{   
                                             m: m+'px',                     
                                             height: tileSize,
                                             width: tileSize,
-                                            alignItems: 'center',
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            justifyContent: 'space-evenly',
+                                            background: cellColor
                                         }}
-                                        
-                                    >
-                                        <CheckCircleIcon color={
-                                            inputs.rows[row].invalid === true 
-                                            ? 'disabled'
-                                            : "success"
-                                        }/>
-                                    </Box>
-                                </Box>
-                            )
-                        })}
+                                        onClick={() => changes.flip({
+                                            row: row,
+                                            col: col
+                                        })}
+                                    />
+                                )
+                            })}
+                        </Box>
                     </Box>
                     
                     <Button

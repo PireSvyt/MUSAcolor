@@ -109,6 +109,7 @@ export default function ExamModal() {
                 error={select.errors.type}
               >
                 <MenuItem value={'pvo'}>{t('exam.exams.pvo.name')}</MenuItem>
+                <MenuItem value={'luscher8'}>{t('exam.exams.luscher8.name')}</MenuItem>
               </Select>
             </FormControl>
           </Box>

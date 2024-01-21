@@ -7,6 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import { serviceExamCreate, serviceExamGet } from '../services/exam.services.js'
 import Appbar from '../Appbar/Appbar.js'
 import ExamPVO from './ExamPVO/ExamPVO.js'
+import ExamLuscher8 from './Luscher8/Luscher8.js'
 import appStore from '../store.js'
 
 export default function Exam() {
@@ -83,7 +84,7 @@ export default function Exam() {
       } else {
         // Aims at performing the exam
         // Type
-        let availableExamTypes = [ 'pvo' ]
+        let availableExamTypes = [ 'pvo', 'luscher8' ]
         let selectedExamType = "unknown"
         if (availableExamTypes.includes(examFlowInputs.type)) {
           selectedExamType = examFlowInputs.type
@@ -121,8 +122,10 @@ export default function Exam() {
             <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
               {t("exam.label."+select.examType)}
             </Typography>
-          ) : select.examType === 'pvo' ? ( // EXAM : PVO 
+          ) : select.examType === 'pvo' ? (
             <ExamPVO exam={select.examSliceContent} store={changes.store} getanalysis={changes.getanalysis} />
+          ) : select.examType === 'luscher8' ? ( 
+            <ExamLuscher8 exam={select.examSliceContent} store={changes.store} getanalysis={changes.getanalysis} />
           ) : (null)}
         </Box>
       ) : (
