@@ -75,9 +75,9 @@ export default function PatientModal() {
       >
         <DialogTitle>{t('patient.label.new')}</DialogTitle>
         <DialogContent
-          sx={{
+          /*sx={{
             height: componentHeight,
-          }}
+          }}*/
         >
           <Box
             component="form"
