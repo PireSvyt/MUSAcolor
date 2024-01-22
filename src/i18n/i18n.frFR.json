@@ -87,9 +87,9 @@
       "mypatients": "Mes sujets",
       "nopatients": "Aucun sujet",
       "nopatientsexplanation": "Vous trouverez vos sujets ici à l'avenir.\nAjoutez un sujet avec l'icon '+'",
-      "carousel1": "RESPECTEZ LE RGPD\n\nTravaillez avec des données anonymisées",
-      "carousel2": "ELARGISSEZ VOTRE PRATIQUE\n\nAvec de plus en plus d'analyses\nGrâce à votre retour pour créer un produit qui correspond à vos besoin",
-      "carousel3": "ESSAYEZ\n\nJusqu'ici, c'est facile et gratuit!"
+      "carousel1": "FACILE LE RGPD!\n\nTravaillez avec des données anonymisées",
+      "carousel2": "ELARGIR MA PRATIQUE?\n\nAvec de plus en plus d'analyses\nGrâce à votre retour pour créer un produit qui correspond à vos besoin",
+      "carousel3": "JE DEVRAIS ESSAYER?\n\nJusqu'ici, c'est facile et gratuit!"
     },
     "confirm": {
       "deletepatient": {

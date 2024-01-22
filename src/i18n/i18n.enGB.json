@@ -87,9 +87,9 @@
       "mypatients": "My patients",
       "nopatients": "No patient",
       "nopatientsexplanation": "Your patients will be listed here.\nAdd a patient clicking the '+' icon",
-      "carousel1": "GDPR COMPLIANT\n\nWork with pseudonimized data",
-      "carousel2": "WIDDEN YOUR PRACTICE\n\nAccess more and more exams\nProvide feedback to build the app which suites your needs",
-      "carousel3": "TRY IT OUT\n\nSo far, it's easy and free!"
+      "carousel1": "EASY GDPR EASY!\n\nWork with pseudonimized data",
+      "carousel2": "TO WIDDEN MY PRACTICE?\n\nAccess more and more exams\nProvide feedback to build the app which suites your needs",
+      "carousel3": "I SHALL TRY IT OUT?\n\nSo far, it's easy and free!"
     },
     "confirm": {
       "deletepatient": {
