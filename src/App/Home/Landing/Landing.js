@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ButtonGroup, Button, Box, Typography } from '@mui/material'
 
 // Reducers
+import WelcomeCarousel from "./WelcomeCarousel/WelcomeCarousel.js";
 import appStore from '../../store.js'
 
 export default function Landing() {
@@ -25,6 +26,7 @@ export default function Landing() {
   return (
     <Box data-testid="page-landing">
       <Box textAlign="center">
+        <WelcomeCarousel />
         <Button
           onClick={changes.signin}
           size="large"
