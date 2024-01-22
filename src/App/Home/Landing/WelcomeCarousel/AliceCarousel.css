@@ -6,7 +6,7 @@
     background-color: lightgray;
   }
   .alice-carousel__dots-item:not(.__custom).__active{
-      background-color: #D45C28;
+      background-color: #1976D2;
       height: 12px;
       width: 12px;
   }
