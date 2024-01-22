@@ -1,0 +1,12 @@
+
+
+.alice-carousel__dots-item:not(.__custom){
+    height: 12px;
+    width: 12px;
+    background-color: lightgray;
+  }
+  .alice-carousel__dots-item:not(.__custom).__active{
+      background-color: #1976D2;
+      height: 12px;
+      width: 12px;
+  }
