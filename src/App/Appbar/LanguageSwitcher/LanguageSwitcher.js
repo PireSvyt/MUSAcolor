@@ -59,7 +59,7 @@ export default function LanguageSwitcher() {
               data-testid={'component-localization-listitem-language'}
               index={c}
               onClick={() => {
-                Cookies.set('cowhist19_language', language)
+                Cookies.set('musacolor_language', language)
                 window.location.reload(false)
               }}
             >
