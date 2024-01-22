@@ -35,7 +35,7 @@
       "begin": "Begin",
       "next": "Next",
       "continue": "Continue",
-      "finish": "End"
+      "finish": "Finish"
     },
     "language": {
       "enGB": {
@@ -141,15 +141,15 @@
       "pvo": {
         "name": "PVO",
         "intro":"Color exam",
-        "introdetails": "INSTRUCTIONS\nA table of color will appear during the test.\nYou shall click 4 color tiles from each row to be removed.\n\nRemove colors you dislike. \nFollow you instinct and do not overthink. \n\nYou can begin.",
+        "introdetails": "INSTRUCTIONS\n\nA table of color will appear during the test.\nYou shall click 4 color tiles from each row to be removed.\n\nRemove colors you dislike.\n\nFollow you instinct and do not overthink. \n\nYou can begin.",
         "outro":"You finished the test."
       },
       "luscher8": {
         "name": "Luscher (8)",
-        "intro":"Test de Luscher à 8 couleurs",
-        "introdetails": "INSTRUCTIONS\nBLA BLA BLA\n\nYou can begin.",
-        "intro2":"Test de Luscher à 8 couleurs",
-        "intro2details": "INSTRUCTIONS\nBLA BLA BLA\n\nYou can begin.",
+        "intro":"Luscher exam with 8 colors",
+        "introdetails": "INSTRUCTIONS\n\nBLA BLA BLA\n\nYou can begin.",
+        "intro2":"Luscher exam with 8 colors",
+        "intro2details": "INSTRUCTIONS\n\nBLA BLA BLA\n\nYou can begin.",
         "outro":"You finished the test.",
         "preference": "++",
         "sympathy": "xx",
