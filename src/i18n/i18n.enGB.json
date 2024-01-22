@@ -1,1 +1,42 @@
-{}
+{
+    "help": {
+        "faq": {
+          "cookies": {
+            "section": "About cookies",
+            "policy": {
+              "section": "What is the cookie policy?",
+              "explanations": "Cookies are to be used only for functional aspects and because they bring value to users!\nThey are user's property!\nIn other words, cookies are used the least possible and only in the user's interest.\nYour data will never be commercialized, exhanged, given or leveraged. They stay on your device to provide you a better experience."
+            },
+            "use": {
+              "section": "What cookies does the app use?",
+              "explanations": "Here is the exhaustive list of cookies which are stored only your device and leveraged by the app to provide you a better experience:",
+              "jwt": {
+                "section": "JSON (authentication) web token",
+                "explanations": "As soon as you sign in, this is stored in your cookies and allows you to not have to sign in at every clicks.\nYou can see this token as the key assessing that you are authorized for subsequent actions.\nWhen you close the app, so that you don't have to sign in each time, the validity of the token from your cookies is assessed. If valid, you're automatically signed in and can enjoy the app!\n            This is precisely with this token that we make sure no one else than you has access to your data."
+              },
+              "language": {
+                "section": "Language preference",
+                "explanations": "When you select a language preference, the selected language is stored in your cookies.\nEach time you come back, this is leveraged as your language preference.\nIt remains on your device and is here only to display the app as you prefer it to be."
+              }
+            }
+          },
+          "security": {
+            "section": "About the security",
+            "passwordmanagement": {
+              "section": "How is managed my password?",
+              "source": "Advanced Encryption Standard (Wikipedia)",
+              "explanations": "Your password is never transiting \"in clear\"!\n\nConcretely, your password is encrypted with a key in you device and then decrypted on our server to authenticate your credentials.\nTo do so, the key is hidden in the application both on exposed side (the website) and service side. This enables your password to not transit in clear on the web.\nFollow this link for more details about the algorithm used:"
+            },
+            "datastorage": {
+              "section": "How is my data stored?",
+              "source": "Bcrypt (Wikipedia)",
+              "explanations": "Your password is never saved \"in clear\"!\n\nConcretely, your password is encrypted in a way it cannot be depcrypted. The encrypted form is stored in the database at sign up. At sign in, your password is assessed as with respect to the encrypted form to grant or deny access to your account.\nFollow this link for more details about the algorithm used:"
+            },
+            "dataaccess": {
+              "section": "Who has access to my data?",
+              "explanations": "As a practician, only your account can access data you have created from your account.\nNo one else has access to data related to your account, your patients and their exams."
+            }
+          }
+        }
+      }
+}

@@ -78,6 +78,24 @@ export default function Appbar(props) {
       serviceAuthAccessDeny()
       window.location = '/'
     },
+    close: () => {
+      let currentLocation = window.location
+      if (currentLocation.href.includes('/exam?')) {
+        // signed in
+        let queryString = currentLocation.search.split('?')[1]
+        let queries = queryString.split('&')
+        let examFlowInputs = {}
+        queries.forEach((query) => {
+          let queryBreakdown = query.split('=')
+          examFlowInputs[queryBreakdown[0]] = queryBreakdown[1]
+        })
+        if (Object.keys(examFlowInputs).includes('patientid')) {
+          window.location = '/patient/' + examFlowInputs.patientid
+        }
+      } else {
+        history.back()
+      }
+    }
   }
 
   // MenuItems
@@ -276,7 +294,7 @@ export default function Appbar(props) {
                 <IconButton
                   size="large"
                   color="inherit"
-                  onClick={() => history.back()}
+                  onClick={action.close}
                   data-testid="component-app bar-button-close menu"
                 >
                   <CloseIcon />

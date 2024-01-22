@@ -158,5 +158,53 @@
         "fifthterm": "+-"
       }
     }
+  },
+  "help": {
+    "faq": {
+      "cookies": {
+        "section": "A propos des cookies",
+        "policy": {
+          "section": "Quelle est notre politique?",
+          "explanations": "Les cookies sont utilisés exclusivetement pour des aspects functionnels de l'application et parce qu'ils amènent de la valeur à l'utilisateur!\nIls sont la propriété des utilisateurs!\nEn d'autres termes, les cookies sont utilisés le moins possible et uniquement dans l'intérêt de l'utilisateur.\nVos données ne seront jamais commercialisées, échangées, données ou exploitées. Elles restent sur votre apparail pour vous fournir la meilleure expérience possible."
+        },
+        "use": {
+          "section": "Quels sont les cookies utilisés?",
+          "explanations": "Voici la liste exhaustive des cookies sauvegardé seulement sur votre appareil et utilisé pour vous fournir la meilleure expérience possible :",
+          "jwt": {
+            "section": "JSON (authentication) web token",
+            "explanations": "Dès que vous vous connecter, ce token est sauvegardé dans vos cookies. Il est ensuite utilisé pour chacune de vos actions.\nVous pouvez voir ce cookie comme une clé attestant de votre authentification pourvos future actions.\nLorsque vous fermez l'application, de façon à ce que vous n'ayez pas à vous connecter à chaque fois, le token de vos cookies est vérifié. S'il est valide, vous êtes alors automatiquement connecté pour profiter de l'application immédiatement!\nC'est précisément grâce à ce token que nous pouvons assurer que personne d'autre que vous n'accède à vos données."
+          },
+          "language": {
+            "section": "Préférence de langue",
+            "explanations": "Lorsque vous séléctionnez une préférence de langue, la langue selectionnée est sauvegardée dans vos cookies.\nA chaque fois que vous revenez dans l'application, ce cookie est utilisé comme votre langue par défaut.\nCe cookie reste sur votre appareil et sert uniquement à afficher l'application dans la langue de votre souhait."
+          }
+        }
+      },
+      "security": {
+        "section": "A propos de la sécurité",
+        "passwordreset": {
+          "section": "Comment puis-je mettre à jour mon mot de passe?",
+          "explanations": "Si vous disposez d'un compte, vous pouvez mettre à jour votre mot de passe.\nUtilisé l'interace de connection, renseignez votre adresse email, puis cliquer sur \"Mot de passe oublié?\".\nVous receverez un email avec un lien pour mettre à jour votre mot de passe. Pensez à vérifier vos spams.\nEn suivant ce lien, vous pourrez définir un nouveau mot de passe pour vos futures connexions."
+        },
+        "nomailpasswordreset": {
+          "section": "Comment dois-je faire si je ne reçois pas d'email pour mettre à jour mon mot de passe?",
+          "explanations": "Merci de contacter le support."
+        },
+        "passwordmanagement": {
+          "section": "Comment est géré mon mot de passe?",
+          "source": "Advanced Encryption Standard (Wikipedia)",
+          "explanations": "Votre mot de passe n'est jamais communiqué \"en clair\"!\n\nConcrétement, votre mot de passe est encrypté à l'aide d'une clé sur votre appareil, puis communiqué, avant d'être décrypté sur nos serveurs pour vous authentifier.\nPour cela, une clé est caché dans l'application à la fois dans le site web et le serveur. Cela permet de ne jamais communiquer d'information sensible \"en clair\" sur le web.\nSuivez ce lien pour en savoir plus sur les algorithmes utilisés :"
+        },
+        "datastorage": {
+          "section": "Comment sont sauvegardées mes données?",
+          "source": "Bcrypt (Wikipedia)",
+          "explanations": "Votre mot de passe n'est jamais sauvegardé \"en clair\"!\n\nConcrétement, votre mot de passe est encrypté d'une manière qu'il ne peut être décrypté. La version encrypté est sauvegardé dans notre base de données lors de l'enregistrement et de la mise à jour de mot de passe. Lors de la connection, votre mot de passe est comparé à la version encrypté pour vous authentifier.\nSuivez ce lien pour en savoir plus sur les algorithmes utilisés :"
+        },
+        "dataaccess": {
+          "section": "Qui peut accéder à mes données?",
+          "explanations": "En tant que practicien, vous êtes le seul à avoir accès au données générées avec votre compte.\nPersonne d'autre que vous ne peut avoir accès à vos informations, à celle de vos patient ou encore à leurs analyses."
+        }
+      }
+    }
   }
 }
