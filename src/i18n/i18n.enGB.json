@@ -1,42 +1,210 @@
 {
-    "help": {
-        "faq": {
-          "cookies": {
-            "section": "About cookies",
-            "policy": {
-              "section": "What is the cookie policy?",
-              "explanations": "Cookies are to be used only for functional aspects and because they bring value to users!\nThey are user's property!\nIn other words, cookies are used the least possible and only in the user's interest.\nYour data will never be commercialized, exhanged, given or leveraged. They stay on your device to provide you a better experience."
-            },
-            "use": {
-              "section": "What cookies does the app use?",
-              "explanations": "Here is the exhaustive list of cookies which are stored only your device and leveraged by the app to provide you a better experience:",
-              "jwt": {
-                "section": "JSON (authentication) web token",
-                "explanations": "As soon as you sign in, this is stored in your cookies and allows you to not have to sign in at every clicks.\nYou can see this token as the key assessing that you are authorized for subsequent actions.\nWhen you close the app, so that you don't have to sign in each time, the validity of the token from your cookies is assessed. If valid, you're automatically signed in and can enjoy the app!\n            This is precisely with this token that we make sure no one else than you has access to your data."
-              },
-              "language": {
-                "section": "Language preference",
-                "explanations": "When you select a language preference, the selected language is stored in your cookies.\nEach time you come back, this is leveraged as your language preference.\nIt remains on your device and is here only to display the app as you prefer it to be."
-              }
-            }
+  "generic": {
+    "label": {
+      "product": "MUSAcolor©",
+      "account": "Account",
+      "help": "Help"
+    },
+    "menu": {
+      "home": "Home",
+      "account": "My account",
+      "help": "Help",
+      "signout": "Sign out"
+    },
+    "input": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "passwordrepeat": "Repeat password",
+      "type": "Type"
+    },
+    "button": {
+      "add": "Add",
+      "save": "Save",
+      "delete": "Delete",
+      "select": "Select",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "close": "Close",
+      "view": "See",
+      "edit": "Edit",
+      "proceed": "Proceed",
+      "tocome": "To come...",
+      "signin": "Sign in",
+      "tohome": "Home",
+      "begin": "Begin",
+      "next": "Next",
+      "continue": "Continue",
+      "finish": "Finish"
+    },
+    "language": {
+      "enGB": {
+        "short": "EN",
+        "long": "English"
+      },
+      "frFR": {
+        "short": "FR",
+        "long": "French"
+      },
+      "nlNL": {
+        "short": "NL",
+        "long": "Deutch"
+      }
+    }
+  },
+  "signin": {
+    "label": {
+      "title": "Sign in",
+      "notfoundaccount": "This email isnot  related to any account.",
+      "successsendingpassword": "An email has been sent to reset your password.\nReminder: Check as well your spams."
+    },
+    "input": {},
+    "button": {
+      "signin": "Sign in",
+      "resetpassword": "Forgotten password?"
+    },
+    "error": {
+      "missinglogin": "missing email",
+      "invalidlogin": "invalid email",
+      "missingpassword": "missing password"
+    },
+    "snack": {
+      "signedin": "Connected!",
+      "unauthorized": "Invalid password",
+      "notfound": "Account not found"
+    }
+  },
+  "passwordreset": {
+    "label": {
+      "title": "Password reset",
+      "explanations": "Enter your new password,\nthen click on 'continue'.",
+      "erroronreset": "Your password couldn't be reseted.\nPlease try later.",
+      "successfulreset": "Your password is reseted!\nYou can now connect..."
+    }
+  },
+  "home": {
+    "label": {
+      "mypatients": "My patients",
+      "nopatients": "No patient",
+      "nopatientsexplanation": "Your patients will be listed here.\nAdd a patient clicking the '+' icon"
+    },
+    "confirm": {
+      "deletepatient": {
+        "title": "Patient deletion",
+        "content": "This action is irreversible and comes with the loss of all data related to the patient."
+      }
+    }
+  },
+  "patient": {
+    "label": {
+      "title": "Patient",
+      "new": "New patient",
+      "exams": "Exams",
+      "noexams": "No exam",
+      "noexamsexplanation": "Your patient exams will be listed here.\nAdd an exam clicking the '+' icon"
+    },
+    "confirm": {
+      "deleteexam": {
+        "title": "Exam deletion",
+        "content": "This action is irreversible and comes with the loss of all data related to the exam."
+      }
+    }
+  },
+  "exam": {
+    "label": {
+      "title": "Exam",
+      "new": "New exam",
+      "test": "Let's go!",
+      "results": "Results",
+      "violet": "purple",
+      "indigo": "indigo",
+      "bleu": "blue",
+      "cyan": "cyan",
+      "turquoise": "turquoise",
+      "vert": "green",
+      "chartreuse": "chartreuse",
+      "jaune": "yellow",
+      "orange": "orange",
+      "rouge": "red",
+      "rubis": "ruby",
+      "magenta": "magenta"
+    },
+    "exams": {
+      "unknown": {
+        "name": "unknown"
+      },
+      "all": {
+        "reminder": "During the exam, do not use the 'return' and 'refresh' commands from the browser.",
+        "givebackdevice": "You can give back the device to the practician who will analyse your results.\n\nTHANK YOU",
+        "disclaimer": "The designers and distributors of this application are not accountable for exam result interpretations and their consequences."
+      },
+      "pvo": {
+        "name": "PVO",
+        "intro":"Color exam",
+        "introdetails": "INSTRUCTIONS\n\nA table of color will appear during the test.\nYou shall click 4 color tiles from each row to be removed.\n\nRemove colors you dislike.\n\nFollow you instinct and do not overthink. \n\nYou can begin.",
+        "outro":"You finished the test."
+      },
+      "luscher8": {
+        "name": "Luscher (8)",
+        "intro":"Luscher exam with 8 colors",
+        "introdetails": "INSTRUCTIONS\n\nBLA BLA BLA\n\nYou can begin.",
+        "intro2":"Luscher exam with 8 colors",
+        "intro2details": "INSTRUCTIONS\n\nBLA BLA BLA\n\nYou can begin.",
+        "outro":"You finished the test.",
+        "preference": "++",
+        "sympathy": "xx",
+        "indifference": "==",
+        "rejection": "--",
+        "fifthterm": "+-"
+      }
+    }
+  },
+  "help": {
+    "faq": {
+      "cookies": {
+        "section": "About cookies",
+        "policy": {
+          "section": "What is the cookie policy?",
+          "explanations": "Cookies are to be used only for functional aspects and because they bring value to users!\nThey are user's property!\nIn other words, cookies are used the least possible and only in the user's interest.\nYour data will never be commercialized, exhanged, given or leveraged. They stay on your device to provide you a better experience."
+        },
+        "use": {
+          "section": "What cookies does the app use?",
+          "explanations": "Here is the exhaustive list of cookies which are stored only your device and leveraged by the app to provide you a better experience:",
+          "jwt": {
+            "section": "JSON (authentication) web token",
+            "explanations": "As soon as you sign in, this is stored in your cookies and allows you to not have to sign in at every clicks.\nYou can see this token as the key assessing that you are authorized for subsequent actions.\nWhen you close the app, so that you don't have to sign in each time, the validity of the token from your cookies is assessed. If valid, you're automatically signed in and can enjoy the app!\n            This is precisely with this token that we make sure no one else than you has access to your data."
           },
-          "security": {
-            "section": "About the security",
-            "passwordmanagement": {
-              "section": "How is managed my password?",
-              "source": "Advanced Encryption Standard (Wikipedia)",
-              "explanations": "Your password is never transiting \"in clear\"!\n\nConcretely, your password is encrypted with a key in you device and then decrypted on our server to authenticate your credentials.\nTo do so, the key is hidden in the application both on exposed side (the website) and service side. This enables your password to not transit in clear on the web.\nFollow this link for more details about the algorithm used:"
-            },
-            "datastorage": {
-              "section": "How is my data stored?",
-              "source": "Bcrypt (Wikipedia)",
-              "explanations": "Your password is never saved \"in clear\"!\n\nConcretely, your password is encrypted in a way it cannot be depcrypted. The encrypted form is stored in the database at sign up. At sign in, your password is assessed as with respect to the encrypted form to grant or deny access to your account.\nFollow this link for more details about the algorithm used:"
-            },
-            "dataaccess": {
-              "section": "Who has access to my data?",
-              "explanations": "As a practician, only your account can access data you have created from your account.\nNo one else has access to data related to your account, your patients and their exams."
-            }
+          "language": {
+            "section": "Language preference",
+            "explanations": "When you select a language preference, the selected language is stored in your cookies.\nEach time you come back, this is leveraged as your language preference.\nIt remains on your device and is here only to display the app as you prefer it to be."
           }
         }
+      },
+      "security": {
+        "section": "About the security",
+        "passwordreset": {
+          "section": "How can I reset my password?",
+          "explanations": "If you have an account, you can proceed to a password reset.\n\nUse the sign in interface, fill in your email address, then click the \"Forgotten password?\" button.\nYou will receive an email with a link to reset your password. Remember to check your spams.\nClicking the link from the password reset email, you will be able to define a new password for your future connections."
+        },
+        "nomailpasswordreset": {
+          "section": "How to proceed if I don't receive a password reset email?",
+          "explanations": "Please contact the support."
+        },
+        "passwordmanagement": {
+          "section": "How is managed my password?",
+          "source": "Advanced Encryption Standard (Wikipedia)",
+          "explanations": "Your password is never transiting \"in clear\"!\n\nConcretely, your password is encrypted with a key in you device and then decrypted on our server to authenticate your credentials.\nTo do so, the key is hidden in the application both on exposed side (the website) and service side. This enables your password to not transit in clear on the web.\nFollow this link for more details about the algorithm used:"
+        },
+        "datastorage": {
+          "section": "How is my data stored?",
+          "source": "Bcrypt (Wikipedia)",
+          "explanations": "Your password is never saved \"in clear\"!\n\nConcretely, your password is encrypted in a way it cannot be depcrypted. The encrypted form is stored in the database at sign up. At sign in, your password is assessed as with respect to the encrypted form to grant or deny access to your account.\nFollow this link for more details about the algorithm used:"
+        },
+        "dataaccess": {
+          "section": "Who has access to my data?",
+          "explanations": "As a practician, only your account can access data you have created from your account.\nNo one else has access to data related to your account, your patients and their exams."
+        }
       }
+    }
+  }
 }

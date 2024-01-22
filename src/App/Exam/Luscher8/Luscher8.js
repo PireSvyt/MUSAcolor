@@ -157,7 +157,7 @@ export default function ExamLuscher8(props) {
                     </Typography>
 
                     <Typography
-                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
+                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
                         variant="h6"
                         component="span"
                         align="center"
@@ -166,7 +166,7 @@ export default function ExamLuscher8(props) {
                     </Typography>
                     
                     <Typography
-                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
+                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
                         component="span"
                         align="center"
                         variant="caption"
@@ -275,7 +275,7 @@ export default function ExamLuscher8(props) {
                     </Typography>
 
                     <Typography
-                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
+                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
                         variant="h6"
                         component="span"
                         align="center"
@@ -284,7 +284,7 @@ export default function ExamLuscher8(props) {
                     </Typography>
                     
                     <Typography
-                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
+                        sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
                         component="span"
                         align="center"
                         variant="caption"
@@ -391,7 +391,7 @@ export default function ExamLuscher8(props) {
             </Typography>
 
             <Typography
-                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
+                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
                 variant="h6"
                 component="span"
                 align="center"
@@ -475,7 +475,7 @@ export default function ExamLuscher8(props) {
             </Box>
 
             <Typography
-                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line', width: '80%' }}
+                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
                 component="span"
                 align="center"
                 variant="caption"

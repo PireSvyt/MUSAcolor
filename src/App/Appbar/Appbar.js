@@ -180,11 +180,11 @@ export default function Appbar(props) {
     case 'account':
       showLanguageSwitcher = true
       break
-    case 'documentation':
-      showLanguageSwitcher = false
+    case 'help':
+      showLanguageSwitcher = true
       break
     case 'about':
-      showLanguageSwitcher = false
+      showLanguageSwitcher = true
       break
     case 'admin':
       showLanguageSwitcher = false
@@ -238,7 +238,7 @@ export default function Appbar(props) {
                 alignItems: 'center',
               }}
             >
-              {/*showLanguageSwitcher === true ? <LanguageSwitcher /> : null*/}
+              {showLanguageSwitcher === true ? <LanguageSwitcher /> : null}
 
               {menuItems.length !== 0 ? (
                 <Box>
