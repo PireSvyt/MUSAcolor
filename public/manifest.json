@@ -1,6 +1,7 @@
 {
   "short_name": "MUSAcolor©",
   "name": "MUSAcolor© webapp",
+  "description": "MUSAcolor is a webapp enabling chroma- and lumino-therapist patients to perform tests and exercises.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -9,6 +10,7 @@
     }
   ],
   "display": "fullscreen",
+  "orientation": "portrait",
   "lang": "fr",
   "author": "SAVOYAT Pierre"
 }

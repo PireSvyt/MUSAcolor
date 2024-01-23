@@ -31,8 +31,6 @@ export default function PatientExams() {
     patientExams: useSelector((state) => state.patientSlice.exams),
   }
 
-  console.log('PatientExams.select', select)
-
   // Changes
   let changes = {
     new: () => {
