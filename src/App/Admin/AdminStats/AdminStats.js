@@ -75,7 +75,7 @@ function StatLine (props) {
                 {props.stat.name}
             </Typography>
             <Typography>
-                {'#' + props.stat.count + ' / ' + props.stat.size + 'Mb / ' + props.stat.weight + '%'}
+                {props.stat.count + ' / ' + Math.floor(props.stat.size) + 'Kb / ' + props.stat.weight + '%'}
             </Typography>
         </Stack>  
         { props.stat.substats === undefined ? (null) : (

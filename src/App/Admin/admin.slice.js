@@ -27,16 +27,14 @@ const adminSlice = createSlice({
 export default adminSlice.reducer
 
 function packageStats (inputStats) {
-  // Object sizes in Mb
+  // Object sizes in kb
   let objectSizes = {
-    users: 2,
-    admin: 2,
-    practician: 2,
-    patients: 1,
-    exams: 5,
-    pvo: 5,
-    luscher8: 2,
-    settings: 1
+    admin: 89/4, // assumed the same as practician
+    practician: 89/4, // assumed the same as admin
+    patients: 72/9,
+    pvo: 5.4,
+    luscher8: 1.8,
+    settings:  72/9 // assumed not bigger than patients
   }
   let outputStats = {
       name: "Total",
