@@ -38,7 +38,7 @@ export default function Appbar(props) {
   // Selects
   const select = {
     signedin: useSelector((state) => state.authSlice.signedin),
-    usertype: useSelector((state) => state.userSlice.usertype),
+    usertype: useSelector((state) => state.userSlice.type),
     signInModal: useSelector((state) => state.signinModalSlice.open),
     patientModal: useSelector((state) => state.patientModalSlice.open),
     examModal: useSelector((state) => state.examModalSlice.open),

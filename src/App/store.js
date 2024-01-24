@@ -9,6 +9,8 @@ import signinModalSlice from './Appbar/SignInModal/signin.slice.js'
 import patientModalSlice from './Appbar/PatientModal/patientmodal.slice.js'
 import examModalSlice from './Appbar/ExamModal/exammodal.slice.js'
 import passwordResetSlice from './PasswordReset/passwordreset.slice.js'
+// Admin
+import adminSlice from './Admin/admin.slice.js'
 
 // Slices
 const slices = {
@@ -22,7 +24,9 @@ const slices = {
   signinModalSlice: signinModalSlice,
   patientModalSlice: patientModalSlice,
   examModalSlice: examModalSlice,
-  passwordResetSlice: passwordResetSlice
+  passwordResetSlice: passwordResetSlice,
+  // Admin
+  adminSlice: adminSlice
 }
 
 export default configureStore({

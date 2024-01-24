@@ -2,7 +2,7 @@ let debugProceedCheck = false
 
 function serviceProceedCheck(serviceInputs, serciveChecks) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('serviceProceedCheck')
+    //console.log('serviceProceedCheck')
   }
 
   let serviceCheckOutcome = {
@@ -128,7 +128,7 @@ function serviceProceedCheck(serviceInputs, serciveChecks) {
   }
 
   // Run checks
-  console.log('serciveChecks serviceInputs', serviceInputs)
+  //console.log('serciveChecks serviceInputs', serviceInputs)
   serciveChecks.forEach((check) => {
     if (debugProceedCheck === true) {
       console.log('serciveChecks[check]', check)

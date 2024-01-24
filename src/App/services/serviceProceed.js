@@ -12,7 +12,7 @@ async function serviceProceed(
   log = []
 ) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('serviceProceed')
+    //console.log('serviceProceed')
   }
 
   try {
