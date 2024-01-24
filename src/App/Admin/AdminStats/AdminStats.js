@@ -50,14 +50,26 @@ export default function AdminStats() {
           {"Admin KPIs"}
         </Typography>
 
+
+
         {select.adminState.stats !== 'available' ? (
             <Box sx={{ left: '10%', right: '10%' }}>
               <LinearProgress />
             </Box>
         ) : (
-          <ListItem key={'listitem-' + select.adminStats.name}>
-            <StatLine stat={{...select.adminStats}}/>
-          </ListItem>
+          <Box>
+            <Stack direction="row" justifyContent="space-between" sx={{pl: 2.5, pr: 2}}>
+              <Typography>
+                  {'Storage consumption (512Mb)'}
+              </Typography>
+              <Typography>
+                  { Math.floor(10000 * select.adminStats.size / 512000)/100 + '%'}
+              </Typography>
+            </Stack>  
+            <ListItem key={'listitem-' + select.adminStats.name}>
+              <StatLine stat={{...select.adminStats}}/>
+            </ListItem>
+          </Box>
         )}
       </Box>
     </Box>
