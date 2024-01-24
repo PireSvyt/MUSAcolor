@@ -46,7 +46,7 @@ export default function AdminStats() {
         }}
       >
 
-        <Typography sx={{ p: 2 }} variant="h5" component="span">
+        <Typography sx={{ p: 2 }} variant="h5" component="span" gutterBottom >
           {"Admin KPIs"}
         </Typography>
 
@@ -57,7 +57,7 @@ export default function AdminStats() {
               <LinearProgress />
             </Box>
         ) : (
-          <Box>
+          <Box sx={{ mt:2 }}>
             <Stack direction="row" justifyContent="space-between" sx={{pl: 2.5, pr: 2}}>
               <Typography>
                   {'Storage consumption (512Mb)'}
