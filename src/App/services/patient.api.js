@@ -23,7 +23,7 @@ export async function apiPatientDelete(deleteInputs, token) {
   try {
     const res = await axios({
       method: 'post',
-      url: apiURL + 'patient/v1/delete',
+      url: apiURL + 'patient/v1/deletemine',
       data: deleteInputs,
       headers: {
         Authorization: 'Bearer ' + token,
@@ -38,8 +38,11 @@ export async function apiPatientDelete(deleteInputs, token) {
 export async function apiPatientGet(getInputs, token) {
   try {
     const res = await axios({
-      method: 'get',
-      url: apiURL + 'patient/v1/' + getInputs.patientid,
+      method: 'post',
+      url: apiURL + 'patient/v1/getmine',
+      data: {
+        patientid: getInputs.patientid
+      },
       headers: {
         Authorization: 'Bearer ' + token,
       },
