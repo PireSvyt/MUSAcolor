@@ -40,6 +40,7 @@ export default function SignInModal() {
     loading: useSelector((state) => state.signinModalSlice.loading),
     inputs: useSelector((state) => state.signinModalSlice.inputs),
     errors: useSelector((state) => state.signinModalSlice.errors),
+    nextattempt: useSelector((state) => state.signinModalSlice.nextattempt),
     //sendactivation :  useSelector((state) => state.signinModalSlice.sendactivation),
     sendpassword: useSelector((state) => state.signinModalSlice.sendpassword),
   }
@@ -212,6 +213,30 @@ export default function SignInModal() {
                     align="center"
                   >
                     {t('signin.label.successsendingpassword')}
+                  </Typography>
+                </Box>
+              ) : null}
+
+              { select.userState.signingin === 'toomanyattempts' ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }}
+                  data-testid="modal-sign in-box-too many attempts"
+                >
+                  <Typography
+                    sx={{
+                      mt: 2,
+                      mb: 1,
+                      whiteSpace: 'pre-line',
+                    }}
+                    variant="body1"
+                    component="span"
+                    align="center"
+                  >
+                    {t('signin.label.toomanyattempts') + ' ' + select.nextattempt}
                   </Typography>
                 </Box>
               ) : null}

@@ -56,7 +56,8 @@
     "label": {
       "title": "Se connecter",
       "notfoundaccount": "Cet email n'est associé à aucun de nos comptes.",
-      "successsendingpassword": "Un email vous a été envoyer pour mettre à jour votre mot de passe.\nVerifiez bien vos spams."
+      "successsendingpassword": "Un email vous a été envoyer pour mettre à jour votre mot de passe.\nVerifiez bien vos spams.",
+      "toomanyattempts": "Vous avez procédé à trop de tentatives de connection.\nAttendez un moment..."
     },
     "input": {},
     "button": {

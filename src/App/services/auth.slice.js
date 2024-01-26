@@ -6,7 +6,8 @@ const authSlice = createSlice({
     loaded: false,
     signedin: false,
     token: '',
-    state: {}
+    state: {},
+    nextattempt: Date.now()
   },
   reducers: {
     signingin: (state) => {

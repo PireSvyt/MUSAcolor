@@ -56,7 +56,8 @@
     "label": {
       "title": "Sign in",
       "notfoundaccount": "This email isnot  related to any account.",
-      "successsendingpassword": "An email has been sent to reset your password.\nReminder: Check as well your spams."
+      "successsendingpassword": "An email has been sent to reset your password.\nReminder: Check as well your spams.",
+      "toomanyattempts": "You proceeded to too many connexion attemps.\nPlease wait a moment..."
     },
     "input": {},
     "button": {
