@@ -208,6 +208,7 @@ export default function ExamPVO(props) {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}
+                    data-testid='page-exam-stage-intro'
                 >
                     
                     <Typography sx={{ p: 2 }} component="span" variant="h6" gutterBottom>
@@ -236,6 +237,7 @@ export default function ExamPVO(props) {
                         onClick={changes.nextstage}
                         variant="contained"
                         size="large"
+                        data-testid='page-exam-button-begin'
                     >
                         {t('generic.button.begin')}
                     </Button>
@@ -261,6 +263,7 @@ export default function ExamPVO(props) {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}
+                    data-testid='page-exam-stage-test'
                 >
                     <Box/>
 
@@ -296,6 +299,7 @@ export default function ExamPVO(props) {
                                         return (
                                             <Box
                                                 key={'row-'+row+'-col-'+col}
+                                                data-testid={'component-pvoexam-test-'+'R-'+row+'-C-'+col}
                                                 sx={{   
                                                     m: m+'px',                     
                                                     height: tileSize,
@@ -322,11 +326,14 @@ export default function ExamPVO(props) {
                                         }}
                                         
                                     >
-                                        <CheckCircleIcon color={
-                                            inputs.rows[row].invalid === true 
-                                            ? 'disabled'
-                                            : "success"
-                                        }/>
+                                        <CheckCircleIcon 
+                                            color={
+                                                inputs.rows[row].invalid === true 
+                                                ? 'disabled'
+                                                : "success"
+                                            }
+                                            data-testid={'component-pvoexam-test-invalid-'+'R-'+row}
+                                        />
                                     </Box>
                                 </Box>
                             )
@@ -338,6 +345,7 @@ export default function ExamPVO(props) {
                         variant="contained"
                         size="large"
                         disabled={props.exam.state.storage !== undefined || inputs.invalid === true}
+                        data-testid='page-exam-button-finish'
                     >
                         {t('generic.button.finish')}
                     </Button>
@@ -356,6 +364,7 @@ export default function ExamPVO(props) {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}
+            data-testid='page-exam-stage-outro'
         >
             <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
             {t('exam.exams.'+props.exam.type+'.outro')}
@@ -374,6 +383,7 @@ export default function ExamPVO(props) {
                 onClick={changes.getanalysis}
                 size="large"
                 disabled={props.exam.state.storage !== 'available'}
+                data-testid='page-exam-button-gotoanalysis'
             >
                 {t('generic.button.next')}
             </Button>
@@ -392,6 +402,7 @@ export default function ExamPVO(props) {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}
+            data-testid='page-exam-stage-analysis'
         >
             <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
                 {t('exam.label.results')}

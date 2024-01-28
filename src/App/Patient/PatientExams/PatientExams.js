@@ -43,12 +43,19 @@ export default function PatientExams() {
   let c = -1
 
   return (
-    <Box>
+    <Box
+      data-testid="component-patient exams"
+    >
       <Stack direction="row" justifyContent="space-between">
         <Typography sx={{ p: 2 }} variant="h6" component="span">
           {t('patient.label.exams')}
         </Typography>
-        <IconButton sx={{ p: 2 }} onClick={changes.new} color='primary'>
+        <IconButton 
+          sx={{ p: 2 }} 
+          onClick={changes.new} 
+          color='primary'
+          data-testid="component-patient exams-button-new exam"
+          >
           <AddCircleIcon />
         </IconButton>
       </Stack>

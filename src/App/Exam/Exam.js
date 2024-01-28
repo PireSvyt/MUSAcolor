@@ -104,8 +104,10 @@ export default function Exam() {
   }
 
   return (
-    <Box>
-      <Appbar route="exam" title={t('exam.label.title') + " " + t('exam.exams.'+select.examType+'.name')} />
+    <Box
+      data-testid='page-exam'
+    >
+      <Appbar route="exam" title={t('exam.label.title') + " " + t('exam.exams.'+ (select.examType ? select.examType : "unknown") +'.name')} />
       <Box sx={{ height: 70 }} />
       {select.authloaded === true &&
       select.signedin === true  ? (
@@ -118,9 +120,19 @@ export default function Exam() {
           }}
         >
           { // EXAM : unknown 
-          select.examType === 'unknown' ? (
+          select.examState.analysis === 'denied' ? (
+            <Typography 
+              sx={{ p: 2 }} 
+              component="span" 
+              variant="h5" 
+              gutterBottom
+              data-testid='page-exam-label-deniedaccess'
+            >
+              {t("exam.label.deniedaccess")}
+            </Typography>
+          ) : select.examType === 'unknown' ? (
             <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
-              {t("exam.label."+select.examType)}
+              {t("exam.label.unknown")}
             </Typography>
           ) : select.examType === 'pvo' ? (
             <ExamPVO exam={select.examSliceContent} store={changes.store} getanalysis={changes.getanalysis} />

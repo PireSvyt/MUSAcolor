@@ -264,7 +264,7 @@ export default function Appbar(props) {
                         return (
                           <MenuItem
                             hidden={!(item.signed && select.signedin)}
-                            data-testid={'list-app bar menu-listitem'}
+                            data-testid={'list-app bar menu-listitem-' + item.item}
                             key={random_id()}
                             onClick={item.onclick}
                           >
@@ -276,7 +276,7 @@ export default function Appbar(props) {
                           return (
                             <MenuItem
                               hidden={!(item.signed && select.signedin)}
-                              data-testid={'list-app bar menu-listitem'}
+                              data-testid={'list-app bar menu-listitem-' + item.item}
                               key={random_id()}
                               onClick={item.onclick}
                             >

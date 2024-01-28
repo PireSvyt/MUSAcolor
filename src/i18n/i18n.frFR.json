@@ -120,6 +120,8 @@
       "new": "Nouvelle analyse",
       "test": "C'est à vous!",
       "results": "Résultats",
+      "unknown": "Analyse inconnue",
+      "deniedaccess": "Vous faites fausse route...",
       "violet": "violet",
       "indigo": "indigo",
       "bleu": "bleu",

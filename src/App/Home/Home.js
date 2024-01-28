@@ -26,7 +26,9 @@ export default function Home() {
   }
 
   return (
-    <Box>
+    <Box
+      data-testid="page-home"
+    >
       <Appbar route="home" title={t('generic.label.product')} />
       <Box sx={{ height: 100 }} />
       {select.loaded === false ? (

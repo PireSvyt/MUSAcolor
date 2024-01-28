@@ -150,6 +150,7 @@ export default function ExamLuscher8(props) {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}
+                    data-testid='page-exam-stage-intro1'
                 >
                     
                     <Typography sx={{ p: 2 }} component="span" variant="h6" gutterBottom>
@@ -178,6 +179,7 @@ export default function ExamLuscher8(props) {
                         onClick={changes.nextstage}
                         variant="contained"
                         size="large"
+                        data-testid='page-exam-button-begin1'
                     >
                         {t('generic.button.begin')}
                     </Button>
@@ -203,6 +205,7 @@ export default function ExamLuscher8(props) {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}
+                    data-testid='page-exam-stage-test1'
                 >
                     <Box/>
 
@@ -238,6 +241,7 @@ export default function ExamLuscher8(props) {
                                             row: row,
                                             col: col
                                         })}
+                                        data-testid={'component-luscher8-test-'+'R-'+row+'-C-'+col}
                                     />
                                 )
                             })}
@@ -249,6 +253,7 @@ export default function ExamLuscher8(props) {
                         variant="contained"
                         size="large"
                         disabled={inputs.rows[0].invalid === true}
+                        data-testid='page-exam-button-next1'
                     >
                         {t('generic.button.next')}
                     </Button>
@@ -268,6 +273,7 @@ export default function ExamLuscher8(props) {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}
+                    data-testid='page-exam-stage-intro2'
                 >
                     
                     <Typography sx={{ p: 2 }} component="span" variant="h6" gutterBottom>
@@ -296,6 +302,7 @@ export default function ExamLuscher8(props) {
                         onClick={changes.nextstage}
                         variant="contained"
                         size="large"
+                        data-testid='page-exam-button-begin2'
                     >
                         {t('generic.button.next')}
                     </Button>
@@ -321,6 +328,7 @@ export default function ExamLuscher8(props) {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}
+                    data-testid='page-exam-stage-test2'
                 >
                     <Box/>
 
@@ -356,6 +364,7 @@ export default function ExamLuscher8(props) {
                                             row: row,
                                             col: col
                                         })}
+                                        data-testid={'component-luscher8-test-'+'R-'+row+'-C-'+col}
                                     />
                                 )
                             })}
@@ -367,6 +376,7 @@ export default function ExamLuscher8(props) {
                         variant="contained"
                         size="large"
                         disabled={props.exam.state.storage !== undefined || inputs.invalid === true}
+                        data-testid='page-exam-button-finish'
                     >
                         {t('generic.button.finish')}
                     </Button>
@@ -385,6 +395,7 @@ export default function ExamLuscher8(props) {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}
+            data-testid='page-exam-stage-outro'
         >
             <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
             {t('exam.exams.'+props.exam.type+'.outro')}
@@ -403,6 +414,7 @@ export default function ExamLuscher8(props) {
                 onClick={changes.getanalysis}
                 size="large"
                 disabled={props.exam.state.storage !== 'available'}
+                data-testid='page-exam-button-gotoanalysis'
             >
                 {t('generic.button.next')}
             </Button>
@@ -421,6 +433,7 @@ export default function ExamLuscher8(props) {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}
+            data-testid='page-exam-stage-analysis'
         >
             <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
                 {t('exam.label.results')}

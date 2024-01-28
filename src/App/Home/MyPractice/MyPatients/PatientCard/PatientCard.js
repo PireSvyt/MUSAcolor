@@ -68,6 +68,7 @@ export default function PatientCard(props) {
   return (
     <Card
       index={props.index}
+      data-testid={"component-patient card"}
       sx={{
         width: '100%',
         p: 1,
@@ -90,7 +91,11 @@ export default function PatientCard(props) {
           }}
         >
           <Box>
-            <IconButton size="large" onClick={changes.openMenu}>
+            <IconButton 
+              size="large" 
+              onClick={changes.openMenu}
+              data-testid={"listitem-patient-menu+"+props.patient.name}
+            >
               <MenuIcon />
             </IconButton>
             <Menu
@@ -105,6 +110,7 @@ export default function PatientCard(props) {
                 key={random_id()}
                 onClick={changes.attemptDelete}
                 disabled={deleting}
+                data-testid={"listitem-patient-menuitem-delete+"+props.patient.name}
               >
                 {t('generic.button.delete')}
               </MenuItem>
@@ -118,6 +124,7 @@ export default function PatientCard(props) {
               width: '100%',
             }}
             onClick={changes.goto}
+            data-testid={"listitem-patient-click+"+props.patient.name}
           >
             <Typography>{props.patient.name}</Typography>
           </Box>

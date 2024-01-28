@@ -120,6 +120,8 @@
       "new": "New exam",
       "test": "Let's go!",
       "results": "Results",
+      "unknown": "Unknown exam",
+      "deniedaccess": "You're not on the right track...",
       "violet": "purple",
       "indigo": "indigo",
       "bleu": "blue",

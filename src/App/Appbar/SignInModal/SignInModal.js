@@ -200,7 +200,7 @@ export default function SignInModal() {
                     flexDirection: 'column',
                     alignItems: 'center',
                   }}
-                  data-testid="modal-sign in-box-password sent"
+                  data-testid="modal-sign in-box-password send"
                 >
                   <Typography
                     sx={{

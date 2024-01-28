@@ -42,7 +42,10 @@ export default function Patient() {
   return (
     <Box>
       <Appbar route="patient" title={t('patient.label.title')} />
-      <Box sx={{ height: 100 }} />
+      <Box 
+        sx={{ height: 100 }} 
+        data-testid="page-patient"
+      />
       {select.authloaded === true &&
       select.signedin === true &&
       select.patientState.details === 'available' ? (
@@ -59,7 +62,12 @@ export default function Patient() {
               textAlign: 'center',
             }}
           >
-          <Typography component="span" variant="h5" gutterBottom>
+          <Typography 
+            component="span" 
+            variant="h5" 
+            gutterBottom
+            data-testid="page-patient-label-patientname"
+          >
             {select.patientName}
           </Typography>
           <PatientExams />
