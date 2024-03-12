@@ -7,11 +7,17 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
 // Services
-import ConfirmModal from '../../../ConfirmModal/ConfirmModal.js'
 import { random_id } from '../../../services/toolkit.js'
 // Reducers
 import appStore from '../../../store.js'
@@ -34,7 +40,7 @@ export default function ExerciseCard(props) {
       appStore.dispatch({
         type: 'prescriptionModalSlice/move',
         payload: {
-          exerciseid: props.exercise.exerciseid,
+          index: props.index,
           by: 'totop'
         },
       })
@@ -44,7 +50,7 @@ export default function ExerciseCard(props) {
       appStore.dispatch({
         type: 'prescriptionModalSlice/move',
         payload: {
-          exerciseid: props.exercise.exerciseid,
+          index: props.index,
           by: 'up'
         },
       })
@@ -54,7 +60,7 @@ export default function ExerciseCard(props) {
       appStore.dispatch({
         type: 'prescriptionModalSlice/move',
         payload: {
-          exerciseid: props.exercise.exerciseid,
+          index: props.index,
           by: 'down'
         },
       })
@@ -64,7 +70,7 @@ export default function ExerciseCard(props) {
       appStore.dispatch({
         type: 'prescriptionModalSlice/move',
         payload: {
-          exerciseid: props.exercise.exerciseid,
+          index: props.index,
           by: 'tobottom'
         },
       })
@@ -72,38 +78,21 @@ export default function ExerciseCard(props) {
     closeMenu: () => {
       setMenuOpen(false)
     },
-    attemptDelete: () => {
-      setConfirmOpen(true)
+    delete: () => {
+      setMenuOpen(false)
+      appStore.dispatch({
+        type: 'prescriptionModalSlice/delete',
+        payload: {
+          index: props.index
+        },
+      })
     },
   }
 
   // Confirm modal
   const [menuOpen, setMenuOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
-  const [confirmOpen, setConfirmOpen] = useState(false)
   const [deleting, setDeleting] = useState(false)
-  function confirmCallback(choice) {
-    switch (choice) {
-      case 'close':
-        setConfirmOpen(false)
-        break
-      case 'delete':
-        setMenuOpen(false)
-        setConfirmOpen(false)
-        setDeleting(true)
-        serviceExerciseDelete({
-          exerciseid: props.exercise.exerciseid,
-          patientid: props.patientid,
-        }).then(() => {
-          console.log('ExerciseCard/delete props', props)
-          setDeleting(false)
-          servicePatientGet(props.patientid)
-        })
-        break
-      default:
-        console.error('ExerciseCard.confirmCallback unmatched ' + choice)
-    }
-  }
 
   return (
     <Card
@@ -160,72 +149,59 @@ export default function ExerciseCard(props) {
             >
               <MenuItem
                 key={random_id()}
-                onClick={changes.attemptDelete}
-                disabled={true}
-                //disabled={deleting}
+                onClick={changes.delete}
+                disabled={deleting}
                 data-testid={"listitem-exercise-menuitem-delete+"+props.index}
               >
-                {t('generic.button.delete')}
+                <ListItemIcon>
+                  <RemoveCircleOutlineIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.delete')}</ListItemText>   
               </MenuItem>
               <MenuItem
                 key={random_id()}
                 onClick={changes.movetotop}
                 data-testid={"listitem-exercise-menuitem-movetotop+"+props.index}
-                disabled={true}
               >
-                {t('generic.button.movetotop')}
+                <ListItemIcon>
+                  <KeyboardDoubleArrowUpIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.movetotop')}</ListItemText>
               </MenuItem>
               <MenuItem
                 key={random_id()}
                 onClick={changes.moveup}
                 data-testid={"listitem-exercise-menuitem-moveup+"+props.index}
-                disabled={true}
               >
-                {t('generic.button.moveup')}
+                <ListItemIcon>
+                  <KeyboardArrowUpIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.moveup')}</ListItemText>
               </MenuItem>
               <MenuItem
                 key={random_id()}
                 onClick={changes.movedown}
                 data-testid={"listitem-exercise-menuitem-movedown+"+props.index}
-                disabled={true}
               >
-                {t('generic.button.movedown')}
+                <ListItemIcon>
+                  <KeyboardArrowDownIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.movedown')}</ListItemText>
               </MenuItem>
               <MenuItem
                 key={random_id()}
                 onClick={changes.movetobottom}
                 data-testid={"listitem-exercise-menuitem-movetobottom+"+props.index}
-                disabled={true}
               >
-                {t('generic.button.movetobottom')}
+                <ListItemIcon>
+                  <KeyboardDoubleArrowDownIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.movetobottom')}</ListItemText>
               </MenuItem>
             </Menu>
           </Box>
         </Box>
       </Box>
-
-      {confirmOpen === false ? null : (
-        <ConfirmModal
-          open={confirmOpen}
-          data={{
-            title: 'patient.confirm.deleteexercise.title',
-            content: 'patient.confirm.deleteexercise.content',
-            callToActions: [
-              {
-                label: 'generic.button.cancel',
-                choice: 'close',
-              },
-              {
-                label: 'generic.button.proceed',
-                choice: 'delete',
-                variant: 'contained',
-                color: 'error',
-              },
-            ],
-          }}
-          callback={confirmCallback}
-        />
-      )}
     </Card>
   )
 }

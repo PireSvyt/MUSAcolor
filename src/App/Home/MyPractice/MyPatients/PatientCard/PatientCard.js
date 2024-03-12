@@ -7,9 +7,11 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
-import CircularProgress from '@mui/material/CircularProgress'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 // Services
 import { servicePatientDelete } from '../../../../services/patient.services.js'
@@ -112,7 +114,10 @@ export default function PatientCard(props) {
                 disabled={deleting}
                 data-testid={"listitem-patient-menuitem-delete+"+props.patient.name}
               >
-                {t('generic.button.delete')}
+                <ListItemIcon>
+                  <RemoveCircleOutlineIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.delete')}</ListItemText>                
               </MenuItem>
             </Menu>
           </Box>

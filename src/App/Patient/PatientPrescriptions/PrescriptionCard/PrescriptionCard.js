@@ -8,9 +8,15 @@ import {
   Menu,
   MenuItem,
   Chip,
-  Stack
+  Stack,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import EditIcon from '@mui/icons-material/Edit';
+import LinkIcon from '@mui/icons-material/Link';
+import BiotechIcon from '@mui/icons-material/Biotech';
 
 // Services
 import { servicePrescriptionDelete } from '../../../services/prescription.services.js'
@@ -39,6 +45,19 @@ export default function PrescriptionCard(props) {
     },
     attemptDelete: () => {
       setConfirmOpen(true)
+    },
+    edit: () => {
+      //
+    },
+    copyurl: () => {
+      navigator.clipboard.writeText(
+        "https://musacolor.vercel.app/" + 'prescription/' + props.prescription.prescriptionid
+      )
+      setMenuOpen(false)
+    },
+    test: () => {
+      setMenuOpen(false)
+      window.location = '/prescription/' + props.prescription.prescriptionid
     },
   }
 
@@ -138,7 +157,10 @@ export default function PrescriptionCard(props) {
                 disabled={deleting}
                 data-testid={"listitem-prescription-menuitem-delete+"+props.index}
               >
-                {t('generic.button.delete')}
+                <ListItemIcon>
+                  <RemoveCircleOutlineIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.delete')}</ListItemText>   
               </MenuItem>
               <MenuItem
                 key={random_id()}
@@ -146,23 +168,30 @@ export default function PrescriptionCard(props) {
                 data-testid={"listitem-prescription-menuitem-edit+"+props.index}
                 disabled={true}
               >
-                {t('generic.button.edit')}
+                <ListItemIcon>
+                  <EditIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.edit')}</ListItemText> 
               </MenuItem>
               <MenuItem
                 key={random_id()}
                 onClick={changes.copyurl}
                 data-testid={"listitem-prescription-menuitem-copyurl+"+props.index}
-                disabled={true}
               >
-                {t('generic.button.copyurl')}
+                <ListItemIcon>
+                  <LinkIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.copyurl')}</ListItemText> 
               </MenuItem>
               <MenuItem
                 key={random_id()}
                 onClick={changes.test}
                 data-testid={"listitem-prescription-menuitem-test+"+props.index}
-                disabled={true}
               >
-                {t('generic.button.test')}
+                <ListItemIcon>
+                  <BiotechIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.test')}</ListItemText> 
               </MenuItem>
             </Menu>
           </Box>
@@ -195,8 +224,8 @@ export default function PrescriptionCard(props) {
         <ConfirmModal
           open={confirmOpen}
           data={{
-            title: 'patient.confirm.deleteprescription.title',
-            content: 'patient.confirm.deleteprescription.content',
+            title: 'prescription.confirm.deleteprescription.title',
+            content: 'prescription.confirm.deleteprescription.content',
             callToActions: [
               {
                 label: 'generic.button.cancel',

@@ -192,6 +192,12 @@
       "unknown": {
         "name": "inconnue"
       }
+    },
+    "confirm": {
+      "deleteprescription": {
+        "title": "Suppression de la prescription",
+        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à cette prescription."
+      }
     }
   },
   "help": {

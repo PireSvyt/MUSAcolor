@@ -9,10 +9,19 @@ import {
   Menu,
   MenuItem,
   Box,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material'
 
 import MenuIcon from '@mui/icons-material/Menu.js'
 import CloseIcon from '@mui/icons-material/Close.js'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HelpIcon from '@mui/icons-material/Help';
+import InfoIcon from '@mui/icons-material/Info';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 // Services
 import { random_id } from '../services/toolkit.js'
@@ -74,6 +83,10 @@ export default function Appbar(props) {
       setMenuOpen(false)
       window.location = '/admin'
     },
+    toBack: () => {
+      setMenuOpen(false)
+      history.back()
+    },
     signOut: () => {
       setMenuOpen(false)
       serviceAuthAccessDeny()
@@ -109,36 +122,49 @@ export default function Appbar(props) {
         action.closeMenu()
       },
       signed: true,
+      icon: () => { return ( <RemoveCircleOutlineIcon fontSize="small" /> ) }
     },
     toAccount: {
       item: 'account',
       label: 'generic.menu.account',
       onclick: action.toAccount,
       signed: true,
+      icon: () => { return ( <AccountCircleIcon fontSize="small" /> ) }
     },
     toHome: {
       item: 'home',
       label: 'generic.menu.home',
       onclick: action.toHome,
       signed: true,
+      icon: () => { return ( <PlayCircleFilledIcon fontSize="small" /> ) }
     },
     toHelp: {
       item: 'help',
       label: 'generic.menu.help',
       onclick: action.toHelp,
       signed: false,
+      icon: () => { return ( <HelpIcon fontSize="small" /> ) }
     },
     toAbout: {
       item: 'about',
       label: 'generic.menu.about',
       onclick: action.toAbout,
       signed: false,
+      icon: () => { return ( <InfoIcon fontSize="small" /> ) }
     },
     toAdmin: {
       item: 'admin',
       label: 'Admin',
       onclick: action.toAdmin,
       signed: true,
+      icon: () => { return ( <AdminPanelSettingsIcon fontSize="small" /> ) }
+    },
+    toBack: {
+      item: 'back',
+      label: 'Back',
+      onclick: action.toBack,
+      signed: false,
+      icon: () => { return ( <ArrowBackIosNewIcon fontSize="small" /> ) }
     },
   }
 
@@ -170,6 +196,11 @@ export default function Appbar(props) {
       showLanguageSwitcher = true
       break
     case 'exam':
+      showLanguageSwitcher = true
+      break
+    case 'prescription':
+      menuItems.push(potentialMenuItems.toHome)
+      menuItems.push(potentialMenuItems.toBack)
       showLanguageSwitcher = true
       break
     case 'passwordreset':
@@ -269,7 +300,10 @@ export default function Appbar(props) {
                             key={random_id()}
                             onClick={item.onclick}
                           >
-                            {t(item.label)}
+                            <ListItemIcon>
+                              {item.icon()}
+                            </ListItemIcon>
+                            <ListItemText>{t(item.label)}</ListItemText>  
                           </MenuItem>
                         )
                       } else {
@@ -281,7 +315,10 @@ export default function Appbar(props) {
                               key={random_id()}
                               onClick={item.onclick}
                             >
-                              {t(item.label)}
+                              <ListItemIcon>
+                                {item.icon()}
+                              </ListItemIcon>
+                              <ListItemText>{t(item.label)}</ListItemText>  
                             </MenuItem>
                           )
                         } else {

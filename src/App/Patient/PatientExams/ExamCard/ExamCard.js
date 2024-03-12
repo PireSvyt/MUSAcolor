@@ -7,9 +7,11 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
-import CircularProgress from '@mui/material/CircularProgress'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 // Services
 import { serviceExamDelete } from '../../../services/exam.services.js'
@@ -129,7 +131,10 @@ export default function ExamCard(props) {
                 disabled={deleting}
                 data-testid={"listitem-exam-menuitem-delete+"+props.index}
               >
-                {t('generic.button.delete')}
+                <ListItemIcon>
+                  <RemoveCircleOutlineIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.delete')}</ListItemText>   
               </MenuItem>
             </Menu>
           </Box>

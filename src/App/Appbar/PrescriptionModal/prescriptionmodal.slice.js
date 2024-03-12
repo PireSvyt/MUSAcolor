@@ -71,6 +71,35 @@ const prescriptionModalSlice = createSlice({
         exercises[action.payload.exerciseid]
       )
       state.inputs.exercises = currentExercises
+    },
+    move: (state, action) => {
+      //console.log("prescriptionModalSlice/move", action.payload)
+      if (state.inputs.exercises.length > 1) {
+        let movingExercise = state.inputs.exercises[action.payload.index]
+        let exercises = [...state.inputs.exercises]
+        exercises.splice(action.payload.index, 1)
+        switch (action.payload.by) {
+          case 'totop':
+            exercises.unshift(movingExercise)
+            break
+          case 'up':
+            exercises.splice(action.payload.index-1, 0, movingExercise)
+            break
+          case 'down':
+            exercises.splice(action.payload.index+1, 0, movingExercise)
+            break
+          case 'tobottom':
+            exercises.push(movingExercise)
+            break
+        }
+        state.inputs.exercises = exercises
+      }
+    },
+    delete: (state, action) => {
+      //console.log("prescriptionModalSlice/delete", action.payload)
+      let exercises = [...state.inputs.exercises]
+      exercises.splice(action.payload.index, 1)
+      state.inputs.exercises = exercises
     }
   },
 })
