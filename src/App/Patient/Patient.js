@@ -7,6 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 // Components
 import { servicePatientGet } from '../services/patient.services.js'
 import PatientExams from './PatientExams/PatientExams.js'
+import PatientPrescriptions from './PatientPrescriptions/PatientPrescriptions.js'
 // Shared
 import Appbar from '../Appbar/Appbar.js'
 
@@ -71,6 +72,7 @@ export default function Patient() {
             {select.patientName}
           </Typography>
           <PatientExams />
+          <PatientPrescriptions />
           </Box>
         </Box>
       ) : (

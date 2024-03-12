@@ -1,37 +1,44 @@
 // APIs
-import { apiExamCreate, apiExamDelete, apiExamGet } from './exam.api.js'
+import { apiPrescriptionCreate, apiPrescriptionDelete, apiPrescriptionGet } from './prescription.api.js'
 // Services
 import { random_id, random_string } from './toolkit.js'
 import appStore from '../store.js'
 
-export const examCreateInputs = {
+export const prescriptionCreateInputs = {
   lockuifunction: (log) => {
     log.push({
       date: new Date(),
-      message: 'examCreateInputs.lockuifunction',
+      message: 'prescriptionCreateInputs.lockuifunction',
       tags: ['function'],
     })
     appStore.dispatch({
-      type: 'examSlice/storingResults',
+      type: 'prescriptionModalSlice/lock',
     })
   },
   unlockuifunction: (log) => {
     log.push({
       date: new Date(),
-      message: 'examCreateInputs.unlockuifunction',
+      message: 'prescriptionCreateInputs.unlockuifunction',
       tags: ['function'],
     })
     appStore.dispatch({
-      type: 'examSlice/storedResults',
+      type: 'prescriptionModalSlice/unlock',
     })
   },
   getinputsfunction: (log, directInputs) => {
     log.push({
       date: new Date(),
-      message: 'examCreateInputs.getinputsfunction',
+      message: 'prescriptionCreateInputs.getinputsfunction',
       tags: ['function'],
     })
-    return {...directInputs}
+    //console.log("directInputs", directInputs)
+    let inputs = {...appStore.getState().prescriptionModalSlice.inputs}
+    Object.keys(directInputs).forEach(k => {
+      //console.log("directInput", k, directInputs[k])
+      inputs[k] = directInputs[k]
+    })
+    //console.log("getinputsfunction", inputs)
+    return {inputs: inputs}
   },
   sercivechecks: [
     {
@@ -40,42 +47,16 @@ export const examCreateInputs = {
       error: 'generic.error.missinginputs',
       subchecks: [
         {
-          // Check type is available
-          field: 'type',
-          error: 'generic.error.missingtype',
-          fieldsinerror: ['type'],
-          subchecks: [
-            {
-              // Check type is valid
-              error: 'generic.error.invalidtype',
-              fieldsinerror: ['type'],
-              checkfunction: (serviceInputs) => {
-                console.log(
-                  'sercivechecks.checkfunction serviceInputs',
-                  serviceInputs
-                )
-                if (serviceInputs.inputs.type === '') {
-                  return {
-                    errors: ['generic.error.invalidtype'],
-                    stateChanges: {
-                      errors: {
-                        type: true,
-                      },
-                    },
-                    proceed: false,
-                  }
-                } else {
-                  return { proceed: true }
-                }
-              },
-            },
-          ],
+          // Check patientid is available
+          field: 'patientid',
+          error: 'generic.error.missingpatientid',
+          fieldsinerror: ['patientid'],
         },
         {
           // Check results is available
-          field: 'results',
-          error: 'generic.error.missingresults',
-          fieldsinerror: ['results'],
+          field: 'exercises',
+          error: 'generic.error.missingexercises',
+          fieldsinerror: ['exercises'],
         },
       ],
     },
@@ -83,24 +64,23 @@ export const examCreateInputs = {
   getcheckoutcomedispatchfunction: (log) => {
     log.push({
       date: new Date(),
-      message: 'examCreateInputs.getcheckoutcomedispatchfunction',
+      message: 'prescriptionCreateInputs.getcheckoutcomedispatchfunction',
       tags: ['function'],
     })
-    return 'examSlice/change'
+    return 'prescriptionModalSlice/change'
   },
   repackagingfunction: (serviceInputs, log) => {
     log.push({
       date: new Date(),
-      message: 'examCreateInputs.repackagingfunction',
+      message: 'prescriptionCreateInputs.repackagingfunction',
       tags: ['function'],
     })
 
     let repackagedInputs = {}
     repackagedInputs.inputs = {}
-    repackagedInputs.inputs.examid = random_string()
-    repackagedInputs.inputs.patientid = appStore.getState().examSlice.patientid
-    repackagedInputs.inputs.type = serviceInputs.inputs.type
-    repackagedInputs.inputs.results = serviceInputs.inputs.results
+    repackagedInputs.inputs.prescriptionid = random_string()
+    repackagedInputs.inputs.patientid = appStore.getState().patientSlice.patientid
+    repackagedInputs.inputs.exercises = serviceInputs.inputs.exercises
     console.log('repackagedInputs', repackagedInputs)
     return repackagedInputs
   },
@@ -108,12 +88,12 @@ export const examCreateInputs = {
     console.log('apicall inputs', inputs)
     log.push({
       date: new Date(),
-      message: 'examCreateInputs.apicall',
+      message: 'prescriptionCreateInputs.apicall',
       inputs: inputs,
       tags: ['function'],
     })
     try {
-      return await apiExamCreate(inputs, appStore.getState().authSlice.token)
+      return await apiPrescriptionCreate(inputs, appStore.getState().authSlice.token)
     } catch (err) {
       return err
     }
@@ -121,22 +101,19 @@ export const examCreateInputs = {
   getmanageresponsefunction: (response, log) => {
     log.push({
       date: new Date(),
-      message: 'examCreateInputs.getmanageresponsefunction',
+      message: 'prescriptionCreateInputs.getmanageresponsefunction',
       response: response,
       tags: ['function'],
     })
     let responses = {
-      'exam.create.success': () => {
+      'prescription.create.success': () => {
         appStore.dispatch({
-          type: 'examSlice/storedResults',
-          payload: {
-            examid: response.data.examid
-          }
+          type: 'prescriptionModalSlice/close',
         })
       },
-      'exam.create.error.oncreate': () => {
+      'prescription.create.error.oncreate': () => {
         appStore.dispatch({
-          type: 'examSlice/change',
+          type: 'prescriptionModalSlice/change',
           payload: {
             state: {
               storage: 'error'
@@ -152,21 +129,21 @@ export const examCreateInputs = {
         })
       },
     }
-    //console.log("examCreateInputs response", response)
+    //console.log("prescriptionCreateInputs response", response)
     return responses[response.type]()
   },
 }
 
-export const examDeleteInputs = {
+export const prescriptionDeleteInputs = {
   getinputsfunction: (log, directInputs) => {
     log.push({
       date: new Date(),
-      message: 'serviceExamDelete.getinputsfunction',
+      message: 'servicePrescriptionDelete.getinputsfunction',
       tags: ['function'],
     })
     return {
       inputs: {
-        examid: directInputs.examid,
+        prescriptionid: directInputs.prescriptionid,
         patientid: appStore.getState().patientSlice.patientid,
       },
     }
@@ -178,14 +155,14 @@ export const examDeleteInputs = {
       error: 'game.error.missinginputs',
       subchecks: [
         {
-          // Check examid is available
-          field: 'examid',
-          error: 'exam.error.missingexamid',
+          // Check prescriptionid is available
+          field: 'prescriptionid',
+          error: 'prescription.error.missingprescriptionid',
         },
         {
           // Check patientid is available
           field: 'patientid',
-          error: 'exam.error.missingpatientid',
+          error: 'prescription.error.missingpatientid',
         },
       ],
     },
@@ -193,12 +170,12 @@ export const examDeleteInputs = {
   apicall: async (inputs, log) => {
     log.push({
       date: new Date(),
-      message: 'serviceExamDelete.apicall',
+      message: 'servicePrescriptionDelete.apicall',
       inputs: inputs,
       tags: ['function'],
     })
     try {
-      return await apiExamDelete(inputs, appStore.getState().authSlice.token)
+      return await apiPrescriptionDelete(inputs, appStore.getState().authSlice.token)
     } catch (err) {
       return err
     }
@@ -206,21 +183,21 @@ export const examDeleteInputs = {
   getmanageresponsefunction: (response, log) => {
     log.push({
       date: new Date(),
-      message: 'serviceExamDelete.getmanageresponsefunction',
+      message: 'servicePrescriptionDelete.getmanageresponsefunction',
       response: response,
       tags: ['function'],
     })
     let responses = {
-      'exam.deletemine.success': () => {
+      'prescription.deletemine.success': () => {
         appStore.dispatch({
           type: 'sliceSnack/change',
           payload: {
             uid: random_id(),
-            id: 'exam.snack.deleted',
+            id: 'prescription.snack.deleted',
           },
         })
       },
-      'exam.deletemine.errorondelete': () => {
+      'prescription.deletemine.errorondelete': () => {
         appStore.dispatch({
           type: 'sliceSnack/change',
           payload: {
@@ -234,21 +211,21 @@ export const examDeleteInputs = {
   },
 }
 
-export const examGetInputs = {
+export const prescriptionGetInputs = {
   lockuifunction: (log) => {
     log.push({
       date: new Date(),
-      message: 'examGetInputs.lockuifunction',
+      message: 'prescriptionGetInputs.lockuifunction',
       tags: ['function'],
     })
     appStore.dispatch({
-      type: 'examSlice/loadAnalysis',
+      type: 'prescriptionSlice/loadAnalysis',
     })
   },
   getinputsfunction: (log, directInputs) => {
     log.push({
       date: new Date(),
-      message: 'serviceExamGet.getinputsfunction',
+      message: 'servicePrescriptionGet.getinputsfunction',
       tags: ['function'],
     })
     return {
@@ -259,12 +236,12 @@ export const examGetInputs = {
     {
       // Check inputs root is available
       field: 'inputs',
-      error: 'exam.error.missinginputs',
+      error: 'prescription.error.missinginputs',
       subchecks: [
         {
           // Check patientid is available
-          field: 'examid',
-          error: 'patient.error.missingexamid',
+          field: 'prescriptionid',
+          error: 'patient.error.missingprescriptionid',
         },
         {
           // Check patientid is available
@@ -277,12 +254,12 @@ export const examGetInputs = {
   apicall: async (inputs, log) => {
     log.push({
       date: new Date(),
-      message: 'serviceExamGet.apicall',
+      message: 'servicePrescriptionGet.apicall',
       inputs: inputs,
       tags: ['function'],
     })
     try {
-      return await apiExamGet(inputs, appStore.getState().authSlice.token)
+      return await apiPrescriptionGet(inputs, appStore.getState().authSlice.token)
     } catch (err) {
       return err
     }
@@ -290,21 +267,21 @@ export const examGetInputs = {
   getmanageresponsefunction: (response, log) => {
     log.push({
       date: new Date(),
-      message: 'serviceExamGet.getmanageresponsefunction',
+      message: 'servicePrescriptionGet.getmanageresponsefunction',
       response: response,
       tags: ['function'],
     })
     let responses = {
-      'exam.getanalysis.success': () => {
+      'prescription.getanalysis.success': () => {
         appStore.dispatch({
-          type: 'examSlice/setAnalysis',
-          payload: response.data.exam,
+          type: 'prescriptionSlice/setAnalysis',
+          payload: response.data.prescription,
         })
       },
-      'exam.getanalysis.error.undefined': () => {
-        console.warn("getmanageresponsefunction exam.getanalysis.error.undefined")
+      'prescription.getanalysis.error.undefined': () => {
+        console.warn("getmanageresponsefunction prescription.getanalysis.error.undefined")
         appStore.dispatch({
-          type: 'examSlice/change',
+          type: 'prescriptionSlice/change',
           payload: {
             state: {
               analysis: 'denied'
@@ -312,12 +289,12 @@ export const examGetInputs = {
           },
         })
       },
-      'exam.getanalysis.error.onfind': () => {
-        console.warn("getmanageresponsefunction exam.getanalysis.error.onfind")
+      'prescription.getanalysis.error.onfind': () => {
+        console.warn("getmanageresponsefunction prescription.getanalysis.error.onfind")
         appStore.dispatch({
-          type: 'examSlice/setAnalysis',
+          type: 'prescriptionSlice/setAnalysis',
           payload: {
-            type: 'examSlice/change',
+            type: 'prescriptionSlice/change',
             payload: {
               state: {
                 analysis: 'denied'

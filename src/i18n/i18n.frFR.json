@@ -35,7 +35,13 @@
       "begin": "Commencer",
       "next": "Suivant",
       "continue": "Continuer",
-      "finish": "Terminer"
+      "finish": "Terminer",
+      "movetotop": "Déplacer en premier",
+      "moveup": "Déplacer en dessus",
+      "movedown": "Déplacer en dessous",
+      "movetobottom": "Déplacer en dernier",
+      "copyurl": "Copier le lien",
+      "test": "Essayer"
     },
     "language": {
       "enGB": {
@@ -105,7 +111,10 @@
       "new": "Nouveau sujet",
       "exams": "Analyses",
       "noexams": "Aucune analyse",
-      "noexamsexplanation": "Vous trouverez les analyses de ce sujet ici à l'avenir.\nAjoutez une analyse avec l'icon '+'"
+      "noexamsexplanation": "Vous trouverez les analyses de ce sujet ici à l'avenir.\nAjoutez une analyse avec l'icon '+'",
+      "prescriptions": "Prescriptions",
+      "noprescriptions": "Aucune prescription",
+      "noprescriptionsexplanation": "Vous trouverez les prescriptions de ce sujet ici à l'avenir.\nAjoutez une prescription avec l'icon '+'"
     },
     "confirm": {
       "deleteexam": {
@@ -162,6 +171,26 @@
         "indifference": "==",
         "rejection": "--",
         "fifthterm": "+-"
+      }
+    }
+  },
+  "prescription": {
+    "label": {
+      "title": "Prescription",
+      "new": "Nouvelle prescription",
+      "unknown": "Prescription inconnue",
+      "deniedaccess": "Vous faites fausse route...",
+      "newexercise": "Nouvel exercice",
+      "exercises": "Exercices",
+      "duration": "Durée"
+    },
+    "exercise": {
+      "videoBleu" : "Vidéo: Bleu",
+      "videoRouge" : "Vidéo: Rouge"
+    },
+    "prescriptions": {
+      "unknown": {
+        "name": "inconnue"
       }
     }
   },

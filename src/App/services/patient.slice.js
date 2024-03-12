@@ -7,6 +7,7 @@ const patientSlice = createSlice({
     patientid: '',
     name: '',
     exams: [],
+    prescriptions: [],
   },
   reducers: {
     load: (state) => {
@@ -23,6 +24,11 @@ const patientSlice = createSlice({
       } else {
         state.exams = sortExams(action.payload.exams)
       }
+      if (action.payload.prescriptions === undefined) {
+        state.prescriptions = []
+      } else {
+        state.prescriptions = sortPrescriptions(action.payload.prescriptions)
+      }
       state.state.details = 'available'
     },
   },
@@ -38,6 +44,18 @@ function sortExams(exams) {
   function compareExams(a, b) {
     let aDate = new Date(a.date)
     let bDate = new Date(b.date)
+    return bDate - aDate
+  }
+}
+
+function sortPrescriptions(exams) {
+  let sortedPrescriptions = [...exams]
+  sortedPrescriptions.sort(comparePrescriptions)
+  return sortedPrescriptions
+
+  function comparePrescriptions(a, b) {
+    let aDate = new Date(a.editionDate)
+    let bDate = new Date(b.editionDate)
     return bDate - aDate
   }
 }

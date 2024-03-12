@@ -7,19 +7,20 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Chip,
+  Stack
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
-import CircularProgress from '@mui/material/CircularProgress'
 
 // Services
-import { serviceExamDelete } from '../../../services/exam.services.js'
+import { servicePrescriptionDelete } from '../../../services/prescription.services.js'
 import ConfirmModal from '../../../ConfirmModal/ConfirmModal.js'
 import { random_id } from '../../../services/toolkit.js'
 import { servicePatientGet } from '../../../services/patient.services.js'
 
-export default function ExamCard(props) {
+export default function PrescriptionCard(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('ExamCard ' + props.exam.examid)
+    console.log('PrescriptionCard ' + props.prescription.prescriptionid)
   }
   // i18n
   const { t } = useTranslation()
@@ -27,7 +28,7 @@ export default function ExamCard(props) {
   // Changes
   let changes = {
     goto: () => {
-      window.location = '/exam?examid=' + props.exam.examid + '&patientid=' + props.patientid
+      window.location = '/prescription?prescriptionid=' + props.prescription.prescriptionid
     },
     openMenu: (event) => {
       setAnchorEl(event.currentTarget)
@@ -40,6 +41,8 @@ export default function ExamCard(props) {
       setConfirmOpen(true)
     },
   }
+
+  console.log("props.prescription",props.prescription)
 
   // Confirm modal
   const [menuOpen, setMenuOpen] = useState(false)
@@ -55,22 +58,22 @@ export default function ExamCard(props) {
         setMenuOpen(false)
         setConfirmOpen(false)
         setDeleting(true)
-        serviceExamDelete({
-          examid: props.exam.examid,
+        servicePrescriptionDelete({
+          prescriptionid: props.prescription.prescriptionid,
           patientid: props.patientid,
         }).then(() => {
-          console.log('ExamCard/delete props', props)
+          //console.log('PrescriptionCard/delete props', props)
           setDeleting(false)
           servicePatientGet(props.patientid)
         })
         break
       default:
-        console.error('ExamCard.confirmCallback unmatched ' + choice)
+        console.error('PrescriptionCard.confirmCallback unmatched ' + choice)
     }
   }
 
   function stringifyDate() {
-    let date = new Date(props.exam.date)
+    let date = new Date(props.prescription.editionDate)
     const options = {
       year: "numeric",
       month: "numeric",
@@ -82,6 +85,12 @@ export default function ExamCard(props) {
     //{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
   }
 
+  // Duration
+  let prescrptionDuration = 0
+  props.prescription.exercises.forEach(exercise => {
+    prescrptionDuration += exercise.duration
+  })
+
   return (
     <Card
       index={props.index}
@@ -89,7 +98,7 @@ export default function ExamCard(props) {
         width: '100%',
         p: 1,
       }}
-      data-testid={"component-exam card"}
+      data-testid={"component-prescription card"}
     >
       <Box
         sx={{
@@ -111,7 +120,7 @@ export default function ExamCard(props) {
             <IconButton 
               size="large" 
               onClick={changes.openMenu}
-              data-testid={"listitem-exam-menu+"+props.index}
+              data-testid={"listitem-prescription-menu+"+props.index}
             >
               <MenuIcon />
             </IconButton>
@@ -127,25 +136,57 @@ export default function ExamCard(props) {
                 key={random_id()}
                 onClick={changes.attemptDelete}
                 disabled={deleting}
-                data-testid={"listitem-exam-menuitem-delete+"+props.index}
+                data-testid={"listitem-prescription-menuitem-delete+"+props.index}
               >
                 {t('generic.button.delete')}
               </MenuItem>
+              <MenuItem
+                key={random_id()}
+                onClick={changes.edit}
+                data-testid={"listitem-prescription-menuitem-edit+"+props.index}
+                disabled={true}
+              >
+                {t('generic.button.edit')}
+              </MenuItem>
+              <MenuItem
+                key={random_id()}
+                onClick={changes.copyurl}
+                data-testid={"listitem-prescription-menuitem-copyurl+"+props.index}
+                disabled={true}
+              >
+                {t('generic.button.copyurl')}
+              </MenuItem>
+              <MenuItem
+                key={random_id()}
+                onClick={changes.test}
+                data-testid={"listitem-prescription-menuitem-test+"+props.index}
+                disabled={true}
+              >
+                {t('generic.button.test')}
+              </MenuItem>
             </Menu>
           </Box>
+          
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row',
+              flexDirection: 'column',
               justifyContent: 'space-between',
-              alignItems: 'center',
-              width: '100%',
+              alignItems: 'left'
             }}
-            onClick={changes.goto}
-            data-testid={"listitem-exam-click+"+props.index}
           >
-            <Typography>{t('exam.exams.'+props.exam.type+'.name')}</Typography>
-            <Typography variant="caption">{stringifyDate()}</Typography>
+            <Typography variant="caption">{stringifyDate() + " / " + prescrptionDuration}</Typography>
+            <Stack 
+              spacing={{ xs: 0, sm: 0.5 }} 
+              direction="row" 
+              useFlexGap 
+              flexWrap="wrap"
+            >
+              {props.prescription.exercises.map(exercise => {
+                console.log("exercise",exercise)
+                return (<Chip label={exercise.name} size="small" />)
+              })}
+            </Stack>
           </Box>
         </Box>
       </Box>
@@ -154,8 +195,8 @@ export default function ExamCard(props) {
         <ConfirmModal
           open={confirmOpen}
           data={{
-            title: 'patient.confirm.deleteexam.title',
-            content: 'patient.confirm.deleteexam.content',
+            title: 'patient.confirm.deleteprescription.title',
+            content: 'patient.confirm.deleteprescription.content',
             callToActions: [
               {
                 label: 'generic.button.cancel',

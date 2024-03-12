@@ -13,7 +13,6 @@ import {
 
 import MenuIcon from '@mui/icons-material/Menu.js'
 import CloseIcon from '@mui/icons-material/Close.js'
-import EditIcon from '@mui/icons-material/Edit.js'
 
 // Services
 import { random_id } from '../services/toolkit.js'
@@ -23,6 +22,7 @@ import LanguageSwitcher from './LanguageSwitcher/LanguageSwitcher.js'
 import SignInModal from './SignInModal/SignInModal.js'
 import PatientModal from './PatientModal/PatientModal.js'
 import ExamModal from './ExamModal/ExamModal.js'
+import PrescriptionModal from './PrescriptionModal/PrescriptionModal.js'
 
 export default function Appbar(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
@@ -42,6 +42,7 @@ export default function Appbar(props) {
     signInModal: useSelector((state) => state.signinModalSlice.open),
     patientModal: useSelector((state) => state.patientModalSlice.open),
     examModal: useSelector((state) => state.examModalSlice.open),
+    prescriptionModal: useSelector((state) => state.prescriptionModalSlice.open),
   }
 
   // Handles
@@ -308,6 +309,7 @@ export default function Appbar(props) {
       {select.signInModal === true ? <SignInModal /> : null}
       {select.patientModal === true ? <PatientModal /> : null}
       {select.examModal === true ? <ExamModal /> : null}
+      {select.prescriptionModal === true ? <PrescriptionModal /> : null}
     </Box>
   )
 }

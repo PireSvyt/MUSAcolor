@@ -1,0 +1,20 @@
+{
+    "videoBleu": {
+        "exerciseid": "videoBleu",
+        "name": "videoBleu",
+        "type": "video",
+        "duration": 120,
+        "data": {
+            "url": "videoBleu"
+        }
+    },
+    "videoRouge": {
+        "exerciseid": "videoRouge",
+        "name": "videoRouge",
+        "type": "video",
+        "duration": 200,
+        "data": {
+            "url": "videoRouge"
+        }
+    }
+}
