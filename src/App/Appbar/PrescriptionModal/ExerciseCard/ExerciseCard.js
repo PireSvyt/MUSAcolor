@@ -8,7 +8,9 @@ import {
   Menu,
   MenuItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  TextField,
+  FormControl
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -87,6 +89,15 @@ export default function ExerciseCard(props) {
         },
       })
     },
+    instructions: (e) => {
+      appStore.dispatch({
+        type: 'prescriptionModalSlice/change',
+        payload: {
+          index: props.index,
+          instructions: e.target.value
+        },  
+      })
+    },
   }
 
   // Confirm modal
@@ -104,12 +115,6 @@ export default function ExerciseCard(props) {
       data-testid={"component-exercise card"}
     >
       <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
       >
         <Box
           sx={{
@@ -128,8 +133,8 @@ export default function ExerciseCard(props) {
               width: '100%',
             }}
           >
-            <Typography>{t('prescription.exercise.' + props.exercise.name)}</Typography>
-            <Typography variant="caption">{props.exercise.duration}</Typography>
+            <Typography>{ props.exercise.name }</Typography>
+            <Typography variant="caption">{toMinutesString(props.exercise.duration)}</Typography>
           </Box>
           <Box>
             <IconButton 
@@ -201,7 +206,38 @@ export default function ExerciseCard(props) {
             </Menu>
           </Box>
         </Box>
+
+        <Box
+          sx={{width: '100%'}}
+        >
+          <TextField
+            name="instructions"
+            label={t('prescription.label.instructions')}
+            placeholder={t('prescription.label.optional')}
+            variant="standard"
+            value={props.exercise.instructions}
+            onChange={changes.instructions}
+            autoComplete="off"
+            fullWidth
+            multiline
+          />
+        </Box>
       </Box>
     </Card>
   )
+}
+
+function toMinutesString (seconds) {
+  var sec_num = parseInt(seconds, 10);
+  var hours   = Math.floor(sec_num / 3600);
+  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+  return minutes + 'min'
+  /*
+  if (hours   < 10) {hours   = "0"+hours;}
+  if (minutes < 10) {minutes = "0"+minutes;}
+  if (seconds < 10) {seconds = "0"+seconds;}
+  return hours+':'+minutes+':'+seconds;
+  */
 }

@@ -7,6 +7,7 @@ const userSlice = createSlice({
     userid: '',
     type: '',
     patients: [],
+    exercises: []
   },
   reducers: {
     change: (state, action) => {
@@ -18,6 +19,9 @@ const userSlice = createSlice({
       }
       if (action.payload.patients !== undefined) {
         state.patients = action.payload.patients
+      }
+      if (action.payload.exercises !== undefined) {
+        state.exercises = action.payload.exercises
       }
       //
       if (action.payload.state !== undefined) {
@@ -34,6 +38,11 @@ const userSlice = createSlice({
       } else {
         state.patients = sortPatients(action.payload.patients)
       }
+      if (action.payload.exercises === undefined) {
+        state.exercises = []
+      } else {
+        state.exercises = sortExercises(action.payload.exercises)
+      }
       state.state.details = 'available'
     },
     unload: (state) => {
@@ -41,6 +50,7 @@ const userSlice = createSlice({
       state.userid = ''
       state.type = ''
       state.patients = []
+      state.exercises = []
       delete state.state.details
     },
   },
@@ -56,3 +66,12 @@ function sortPatients(patients) {
     return ('' + a.name).localeCompare(b.name)
   }
 }
+function sortExercises(exercises) {
+  let sortedExercises = exercises.sort(compareExercises)
+  return sortedExercises
+
+  function compareExercises(a, b) {
+    return a.editionDate - b.editionDate
+  }
+}
+

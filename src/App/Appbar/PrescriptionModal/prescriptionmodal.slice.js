@@ -50,6 +50,20 @@ const prescriptionModalSlice = createSlice({
           state.inputs.exercises = action.payload.inputs.exercises
         }
       }
+      if (action.payload.index !== undefined) {
+        if (action.payload.instructions !== undefined) {
+          let changingExercise = {...state.inputs.exercises[action.payload.index]}
+          //console.log("changingExercise", changingExercise)
+          if (changingExercise.data === undefined) {
+            changingExercise.data = {}
+          }
+          changingExercise.data.instructions = action.payload.instructions
+          let exercises = [...state.inputs.exercises]
+          exercises[action.payload.index] = changingExercise
+          //console.log("exercises", exercises)
+          state.inputs.exercises = exercises
+        }
+      }
       // Errors
       if (action.payload.errors !== undefined) {
         if (action.payload.errors.exercises !== undefined) {

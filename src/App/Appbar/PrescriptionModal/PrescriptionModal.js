@@ -53,7 +53,7 @@ export default function PrescriptionModal() {
     patientid: useSelector((state) => state.patientSlice.patientid),
   }
 
-  //console.log("select.inputs", select.inputs)
+  console.log("select.inputs", select.inputs)
 
   // Changes
   const changes = {
@@ -118,7 +118,7 @@ export default function PrescriptionModal() {
             }}
           >
           
-            <Typography>{t('prescription.label.duration') + " " + prescrptionDuration}</Typography>
+            <Typography>{t('prescription.label.duration') + " " + toMinutesString(prescrptionDuration)}</Typography>
 
             <List dense={false}>
               {select.inputs.exercises.map((exercise) => {
@@ -146,7 +146,7 @@ export default function PrescriptionModal() {
                     {Object.entries(exercises).map(exercise => {
                       console.log("menuitem", exercise[1])
                       return (
-                        <MenuItem value={exercise[1].exerciseid}>{t("prescription.exercise." + exercise[1].name)}</MenuItem>
+                        <MenuItem value={exercise[1].exerciseid}>{exercise[1].name}</MenuItem>
                       )
                     })}
                   </Select>
@@ -177,4 +177,20 @@ export default function PrescriptionModal() {
       </Dialog>
     </Box>
   )
+}
+
+
+function toMinutesString (seconds) {
+  var sec_num = parseInt(seconds, 10);
+  var hours   = Math.floor(sec_num / 3600);
+  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+  return minutes + 'min'
+  /*
+  if (hours   < 10) {hours   = "0"+hours;}
+  if (minutes < 10) {minutes = "0"+minutes;}
+  if (seconds < 10) {seconds = "0"+seconds;}
+  return hours+':'+minutes+':'+seconds;
+  */
 }

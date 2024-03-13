@@ -35,15 +35,11 @@ export async function apiPrescriptionDelete(deleteInputs, token) {
   }
 }
 
-export async function apiPrescriptionGet(getInputs, token) {
+export async function apiPrescriptionGet(getInputs) {
   try {
     const res = await axios({
-      method: 'post',
-      url: apiURL + 'prescription/v1/getanalysis',
-      data: getInputs,
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
+      method: 'get',
+      url: apiURL + 'prescription/v1/' + getInputs.prescriptionid
     })
     return res.data
   } catch (err) {

@@ -30,7 +30,7 @@ export default function Home() {
       data-testid="page-home"
     >
       <Appbar route="home" title={t('generic.label.product')} />
-      <Box sx={{ height: 100 }} />
+      <Box sx={{ height: 70 }} />
       {select.loaded === false ? (
         <Box sx={{ left: '10%', right: '10%' }}>
           <LinearProgress />

@@ -1,20 +1,32 @@
 {
-    "videoBleu": {
-        "exerciseid": "videoBleu",
-        "name": "videoBleu",
+    "video_bleu": {
+        "exerciseid": "video_bleu",
+        "name": "Vidéo | Bleu",
         "type": "video",
-        "duration": 120,
+        "duration": 360,
         "data": {
-            "url": "videoBleu"
+            "token": "j890Dx3OZ7M",
+            "intro": "Un peu d'explication ici?"
         }
     },
-    "videoRouge": {
-        "exerciseid": "videoRouge",
-        "name": "videoRouge",
+    "video_orange": {
+        "exerciseid": "video_orange",
+        "name": "Vidéo | Orange",
         "type": "video",
-        "duration": 200,
+        "duration": 360,
         "data": {
-            "url": "videoRouge"
+            "token": "dlud-5VU1HE",
+            "intro": "Un peu d'explication ici?"
+        }
+    },
+    "video_jaune": {
+        "exerciseid": "video_jaune",
+        "name": "Vidéo | Jaune",
+        "type": "video",
+        "duration": 360,
+        "data": {
+            "token": "MCAmRlZvLPo",
+            "intro": "Un peu d'explication ici?"
         }
     }
 }

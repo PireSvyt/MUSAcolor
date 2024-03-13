@@ -13,11 +13,11 @@ import SmsFailedIcon from '@mui/icons-material/SmsFailed'
 import LinearProgress from '@mui/material/LinearProgress'
 
 // Components
-import PatientCard from './PatientCard/PatientCard.js'
+import ExerciseCard from './ExerciseCard/ExerciseCard.js'
 
-export default function MyPatients() {
+export default function MyExercises() {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('MyPatients')
+    console.log('MyExercises')
   }
   // i18n
   const { t } = useTranslation()
@@ -25,14 +25,14 @@ export default function MyPatients() {
   // Selects
   const select = {
     userState: useSelector((state) => state.userSlice.state),
-    mypatients: useSelector((state) => state.userSlice.patients),
+    myexercises: useSelector((state) => state.userSlice.exercises),
   }
 
   let c = -1
 
   return (
     <Box 
-    data-testid="component-my patients"
+    data-testid="component-my exercises"
     sx={{
       display: 'flex',
       flexDirection: 'column',
@@ -49,7 +49,7 @@ export default function MyPatients() {
         <Box sx={{ left: '10%', right: '10%' }}>
           <LinearProgress/>
         </Box>
-      ) : select.mypatients.length === 0 ? (
+      ) : select.myexercises.length === 0 ? (
         <Box
           sx={{
             m: 2,
@@ -57,7 +57,7 @@ export default function MyPatients() {
             flexDirection: 'column',
             alignItems: 'center',
           }}
-          data-testid="component-my patients-box-no patient note"
+          data-testid="component-my exercises-box-no exercise note"
         >
           <Typography
             sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
@@ -65,7 +65,7 @@ export default function MyPatients() {
             component="span"
             align="center"
           >
-            {t('home.label.nopatients')}
+            {t('home.label.noexercises')}
           </Typography>
           <SmsFailedIcon
             sx={{ mt: 2, mb: 2 }}
@@ -78,16 +78,16 @@ export default function MyPatients() {
             component="span"
             align="center"
           >
-            {t('home.label.nopatientsexplanation')}
+            {t('home.label.noexercisesexplanation')}
           </Typography>
         </Box>
       ) : (
-        <List dense={false} data-testid="component-my patients-list-patient">
-          {select.mypatients.map((mypatient) => {
+        <List dense={false} data-testid="component-my exercises-list-exercise">
+          {select.myexercises.map((myexercise) => {
             c += 1
             return (
-              <ListItem key={'patient-' + mypatient.patientid}>
-                <PatientCard patient={mypatient} index={c} />
+              <ListItem key={'exercise-' + myexercise.exerciseid}>
+                <ExerciseCard exercise={myexercise} index={c} />
               </ListItem>
             )
           })}

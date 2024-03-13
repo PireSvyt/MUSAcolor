@@ -30,6 +30,7 @@ import { serviceAuthAccessDeny } from '../services/auth.services.js'
 import LanguageSwitcher from './LanguageSwitcher/LanguageSwitcher.js'
 import SignInModal from './SignInModal/SignInModal.js'
 import PatientModal from './PatientModal/PatientModal.js'
+import ExerciseModal from './ExerciseModal/ExerciseModal.js'
 import ExamModal from './ExamModal/ExamModal.js'
 import PrescriptionModal from './PrescriptionModal/PrescriptionModal.js'
 
@@ -50,6 +51,7 @@ export default function Appbar(props) {
     usertype: useSelector((state) => state.userSlice.type),
     signInModal: useSelector((state) => state.signinModalSlice.open),
     patientModal: useSelector((state) => state.patientModalSlice.open),
+    exerciseModal: useSelector((state) => state.exerciseModalSlice.open),
     examModal: useSelector((state) => state.examModalSlice.open),
     prescriptionModal: useSelector((state) => state.prescriptionModalSlice.open),
   }
@@ -345,6 +347,7 @@ export default function Appbar(props) {
 
       {select.signInModal === true ? <SignInModal /> : null}
       {select.patientModal === true ? <PatientModal /> : null}
+      {select.exerciseModal === true ? <ExerciseModal /> : null}
       {select.examModal === true ? <ExamModal /> : null}
       {select.prescriptionModal === true ? <PrescriptionModal /> : null}
     </Box>

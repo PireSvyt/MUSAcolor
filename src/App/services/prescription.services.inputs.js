@@ -219,7 +219,17 @@ export const prescriptionGetInputs = {
       tags: ['function'],
     })
     appStore.dispatch({
-      type: 'prescriptionSlice/loadAnalysis',
+      type: 'prescriptionSlice/loading',
+    })
+  },
+  unlockuifunction: (log) => {
+    log.push({
+      date: new Date(),
+      message: 'prescriptionGetInputs.unlockuifunction',
+      tags: ['function'],
+    })
+    appStore.dispatch({
+      type: 'prescriptionSlice/loaded',
     })
   },
   getinputsfunction: (log, directInputs) => {
@@ -242,12 +252,7 @@ export const prescriptionGetInputs = {
           // Check patientid is available
           field: 'prescriptionid',
           error: 'patient.error.missingprescriptionid',
-        },
-        {
-          // Check patientid is available
-          field: 'patientid',
-          error: 'patient.error.missingpatientid',
-        },
+        }
       ],
     },
   ],
@@ -259,7 +264,7 @@ export const prescriptionGetInputs = {
       tags: ['function'],
     })
     try {
-      return await apiPrescriptionGet(inputs, appStore.getState().authSlice.token)
+      return await apiPrescriptionGet(inputs)
     } catch (err) {
       return err
     }
@@ -272,14 +277,14 @@ export const prescriptionGetInputs = {
       tags: ['function'],
     })
     let responses = {
-      'prescription.getanalysis.success': () => {
+      'prescription.get.success': () => {
         appStore.dispatch({
-          type: 'prescriptionSlice/setAnalysis',
+          type: 'prescriptionSlice/setPrescription',
           payload: response.data.prescription,
         })
       },
-      'prescription.getanalysis.error.undefined': () => {
-        console.warn("getmanageresponsefunction prescription.getanalysis.error.undefined")
+      'prescription.get.error.undefined': () => {
+        console.warn("getmanageresponsefunction prescription.get.error.undefined")
         appStore.dispatch({
           type: 'prescriptionSlice/change',
           payload: {
@@ -289,8 +294,8 @@ export const prescriptionGetInputs = {
           },
         })
       },
-      'prescription.getanalysis.error.onfind': () => {
-        console.warn("getmanageresponsefunction prescription.getanalysis.error.onfind")
+      'prescription.get.error.onfind': () => {
+        console.warn("getmanageresponsefunction prescription.get.error.onfind")
         appStore.dispatch({
           type: 'prescriptionSlice/setAnalysis',
           payload: {
@@ -311,7 +316,7 @@ export const prescriptionGetInputs = {
         })
       },
     }
-    console.log("WHAT IS THE response.type : " + response.type)
+    //console.log("WHAT IS THE response.type : " + response.type)
     return responses[response.type]()
   },
 }

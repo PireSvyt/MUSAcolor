@@ -26,17 +26,20 @@ const prescriptionSlice = createSlice({
       state.state.storage = 'available'
       //state.prescriptionid = action.payload.prescriptionid
     },
-    loadAnalysis: (state) => {
-      state.state.analysis = 'loading'
+    loading: (state) => {
+      state.state.load = 'loading'
+    },
+    loaded: (state) => {
+      state.state.load = 'available'
     },
     unloadAnalysis: (state) => {
-      delete state.state.analysis
+      delete state.state.load
     },
-    setAnalysis: (state, action) => {
-      state.prescriptionid = action.payload.prescriptionid
-      state.type = action.payload.type
-      state.analysis = action.payload.analysis
-      state.state.analysis = 'available'
+    setPrescription: (state, action) => {
+      //console.log("prescriptionSlice.setPrescription", action.payload)
+      state.exercises = action.payload.exercises
+      state.editionDate = action.payload.editionDate
+      state.state.load = 'available'
     },
     change: (state, action) => {
       if (action.payload.prescriptionid !== undefined) {

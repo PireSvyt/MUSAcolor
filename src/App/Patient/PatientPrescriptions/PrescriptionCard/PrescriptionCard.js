@@ -61,7 +61,7 @@ export default function PrescriptionCard(props) {
     },
   }
 
-  console.log("props.prescription",props.prescription)
+  //console.log("props.prescription",props.prescription)
 
   // Confirm modal
   const [menuOpen, setMenuOpen] = useState(false)
@@ -204,15 +204,15 @@ export default function PrescriptionCard(props) {
               alignItems: 'left'
             }}
           >
-            <Typography variant="caption">{stringifyDate() + " / " + prescrptionDuration}</Typography>
-            <Stack 
+            <Typography variant="body1">{stringifyDate() + " / " + toMinutesString(prescrptionDuration)}</Typography>
+            <Stack
               spacing={{ xs: 0, sm: 0.5 }} 
               direction="row" 
               useFlexGap 
               flexWrap="wrap"
             >
               {props.prescription.exercises.map(exercise => {
-                console.log("exercise",exercise)
+                //console.log("exercise",exercise)
                 return (<Chip label={exercise.name} size="small" />)
               })}
             </Stack>
@@ -244,4 +244,19 @@ export default function PrescriptionCard(props) {
       )}
     </Card>
   )
+}
+
+function toMinutesString (seconds) {
+  var sec_num = parseInt(seconds, 10);
+  var hours   = Math.floor(sec_num / 3600);
+  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+  return minutes + 'min'
+  /*
+  if (hours   < 10) {hours   = "0"+hours;}
+  if (minutes < 10) {minutes = "0"+minutes;}
+  if (seconds < 10) {seconds = "0"+seconds;}
+  return hours+':'+minutes+':'+seconds;
+  */
 }
