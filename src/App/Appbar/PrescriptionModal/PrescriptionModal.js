@@ -25,8 +25,6 @@ import ExerciseCard from './ExerciseCard/ExerciseCard.js'
 import { random_id } from '../../services/toolkit.js'
 import { servicePrescriptionCreate } from '../../services/prescription.services.js'
 import { servicePatientGet } from '../../services/patient.services.js'
-// Resources
-let exercises = require('./exercises.json')
 // Reducers
 import appStore from '../../store.js'
 
@@ -51,9 +49,10 @@ export default function PrescriptionModal() {
     inputs: useSelector((state) => state.prescriptionModalSlice.inputs),
     errors: useSelector((state) => state.prescriptionModalSlice.errors),
     patientid: useSelector((state) => state.patientSlice.patientid),
+    myexercises: useSelector((state) => state.userSlice.exercises),
   }
 
-  console.log("select.inputs", select.inputs)
+  //console.log("select.inputs", select.inputs)
 
   // Changes
   const changes = {
@@ -64,13 +63,15 @@ export default function PrescriptionModal() {
     },
     selectExercise: (e) => {
       //console.log("target", e.target)
+      let selectedExercise = select.myexercises.filter(exercise => e.target.value === exercise.exerciseid)[0]
+      //console.log("selectedExercise", selectedExercise)
       // Select
       setSelectedExercise(e.target.value);
       // Add exercise
       appStore.dispatch({
         type: 'prescriptionModalSlice/addExercise',
         payload: {
-          exerciseid: e.target.value,
+          exercise: selectedExercise,
         },
       })
       // Reset
@@ -143,10 +144,15 @@ export default function PrescriptionModal() {
                     label={t('prescription.exercise.newexercise')}
                     onChange={changes.selectExercise}
                   >
-                    {Object.entries(exercises).map(exercise => {
-                      console.log("menuitem", exercise[1])
+                    {Object.entries(select.myexercises).map(exercise => {
+                      //console.log("menuitem", exercise[1])
                       return (
-                        <MenuItem value={exercise[1].exerciseid}>{exercise[1].name}</MenuItem>
+                        <MenuItem 
+                          value={exercise[1].exerciseid}
+                          key={random_id()}
+                        >
+                            {exercise[1].name}
+                        </MenuItem>
                       )
                     })}
                   </Select>

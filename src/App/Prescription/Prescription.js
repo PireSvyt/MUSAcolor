@@ -6,15 +6,12 @@ import {
   Box,
   FormControl,
   Typography, Button,
-  Accordion, AccordionActions, AccordionSummary, AccordionDetails
 } from '@mui/material'
-
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import Appbar from '../Appbar/Appbar.js'
 import { servicePrescriptionGet } from '../services/prescription.services.js'
-import "./YoutubeEmbed/YoutubeEmbed.css";
-import YoutubeEmbed from "./YoutubeEmbed/YoutubeEmbed.js";
+import Exercise from "./Exercise/Exercise.js";
+
 import { random_id } from '../services/toolkit.js';
 
 export default function Prescription() {
@@ -70,6 +67,8 @@ export default function Prescription() {
 
   let skeleton = null
 
+  let c = -1
+
   return (
     <Box>
       <Appbar route="prescription" title={t('generic.label.product')} />
@@ -86,108 +85,36 @@ export default function Prescription() {
         <Typography 
           component="span" 
           variant="h5"
-          sx={{p:2}}
+          sx={{pt:2}}
         >
-          {t('prescription.label.title') + stringifyDate() + ' / ' + stringifyDuration()}
-        </Typography>    
+          {t('prescription.label.title')}
+        </Typography>
     
         {isAvailable !== 'available' ? (
           skeleton
         ) : select.exercises.length === 0 ? (
           skeleton
         ) : (
-          Object.entries(select.exercises).map((exercise) => {
-            console.log("exercise", exercise)
-            return (
-              <Accordion
-                key={random_id()}
-                sx={{
-                  width: '60%'
-                }}
-              >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                >
-                  <Typography 
-                    component="span" 
-                    variant="h6"
-                  >
-                    {exercise[1].name + ' / ' + toMinutesString(exercise[1].duration)}
-                  </Typography>                      
-                </AccordionSummary>
-                
-                <AccordionDetails>
-                  
-                  <Box
-                    sx={{                        
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
-                  >
+          <Box
+            sx={{                        
+                width: '80%'
+            }}
+          >
+            <Typography 
+              component="span" 
+              variant="body1"
+              sx={{pb:2}}
+            >
+              {stringifyDate() + ' / ' + stringifyDuration()}
+            </Typography>
 
-                    { exercise[1].data.instructions === undefined ? (null) : (
-                      <Box
-                        sx={{                        
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            pb: 1
-                        }}
-                      >
-                        <Typography 
-                          component="span" 
-                          variant="h6"
-                          align='justify'
-                        >
-                          {t('prescription.label.instructions')}
-                        </Typography> 
-                        <Typography 
-                          component="span" 
-                          variant="body1"
-                          align='justify'
-                          sx={{ whiteSpace: "pre-line" }}
-                        >
-                          {exercise[1].data.instructions}
-                        </Typography> 
-                      </Box>
-                    )}
-
-                    <Box
-                      sx={{                        
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                          pt: 1, pb: 1
-                      }}
-                    >   
-                      <Typography 
-                        component="span" 
-                        variant="h6"
-                        align='justify'
-                      >
-                        {t('prescription.label.exercise')}
-                      </Typography>   
-                      <Typography 
-                        component="span" 
-                        variant="body1"
-                        sx={{ whiteSpace: "pre-line" }}
-                      >
-                        {exercise[1].data.intro}
-                      </Typography>  
-                      <Box
-                        sx={{pt:2}}
-                      >
-                        <YoutubeEmbed embedId={exercise[1].data.token} />
-                      </Box>
-                    </Box>
-
-                  </Box>
-
-                </AccordionDetails>
-              </Accordion>
-            )
-          })
+            {Object.entries(select.exercises).map((exercise) => {
+              //console.log("exercise", exercise)
+              return (
+                <Exercise key={random_id()} exercise={exercise[1]} index={c} />
+              )
+            })}
+          </Box>
         )}
       
       </Box>

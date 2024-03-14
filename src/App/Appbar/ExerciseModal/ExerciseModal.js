@@ -17,9 +17,14 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
 
+// Component
+import Exercise from "../../Prescription/Exercise/Exercise.js";
 // Services
 import { serviceExerciseSave } from '../../services/exercise.services.js'
 import { serviceUserGetDetails } from '../../services/user.services.js'
+import {
+  exerciseSaveInputs,
+} from '../../services/exercise.services.inputs.js'
 // Reducers
 import appStore from '../../store.js'
 
@@ -122,6 +127,9 @@ export default function ExerciseModal() {
       })
     },
   }
+
+  let repackagedExercise = exerciseSaveInputs.repackagingfunction({inputs: select.inputs}, [])
+  //console.log("repackagedExercise", repackagedExercise)
 
   // Render
   return (
@@ -230,7 +238,14 @@ export default function ExerciseModal() {
               }}
             >              
               <Typography variant='h6'>{t('exercise.label.rendering')}</Typography>
-              <Typography variant='h2'>...TODO...</Typography>
+              <Box
+                sx={{
+                  width: '100%',
+                  mt: 2
+                }}
+              > 
+                <Exercise exercise={repackagedExercise.inputs} />
+              </Box>  
             </Box>
 
           </Box>

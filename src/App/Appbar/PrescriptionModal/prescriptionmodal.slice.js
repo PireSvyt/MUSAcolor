@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-let exercises = require('./exercises.json')
 
 const prescriptionModalSlice = createSlice({
   name: 'prescriptionModalSlice',
@@ -51,13 +50,10 @@ const prescriptionModalSlice = createSlice({
         }
       }
       if (action.payload.index !== undefined) {
-        if (action.payload.instructions !== undefined) {
+        if (action.payload.posology !== undefined) {
           let changingExercise = {...state.inputs.exercises[action.payload.index]}
           //console.log("changingExercise", changingExercise)
-          if (changingExercise.data === undefined) {
-            changingExercise.data = {}
-          }
-          changingExercise.data.instructions = action.payload.instructions
+          changingExercise.posology = action.payload.posology
           let exercises = [...state.inputs.exercises]
           exercises[action.payload.index] = changingExercise
           //console.log("exercises", exercises)
@@ -81,9 +77,10 @@ const prescriptionModalSlice = createSlice({
     addExercise: (state, action) => {
       //console.log("prescriptionModalSlice/addExercise", action.payload)
       let currentExercises = [...state.inputs.exercises]
-      currentExercises.push(
-        exercises[action.payload.exerciseid]
-      )
+      currentExercises.push({
+        posology: '',
+        exercise: action.payload.exercise
+      })
       state.inputs.exercises = currentExercises
     },
     move: (state, action) => {

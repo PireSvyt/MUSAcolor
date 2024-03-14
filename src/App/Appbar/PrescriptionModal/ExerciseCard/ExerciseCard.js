@@ -89,12 +89,12 @@ export default function ExerciseCard(props) {
         },
       })
     },
-    instructions: (e) => {
+    posology: (e) => {
       appStore.dispatch({
         type: 'prescriptionModalSlice/change',
         payload: {
           index: props.index,
-          instructions: e.target.value
+          posology: e.target.value
         },  
       })
     },
@@ -133,8 +133,8 @@ export default function ExerciseCard(props) {
               width: '100%',
             }}
           >
-            <Typography>{ props.exercise.name }</Typography>
-            <Typography variant="caption">{toMinutesString(props.exercise.duration)}</Typography>
+            <Typography>{ props.exercise.exercise.name }</Typography>
+            <Typography variant="caption">{toMinutesString(props.exercise.exercise.duration)}</Typography>
           </Box>
           <Box>
             <IconButton 
@@ -211,12 +211,12 @@ export default function ExerciseCard(props) {
           sx={{width: '100%'}}
         >
           <TextField
-            name="instructions"
-            label={t('prescription.label.instructions')}
+            name="posology"
+            label={t('prescription.label.posology')}
             placeholder={t('prescription.label.optional')}
             variant="standard"
-            value={props.exercise.instructions}
-            onChange={changes.instructions}
+            value={props.exercise.posology}
+            onChange={changes.posology}
             autoComplete="off"
             fullWidth
             multiline

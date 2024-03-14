@@ -96,7 +96,8 @@ export default function PatientPrescriptions() {
           </Typography>
         </Box>
       ) : (
-        <List dense={false}>
+        <List dense={false}       
+        >
           {select.patientPrescriptions.map((prescription) => {
             c += 1
             return (

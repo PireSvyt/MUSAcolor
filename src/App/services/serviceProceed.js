@@ -4,7 +4,7 @@ import { random_id } from './toolkit.js'
 // Reducers
 import appStore from '../store.js'
 
-let debugProceed = true
+let debugProceed = false
 
 async function serviceProceed(
   serviceProceedInputs,

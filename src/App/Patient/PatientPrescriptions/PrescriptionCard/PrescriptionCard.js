@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import {
   Box,
   Card,
@@ -24,12 +25,19 @@ import ConfirmModal from '../../../ConfirmModal/ConfirmModal.js'
 import { random_id } from '../../../services/toolkit.js'
 import { servicePatientGet } from '../../../services/patient.services.js'
 
+import appStore from '../../../store.js'
+
 export default function PrescriptionCard(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
     console.log('PrescriptionCard ' + props.prescription.prescriptionid)
   }
   // i18n
   const { t } = useTranslation()
+
+  // Selects
+  const select = {
+    myexercises: useSelector((state) => state.userSlice.exercises),
+  }
 
   // Changes
   let changes = {
@@ -107,7 +115,12 @@ export default function PrescriptionCard(props) {
   // Duration
   let prescrptionDuration = 0
   props.prescription.exercises.forEach(exercise => {
-    prescrptionDuration += exercise.duration
+    let ex = select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
+    if (ex !== undefined) {
+      if (ex.duration !== undefined) {
+        prescrptionDuration += ex.duration
+      }
+    }
   })
 
   return (
@@ -212,8 +225,13 @@ export default function PrescriptionCard(props) {
               flexWrap="wrap"
             >
               {props.prescription.exercises.map(exercise => {
+                let ex = select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
                 //console.log("exercise",exercise)
-                return (<Chip label={exercise.name} size="small" />)
+                if (ex === undefined) {
+                  return null
+                } else {
+                  return (<Chip key={random_id()} label={ex.name} size="small" />)
+                }
               })}
             </Stack>
           </Box>

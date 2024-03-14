@@ -194,7 +194,7 @@
   },
   "prescription": {
     "label": {
-      "title": "Prescription du ",
+      "title": "Prescription",
       "new": "Nouvelle prescription",
       "unknown": "Prescription inconnue",
       "deniedaccess": "Vous faites fausse route...",
@@ -203,7 +203,8 @@
       "exercise": "Exercice",
       "duration": "Durée",
       "instructions": "Instructions",
-      "optional": "optional"
+      "optional": "optional",
+      "posology": "Posologie"
     },
     "exercise": {
       "videoBleu" : "Vidéo: Bleu",

@@ -37,7 +37,15 @@ export const prescriptionCreateInputs = {
       //console.log("directInput", k, directInputs[k])
       inputs[k] = directInputs[k]
     })
-    //console.log("getinputsfunction", inputs)
+    // Neater exercises
+    inputs.exercises = inputs.exercises.map(exercise => {
+      console.log("exercise", exercise)
+      return {
+        posology: exercise.posology,
+        exerciseid: exercise.exercise.exerciseid
+      }
+    })
+    console.log("getinputsfunction", inputs)
     return {inputs: inputs}
   },
   sercivechecks: [
