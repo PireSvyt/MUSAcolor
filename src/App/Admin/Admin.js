@@ -1,6 +1,5 @@
 
 import React from "react";
-import '@babel/plugin-proposal-private-property-in-object'
 import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next'
 import { Box } from "@mui/material";
