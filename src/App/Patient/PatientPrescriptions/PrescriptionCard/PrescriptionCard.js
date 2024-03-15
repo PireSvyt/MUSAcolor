@@ -15,7 +15,6 @@ import {
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import EditIcon from '@mui/icons-material/Edit';
 import LinkIcon from '@mui/icons-material/Link';
 import BiotechIcon from '@mui/icons-material/Biotech';
 
@@ -36,6 +35,7 @@ export default function PrescriptionCard(props) {
 
   // Selects
   const select = {
+    userState: useSelector((state) => state.userSlice.state),
     myexercises: useSelector((state) => state.userSlice.exercises),
   }
 
@@ -54,8 +54,15 @@ export default function PrescriptionCard(props) {
     attemptDelete: () => {
       setConfirmOpen(true)
     },
-    edit: () => {
-      //
+    openprescription: () => {
+      console.log('prescription to open', props.prescription)
+      setMenuOpen(false)
+      appStore.dispatch({
+        type: 'prescriptionModalSlice/load',
+        payload: {
+          prescription: props.prescription
+        },
+      })
     },
     copyurl: () => {
       navigator.clipboard.writeText(
@@ -132,111 +139,103 @@ export default function PrescriptionCard(props) {
       }}
       data-testid={"component-prescription card"}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+      {select.userState.exercises !== 'available' ? (null) : (
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            width: '100%',
           }}
         >
-          <Box>
-            <IconButton 
-              size="large" 
-              onClick={changes.openMenu}
-              data-testid={"listitem-prescription-menu+"+props.index}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              open={menuOpen}
-              onClose={changes.closeMenu}
-              anchorEl={anchorEl}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem
-                key={random_id()}
-                onClick={changes.attemptDelete}
-                disabled={deleting}
-                data-testid={"listitem-prescription-menuitem-delete+"+props.index}
-              >
-                <ListItemIcon>
-                  <RemoveCircleOutlineIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('generic.button.delete')}</ListItemText>   
-              </MenuItem>
-              <MenuItem
-                key={random_id()}
-                onClick={changes.edit}
-                data-testid={"listitem-prescription-menuitem-edit+"+props.index}
-                disabled={true}
-              >
-                <ListItemIcon>
-                  <EditIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('generic.button.edit')}</ListItemText> 
-              </MenuItem>
-              <MenuItem
-                key={random_id()}
-                onClick={changes.copyurl}
-                data-testid={"listitem-prescription-menuitem-copyurl+"+props.index}
-              >
-                <ListItemIcon>
-                  <LinkIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('generic.button.copyurl')}</ListItemText> 
-              </MenuItem>
-              <MenuItem
-                key={random_id()}
-                onClick={changes.test}
-                data-testid={"listitem-prescription-menuitem-test+"+props.index}
-              >
-                <ListItemIcon>
-                  <BiotechIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('generic.button.test')}</ListItemText> 
-              </MenuItem>
-            </Menu>
-          </Box>
-          
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              alignItems: 'left'
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '100%',
             }}
           >
-            <Typography variant="body1">{stringifyDate() + " / " + toMinutesString(prescrptionDuration)}</Typography>
-            <Stack
-              spacing={{ xs: 0, sm: 0.5 }} 
-              direction="row" 
-              useFlexGap 
-              flexWrap="wrap"
+            <Box>
+              <IconButton 
+                size="large" 
+                onClick={changes.openMenu}
+                data-testid={"listitem-prescription-menu+"+props.index}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                open={menuOpen}
+                onClose={changes.closeMenu}
+                anchorEl={anchorEl}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem
+                  key={random_id()}
+                  onClick={changes.attemptDelete}
+                  disabled={deleting}
+                  data-testid={"listitem-prescription-menuitem-delete+"+props.index}
+                >
+                  <ListItemIcon>
+                    <RemoveCircleOutlineIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>{t('generic.button.delete')}</ListItemText>   
+                </MenuItem>
+                <MenuItem
+                  key={random_id()}
+                  onClick={changes.copyurl}
+                  data-testid={"listitem-prescription-menuitem-copyurl+"+props.index}
+                >
+                  <ListItemIcon>
+                    <LinkIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>{t('generic.button.copyurl')}</ListItemText> 
+                </MenuItem>
+                <MenuItem
+                  key={random_id()}
+                  onClick={changes.test}
+                  data-testid={"listitem-prescription-menuitem-test+"+props.index}
+                >
+                  <ListItemIcon>
+                    <BiotechIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>{t('generic.button.test')}</ListItemText> 
+                </MenuItem>
+              </Menu>
+            </Box>
+            
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'left'
+              }}
+              onClick={changes.openprescription}
             >
-              {props.prescription.exercises.map(exercise => {
-                let ex = select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
-                //console.log("exercise",exercise)
-                if (ex === undefined) {
-                  return null
-                } else {
-                  return (<Chip key={random_id()} label={ex.name} size="small" />)
-                }
-              })}
-            </Stack>
+              <Typography variant="body1">{stringifyDate() + " / " + toMinutesString(prescrptionDuration)}</Typography>
+              <Stack
+                spacing={{ xs: 0, sm: 0.5 }} 
+                direction="row" 
+                useFlexGap 
+                flexWrap="wrap"
+              >
+                {props.prescription.exercises.map(exercise => {
+                  let ex = select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
+                  //console.log("ex",ex)
+                  if (ex === undefined) {
+                    return null
+                  } else {
+                    return (<Chip key={random_id()} label={ex.name} size="small" />)
+                  }
+                })}
+              </Stack>
+            </Box>
           </Box>
-        </Box>
-      </Box>
+        </Box>      
+      )}
 
       {confirmOpen === false ? null : (
         <ConfirmModal

@@ -54,10 +54,26 @@ export async function apiExerciseGet(getInputs, token) {
   try {
     const res = await axios({
       method: 'post',
-      url: apiURL + 'exercise/v1/getmine',
+      url: apiURL + 'exercise/v1/get',
       data: {
         exerciseid: getInputs.exerciseid
       },
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return res.data
+  } catch (err) {
+    return err.response.data
+  }
+}
+
+export async function apiExerciseGetMine(getMineInputs, token) {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: apiURL + 'exercise/v1/getmine',
+      data: getMineInputs,
       headers: {
         Authorization: 'Bearer ' + token,
       },

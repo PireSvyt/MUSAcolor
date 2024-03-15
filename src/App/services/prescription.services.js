@@ -1,6 +1,7 @@
 // Inputs
 import {
   prescriptionCreateInputs,
+  prescriptionSaveInputs,
   prescriptionDeleteInputs,
   prescriptionGetInputs,
 } from './prescription.services.inputs.js'
@@ -12,6 +13,12 @@ export async function servicePrescriptionCreate(directInputs) {
     console.log('servicePrescriptionCreate')
   }
   await serviceProceed(prescriptionCreateInputs, directInputs)
+}
+export async function servicePrescriptionSave(directInputs) {
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('servicePrescriptionSave')
+  }
+  await serviceProceed(prescriptionSaveInputs, directInputs)
 }
 
 export async function servicePrescriptionDelete(directInputs) {

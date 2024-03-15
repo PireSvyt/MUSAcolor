@@ -1,5 +1,10 @@
 // APIs
-import { apiPrescriptionCreate, apiPrescriptionDelete, apiPrescriptionGet } from './prescription.api.js'
+import { 
+  apiPrescriptionCreate, 
+  apiPrescriptionSave, 
+  apiPrescriptionDelete, 
+  apiPrescriptionGet 
+} from './prescription.api.js'
 // Services
 import { random_id, random_string } from './toolkit.js'
 import appStore from '../store.js'
@@ -36,14 +41,6 @@ export const prescriptionCreateInputs = {
     Object.keys(directInputs).forEach(k => {
       //console.log("directInput", k, directInputs[k])
       inputs[k] = directInputs[k]
-    })
-    // Neater exercises
-    inputs.exercises = inputs.exercises.map(exercise => {
-      console.log("exercise", exercise)
-      return {
-        posology: exercise.posology,
-        exerciseid: exercise.exercise.exerciseid
-      }
     })
     console.log("getinputsfunction", inputs)
     return {inputs: inputs}
@@ -138,6 +135,191 @@ export const prescriptionCreateInputs = {
       },
     }
     //console.log("prescriptionCreateInputs response", response)
+    return responses[response.type]()
+  },
+}
+export const prescriptionSaveInputs = {
+  lockuifunction: (log) => {
+    log.push({
+      date: new Date(),
+      message: 'prescriptionSaveInputs.lockuifunction',
+      tags: ['function'],
+    })
+    appStore.dispatch({
+      type: 'prescriptionModalSlice/lock',
+    })
+  },
+  unlockuifunction: (log) => {
+    log.push({
+      date: new Date(),
+      message: 'prescriptionSaveInputs.unlockuifunction',
+      tags: ['function'],
+    })
+    appStore.dispatch({
+      type: 'prescriptionModalSlice/unlock',
+    })
+  },
+  getinputsfunction: (log, directInputs) => {
+    log.push({
+      date: new Date(),
+      message: 'prescriptionSaveInputs.getinputsfunction',
+      tags: ['function'],
+    })
+    //console.log("directInputs", directInputs)
+    let inputs = {...appStore.getState().prescriptionModalSlice.inputs}
+    Object.keys(directInputs).forEach(k => {
+      //console.log("directInput", k, directInputs[k])
+      inputs[k] = directInputs[k]
+    })
+    console.log("getinputsfunction", inputs)
+    return {inputs: inputs}
+  },
+  sercivechecks: [
+    {
+      // Check inputs root is available
+      field: 'inputs',
+      error: 'generic.error.missinginputs',
+      subchecks: [
+        {
+          // Check patientid is available
+          field: 'patientid',
+          error: 'generic.error.missingpatientid',
+          fieldsinerror: ['patientid'],
+        },
+        {
+          // Check results is available
+          field: 'exercises',
+          error: 'generic.error.missingexercises',
+          fieldsinerror: ['exercises'],
+        },
+      ],
+    },
+  ],
+  getcheckoutcomedispatchfunction: (log) => {
+    log.push({
+      date: new Date(),
+      message: 'prescriptionSaveInputs.getcheckoutcomedispatchfunction',
+      tags: ['function'],
+    })
+    return 'prescriptionModalSlice/change'
+  },
+  repackagingfunction: (serviceInputs, log) => {
+    log.push({
+      date: new Date(),
+      message: 'prescriptionSaveInputs.repackagingfunction',
+      tags: ['function'],
+    })
+
+    let repackagedInputs = {}
+    repackagedInputs.inputs = {}
+
+    repackagedInputs.inputs.patientid = appStore.getState().patientSlice.patientid
+    repackagedInputs.inputs.exercises = serviceInputs.inputs.exercises
+    
+    let prescriptionid = appStore.getState().prescriptionModalSlice.prescriptionid
+    if (prescriptionid !== undefined && prescriptionid !== null && prescriptionid !== '') {
+      repackagedInputs.inputs.prescriptionid = prescriptionid
+    } else {
+      repackagedInputs.inputs.prescriptionid = random_string()
+    }
+
+    console.log('repackagedInputs', repackagedInputs)
+    return repackagedInputs
+  },
+  apicall: async (inputs, log) => {
+    console.log('apicall inputs', inputs)
+    log.push({
+      date: new Date(),
+      message: 'prescriptionSaveInputs.apicall',
+      inputs: inputs,
+      tags: ['function'],
+    })
+    try {
+      
+      let prescriptionid = appStore.getState().prescriptionModalSlice.prescriptionid
+      if (prescriptionid === undefined 
+        || prescriptionid === null 
+        || prescriptionid === '' ) {
+        return await apiPrescriptionCreate(inputs, appStore.getState().authSlice.token)
+      } else {
+        return await apiPrescriptionSave(inputs, appStore.getState().authSlice.token)
+      }
+
+    } catch (err) {
+      return err
+    }
+  },
+  getmanageresponsefunction: (response, log) => {
+    log.push({
+      date: new Date(),
+      message: 'prescriptionSaveInputs.getmanageresponsefunction',
+      response: response,
+      tags: ['function'],
+    })
+    let responses = {
+      'prescription.create.success': () => {
+        appStore.dispatch({
+          type: 'prescriptionModalSlice/close',
+        })
+      },
+      'prescription.save.success.modified': () => {
+        appStore.dispatch({
+          type: 'prescriptionModalSlice/close',
+        })
+      },
+      'prescription.create.error.oncreate': () => {
+        appStore.dispatch({
+          type: 'prescriptionModalSlice/change',
+          payload: {
+            state: {
+              storage: 'error'
+            }
+          }
+        })
+        appStore.dispatch({
+          type: 'sliceSnack/change',
+          payload: {
+            uid: random_id(),
+            id: 'generic.snack.error.wip',
+          },
+        })
+      },
+      'prescription.save.error.prescriptionid': () => {
+        appStore.dispatch({
+          type: 'prescriptionModalSlice/change',
+          payload: {
+            state: {
+              storage: 'error'
+            }
+          }
+        })
+        appStore.dispatch({
+          type: 'sliceSnack/change',
+          payload: {
+            uid: random_id(),
+            id: 'generic.snack.error.wip',
+          },
+        })
+      },
+      'prescription.save.error.onsave': () => {
+        appStore.dispatch({
+          type: 'prescriptionModalSlice/change',
+          payload: {
+            state: {
+              storage: 'error'
+            }
+          }
+        })
+        appStore.dispatch({
+          type: 'sliceSnack/change',
+          payload: {
+            uid: random_id(),
+            id: 'generic.snack.error.wip',
+          },
+        })
+      },
+    }
+    //console.log("prescriptionSaveInputs response", response)
     return responses[response.type]()
   },
 }

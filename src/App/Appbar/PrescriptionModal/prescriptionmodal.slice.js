@@ -6,6 +6,7 @@ const prescriptionModalSlice = createSlice({
     disabled: false,
     loading: false,
     open: false,
+    prescriptionid: null,
     inputs: {
       exercises: [],
     },
@@ -26,7 +27,24 @@ const prescriptionModalSlice = createSlice({
     },
     new: (state) => {
       state.open = true
+      state.prescriptionid = null
       state.inputs.exercises = []
+      state.errors.exercises = false
+      state.disabled = false
+      state.loading = false
+    },
+    load: (state, action) => {
+      //console.log("prescriptionModalSlice.load", action.payload)
+      state.open = true
+      state.prescriptionid = action.payload.prescription.prescriptionid
+      let exercises = [...action.payload.prescription.exercises]
+      exercises = exercises.map(exercise => {
+        return {
+          exerciseid: exercise.exerciseid,
+          posology: exercise.posology
+        }
+      })
+      state.inputs.exercises = exercises
       state.errors.exercises = false
       state.disabled = false
       state.loading = false
@@ -79,7 +97,7 @@ const prescriptionModalSlice = createSlice({
       let currentExercises = [...state.inputs.exercises]
       currentExercises.push({
         posology: '',
-        exercise: action.payload.exercise
+        exerciseid: action.payload.exerciseid
       })
       state.inputs.exercises = currentExercises
     },

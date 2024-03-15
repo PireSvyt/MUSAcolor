@@ -19,6 +19,22 @@ export async function apiPrescriptionCreate(prescriptionCreateInputs, token) {
   }
 }
 
+export async function apiPrescriptionSave(prescriptionSaveInputs, token) {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: apiURL + 'prescription/v1/save',
+      data: prescriptionSaveInputs,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return res.data
+  } catch (err) {
+    return err.response.data
+  }
+}
+
 export async function apiPrescriptionDelete(deleteInputs, token) {
   try {
     const res = await axios({

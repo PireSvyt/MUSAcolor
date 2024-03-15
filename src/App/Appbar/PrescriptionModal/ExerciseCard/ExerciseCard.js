@@ -26,7 +26,7 @@ import appStore from '../../../store.js'
 
 export default function ExerciseCard(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('ExerciseCard ' + props.exercise.exerciseid)
+    console.log('ExerciseCard')
   }
   // i18n
   const { t } = useTranslation()
@@ -105,6 +105,8 @@ export default function ExerciseCard(props) {
   const [anchorEl, setAnchorEl] = useState(null)
   const [deleting, setDeleting] = useState(false)
 
+  console.log("ExerciseCard props", props)
+
   return (
     <Card
       index={props.index}
@@ -124,18 +126,21 @@ export default function ExerciseCard(props) {
             width: '100%',
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              width: '100%',
-            }}
-          >
-            <Typography>{ props.exercise.exercise.name }</Typography>
-            <Typography variant="caption">{toMinutesString(props.exercise.exercise.duration)}</Typography>
-          </Box>
+          {props.exercise === undefined ? (null) : (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>{ props.exercise.name }</Typography>
+              <Typography variant="caption">{toMinutesString(props.exercise.duration)}</Typography>
+            </Box>
+          )}
+          
           <Box>
             <IconButton 
               size="large" 
@@ -215,7 +220,7 @@ export default function ExerciseCard(props) {
             label={t('prescription.label.posology')}
             placeholder={t('prescription.label.optional')}
             variant="standard"
-            value={props.exercise.posology}
+            value={props.posology}
             onChange={changes.posology}
             autoComplete="off"
             fullWidth

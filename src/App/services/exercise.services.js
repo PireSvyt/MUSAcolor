@@ -3,6 +3,7 @@ import {
   exerciseSaveInputs,
   exerciseDeleteInputs,
   exerciseGetInputs,
+  exerciseGetMineInputs
 } from './exercise.services.inputs.js'
 // Services
 import serviceProceed from './serviceProceed.js'
@@ -32,4 +33,12 @@ export async function serviceExerciseGet(exerciseid) {
     exerciseid: exerciseid,
   }
   await serviceProceed(exerciseGetInputs, directInputs)
+}
+
+export async function serviceExerciseGetMine() {
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceExerciseGetMine')
+  }
+  let directInputs = {}
+  await serviceProceed(exerciseGetMineInputs, directInputs)
 }

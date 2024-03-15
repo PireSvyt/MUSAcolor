@@ -23,7 +23,7 @@ import { useSelector } from 'react-redux'
 import ExerciseCard from './ExerciseCard/ExerciseCard.js'
 // Services
 import { random_id } from '../../services/toolkit.js'
-import { servicePrescriptionCreate } from '../../services/prescription.services.js'
+import { servicePrescriptionSave } from '../../services/prescription.services.js'
 import { servicePatientGet } from '../../services/patient.services.js'
 // Reducers
 import appStore from '../../store.js'
@@ -39,7 +39,7 @@ export default function PrescriptionModal() {
   const componentHeight = window.innerHeight - 115
   
   // State
-  const [selectedExercise, setSelectedExercise] = React.useState(null);
+  const [selectedExercise, setSelectedExercise] = React.useState('');
 
   // Selects
   const select = {
@@ -62,27 +62,24 @@ export default function PrescriptionModal() {
       })
     },
     selectExercise: (e) => {
-      //console.log("target", e.target)
-      let selectedExercise = select.myexercises.filter(exercise => e.target.value === exercise.exerciseid)[0]
-      //console.log("selectedExercise", selectedExercise)
-      // Select
-      setSelectedExercise(e.target.value);
+      //console.log("PrescriptionModal.selectExercise", e.target.value)
       // Add exercise
       appStore.dispatch({
         type: 'prescriptionModalSlice/addExercise',
         payload: {
-          exercise: selectedExercise,
+          exerciseid: e.target.value,
         },
       })
       // Reset
-      setSelectedExercise(null);
+      setSelectedExercise('');
     },
     create: () => {
       console.log('PrescriptionModal.create')
-      servicePrescriptionCreate( {
+      servicePrescriptionSave( {
         prescriptionid: random_id(),
         patientid: window.location.href.split('/patient/')[1],
-      }).then(() => {
+      })
+      .then(() => {
         servicePatientGet(window.location.href.split('/patient/')[1])
       })
     },
@@ -91,7 +88,12 @@ export default function PrescriptionModal() {
   // Duration
   let prescrptionDuration = 0
   select.inputs.exercises.forEach(exercise => {
-    prescrptionDuration += exercise.duration
+    let ex = select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
+    if (ex !== undefined) {
+      if (ex.duration !== undefined) {
+        prescrptionDuration += ex.duration
+      }
+    }
   })
 
   // Render
@@ -124,11 +126,12 @@ export default function PrescriptionModal() {
             <List dense={false}>
               {select.inputs.exercises.map((exercise) => {
                 c += 1
-                //console.log("exercise", exercise)
+                //console.log("PrescriptionModal.exercise", exercise)
                 return (
                   <ListItem key={'exercise-' + c}>
                     <ExerciseCard
-                      exercise={exercise}
+                      exercise={select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]}
+                      posology={exercise.posology}
                       index={c}
                       patientid={window.location.href.split('/patient/')[1]}
                     />

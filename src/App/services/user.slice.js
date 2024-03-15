@@ -28,22 +28,35 @@ const userSlice = createSlice({
         if (action.payload.state.details !== undefined) {
           state.state.details = action.payload.state.details
         }
+        if (action.payload.state.patients !== undefined) {
+          state.state.patients = action.payload.state.patients
+        }
+        if (action.payload.state.exercises !== undefined) {
+          state.state.exercises = action.payload.state.exercises
+        }
       }
     },
     set: (state, action) => {
-      state.userid = action.payload.userid
-      state.type = action.payload.type
+      // Details
+      if (action.payload.userid !== undefined && action.payload.type !== undefined) {
+        state.userid = action.payload.userid
+        state.type = action.payload.type
+        state.state.details = 'available'
+      }
+      // Patients
       if (action.payload.patients === undefined) {
         state.patients = []
       } else {
         state.patients = sortPatients(action.payload.patients)
+        state.state.patients = 'available'
       }
+      // Exercises
       if (action.payload.exercises === undefined) {
         state.exercises = []
       } else {
         state.exercises = sortExercises(action.payload.exercises)
+        state.state.exercises = 'available'
       }
-      state.state.details = 'available'
     },
     unload: (state) => {
       state.state = {}

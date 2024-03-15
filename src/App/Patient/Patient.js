@@ -6,6 +6,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 
 // Components
 import { servicePatientGet } from '../services/patient.services.js'
+import { serviceExerciseGetMine } from '../services/exercise.services.js'
 import PatientExams from './PatientExams/PatientExams.js'
 import PatientPrescriptions from './PatientPrescriptions/PatientPrescriptions.js'
 // Shared
@@ -22,6 +23,7 @@ export default function Patient() {
   const select = {
     authloaded: useSelector((state) => state.authSlice.loaded),
     signedin: useSelector((state) => state.authSlice.signedin),
+    userState: useSelector((state) => state.userSlice.state),
     patientState: useSelector((state) => state.patientSlice.state),
     patientName: useSelector((state) => state.patientSlice.name),
   }
@@ -36,6 +38,10 @@ export default function Patient() {
       if (select.patientState.details === undefined) {
         // details not loaded nor loading
         servicePatientGet(window.location.href.split('/patient/')[1])
+      }
+      if (select.userState.exercises === undefined) {
+        // exercises not loaded nor loading
+        serviceExerciseGetMine()
       }
     }
   }

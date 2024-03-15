@@ -4,6 +4,7 @@ import {
   apiExerciseSave,
   apiExerciseDelete,
   apiExerciseGet,
+  apiExerciseGetMine,
 } from './exercise.api.js'
 // Services
 import { random_id, random_string } from './toolkit.js'
@@ -365,6 +366,76 @@ export const exerciseGetInputs = {
         appStore.dispatch({
           type: 'exerciseSlice/set',
           payload: response.data.exercise,
+        })
+      },
+      'exercise.getmine.error.onfinduser': () => {
+        appStore.dispatch({
+          type: 'sliceSnack/change',
+          payload: {
+            uid: random_id(),
+            id: 'generic.snack.error.wip',
+          },
+        })
+      },
+      'exercise.getmine.error.onaggregate': () => {
+        appStore.dispatch({
+          type: 'sliceSnack/change',
+          payload: {
+            uid: random_id(),
+            id: 'generic.snack.error.wip',
+          },
+        })
+      },
+    }
+    return responses[response.type]()
+  },
+}
+
+export const exerciseGetMineInputs = {
+  lockuifunction: (log) => {
+    log.push({
+      date: new Date(),
+      message: 'serviceExerciseGetMine.lockuifunction',
+      tags: ['function'],
+    })
+    appStore.dispatch({
+      type: 'userSlice/change',
+      payload: { state: { exercises: 'wip'} },
+    })
+  },
+  getinputsfunction: (log, directInputs) => {
+    log.push({
+      date: new Date(),
+      message: 'serviceExerciseGetMine.getinputsfunction',
+      tags: ['function'],
+    })
+    return directInputs
+  },
+  apicall: async (inputs, log) => {
+    log.push({
+      date: new Date(),
+      message: 'serviceExerciseGetMine.apicall',
+      inputs: inputs,
+      tags: ['function'],
+    })
+    try {
+      return await apiExerciseGetMine(inputs, appStore.getState().authSlice.token)
+    } catch (err) {
+      return err
+    }
+  },
+  getmanageresponsefunction: (response, log) => {
+    log.push({
+      date: new Date(),
+      message: 'serviceExerciseGetMine.getmanageresponsefunction',
+      response: response,
+      tags: ['function'],
+    })
+    let responses = {
+      'exercise.getmine.success': () => {
+        appStore.dispatch({
+          type: 'userSlice/set',
+          payload: { exerises: response.data.exercises },
         })
       },
       'exercise.getmine.error.onfinduser': () => {
