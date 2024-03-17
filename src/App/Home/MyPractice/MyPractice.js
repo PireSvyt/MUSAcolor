@@ -93,6 +93,7 @@ export default function MyPractice() {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
+          width: '100%'
         }}
       >
         <Tabs value={selectedTab} onChange={handleChange} aria-label="basic tabs example">
@@ -139,12 +140,15 @@ export default function MyPractice() {
             </Menu>
           </Box>
       </Box>
+      <Box 
+      >
       <CustomTabPanel selectedTab={selectedTab} index={0}>
         <MyPatients />
       </CustomTabPanel>
       <CustomTabPanel selectedTab={selectedTab} index={1}>
         <MyExercises/>
       </CustomTabPanel>
+    </Box>
     </Box>
   )
 }

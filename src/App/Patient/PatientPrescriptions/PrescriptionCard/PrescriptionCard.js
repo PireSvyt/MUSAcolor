@@ -228,7 +228,7 @@ export default function PrescriptionCard(props) {
                   if (ex === undefined) {
                     return null
                   } else {
-                    return (<Chip key={random_id()} label={ex.name} size="small" />)
+                    return (<Chip key={random_id()} label={ex.name} size="small" sx={{mr:0.5}}/>)
                   }
                 })}
               </Stack>

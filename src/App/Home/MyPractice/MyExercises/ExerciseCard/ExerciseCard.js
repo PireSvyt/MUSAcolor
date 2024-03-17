@@ -8,7 +8,8 @@ import {
   Menu,
   MenuItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Chip
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -151,7 +152,10 @@ export default function ExerciseCard(props) {
             data-testid={"listitem-exercise-click+"+props.exercise.name}
           >
             <Typography>{props.exercise.name}</Typography>
-            <Typography variant="caption">{t('exercise.label.' + props.exercise.type) + ' / ' + toMinutesString(props.exercise.duration)}</Typography>
+            <Box>
+              <Typography variant="caption">{toMinutesString(props.exercise.duration)}</Typography>
+              <Chip label={t('exercise.label.' + props.exercise.type)} size="small" sx={{ml:1}}/>
+            </Box>
           </Box>
         </Box>
       </Box>
