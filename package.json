@@ -37,7 +37,8 @@
     "react-router-dom": "^6.17.0",
     "react-scripts": "^5.0.1",
     "stream-browserify": "^3.0.0",
-    "vm-browserify": "^1.1.2"
+    "vm-browserify": "^1.1.2",
+    "webpack": "^5.90.3"
   },
   "engines": {
     "node": "^18.18.2"
