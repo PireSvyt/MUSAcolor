@@ -1,5 +1,5 @@
 module.exports = function override(config, env) {
-  console.log('config-overrides',config)
+  //console.log('config-overrides',config)
   let loaders = config.resolve
   loaders.fallback = {
     path: require.resolve('path-browserify'),
@@ -9,6 +9,6 @@ module.exports = function override(config, env) {
     stream: require.resolve('stream-browserify'),
     vm: require.resolve('vm-browserify'),
   }
-  console.log('config-overrides',config)
+  //console.log('config-overrides',config)
   return config
 }
