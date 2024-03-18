@@ -46,7 +46,7 @@
     "prettier": "3.0.3"
   },
   "scripts": {
-    "build": "react-app-rewired -r dotenv/config build /src/index.js",
+    "build": "react-app-rewired build",
     "start": "react-app-rewired -r dotenv/config start --verbose",
     "prettify": "npx prettier . --write"
   },
