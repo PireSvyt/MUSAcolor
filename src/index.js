@@ -1,5 +1,5 @@
 import React from 'react'
-//import { createRoot } from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 
@@ -14,15 +14,15 @@ import appStore from './App/store.js'
 import { themeOptions } from './configs/themeOptions.js'
 const theme = createTheme(themeOptions)
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'))
+root.render(
   <React.StrictMode>
     <Provider store={appStore}>
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 )
 
 //document.body.requestFullscreen();
