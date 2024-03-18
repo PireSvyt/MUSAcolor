@@ -123,7 +123,11 @@
       "noexamsexplanation": "Vous trouverez les analyses de ce sujet ici à l'avenir.\nAjoutez une analyse avec l'icon '+'",
       "prescriptions": "Prescriptions",
       "noprescriptions": "Aucune prescription",
-      "noprescriptionsexplanation": "Vous trouverez les prescriptions de ce sujet ici à l'avenir.\nAjoutez une prescription avec l'icon '+'"
+      "noprescriptionsexplanation": "Vous trouverez les prescriptions de ce sujet ici à l'avenir.\nAjoutez une prescription avec l'icon '+'",
+      "databaseurl": "Lien fiche patient"
+    },
+    "button": {
+      "databaseurl": "Fiche"
     },
     "confirm": {
       "deleteexam": {

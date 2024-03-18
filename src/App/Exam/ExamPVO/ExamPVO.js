@@ -508,7 +508,7 @@ export default function ExamPVO(props) {
             <ChartPVO width={window.innerWidth * 0.9} inputs={chartInputs} />
 
             <Typography
-                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
+                sx={{ m: 2, whiteSpace: 'pre-line', width: '80%' }}
                 component="span"
                 align="center"
                 variant="caption"

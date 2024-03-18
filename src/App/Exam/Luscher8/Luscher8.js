@@ -488,7 +488,7 @@ export default function ExamLuscher8(props) {
             </Box>
 
             <Typography
-                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
+                sx={{ m: 2, whiteSpace: 'pre-line', width: '80%' }}
                 component="span"
                 align="center"
                 variant="caption"

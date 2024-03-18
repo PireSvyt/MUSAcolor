@@ -25,6 +25,7 @@ export default function ChartPVO(props) {
 
   const maxRadius = 0.65
   let sectorAngle = 360 / props.inputs.data.length
+  let width = Math.min(props.width, 600)
 
   const draw = (ctx, frameCount) => {
 
@@ -33,15 +34,15 @@ export default function ChartPVO(props) {
     function drawSector (inputs) {
       ctx.beginPath()
       // Origin
-      ctx.moveTo(props.width/2, props.width/2);
+      ctx.moveTo(width/2, width/2);
       // Arc
       ctx.arc(
-        props.width/2, props.width/2, 
-        props.width/2*maxRadius*inputs.outerRadius, 
+        width/2, width/2, 
+        width/2*maxRadius*inputs.outerRadius, 
         (inputs.angleBegin-90)*2*Math.PI/360, 
         (inputs.angleEnd-90)*2*Math.PI/360);
       // Origin
-      ctx.lineTo(props.width/2, props.width/2);
+      ctx.lineTo(width/2, width/2);
       // Color
       ctx.fillStyle = inputs.color;
       ctx.fill();      
@@ -83,9 +84,9 @@ export default function ChartPVO(props) {
         case 'polar':
           console.log("inputs.pos",inputs.pos)
           console.log("maxRadius",maxRadius)
-          console.log("props.width",props.width)
-          let labelWidth = 40//window.innerWidth/2 - props.width/2*inputs.pos.radius
-          let R = props.width/2 * inputs.pos.radius
+          console.log("width",width)
+          let labelWidth = 40//window.innerWidth/2 - width/2*inputs.pos.radius
+          let R = width/2 * inputs.pos.radius
           let a = (inputs.pos.angle+90)/360
           let cos = -R*Math.cos(a*2*Math.PI)
           let sin = -R*Math.sin(-a*2*Math.PI)
@@ -97,8 +98,8 @@ export default function ChartPVO(props) {
           if (window.innerWidth > 600) { offset -= 22.5}
           k += 1
           pos = {
-            left: (props.width)/2-labelWidth/2+cos + offset,
-            top: -props.width/2-k*labelWidth-labelWidth/2-sin,//props.width/2,
+            left: (width)/2-labelWidth/2+cos + offset,
+            top: -width/2-k*labelWidth-labelWidth/2-sin,//width/2,
             labelWidth: labelWidth,
             labelHeight: labelWidth
           }
@@ -192,8 +193,8 @@ export default function ChartPVO(props) {
     >
       <Canvas 
         draw={draw}
-        width={props.width}
-        height={props.width} 
+        width={width}
+        height={width} 
         margin={0}
         padding={0}
       />

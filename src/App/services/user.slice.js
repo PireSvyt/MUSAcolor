@@ -58,6 +58,22 @@ const userSlice = createSlice({
         state.state.exercises = 'available'
       }
     },
+    update: (state, action) => {
+      console.log("userSlice.update", action.payload)
+      if (action.payload.patient !== undefined) {
+        let patients = [...state.patients]
+        let pos = patients
+          .map(patient => {return patient.patientid})
+          .indexOf(action.payload.patient.patientid)
+        if (pos === -1) {
+          patients.push(action.payload.patient)
+        } else {
+          patients[pos] = action.payload.patient
+        }
+
+        state.patients = sortPatients(patients)
+      }
+    },
     unload: (state) => {
       state.state = {}
       state.userid = ''

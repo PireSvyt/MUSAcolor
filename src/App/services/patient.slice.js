@@ -6,6 +6,7 @@ const patientSlice = createSlice({
     state: {},
     patientid: '',
     name: '',
+    databaseURL: '',
     exams: [],
     prescriptions: [],
   },
@@ -19,6 +20,7 @@ const patientSlice = createSlice({
     set: (state, action) => {
       state.patientid = action.payload.patientid
       state.name = action.payload.name
+      state.databaseURL = action.payload.databaseURL
       if (action.payload.exams === undefined) {
         state.exams = []
       } else {

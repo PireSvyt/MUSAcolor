@@ -108,7 +108,8 @@
       "noexamsexplanation": "Your patient exams will be listed here.\nAdd an exam clicking the '+' icon",
       "prescriptions": "Prescriptions",
       "noprescriptions": "No prescriptions",
-      "noprescriptionsexplanation": "Your patient prescriptions will be listed here.\nAdd a prescription clicking the '+' icon"
+      "noprescriptionsexplanation": "Your patient prescriptions will be listed here.\nAdd a prescription clicking the '+' icon",
+      "databaseurl": "Lien fiche patient"
     },
     "confirm": {
       "deleteexam": {
