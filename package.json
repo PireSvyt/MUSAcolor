@@ -1,7 +1,6 @@
 {
   "name": "musacolor",
   "version": "1.0.0",
-  "main": "/src/index.js",
   "license": "MIT",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -46,7 +45,7 @@
     "prettier": "3.0.3"
   },
   "scripts": {
-    "build": "react-app-rewired build",
+    "build": "react-app-rewired -r dotenv/config build",
     "start": "react-app-rewired -r dotenv/config start --verbose",
     "prettify": "npx prettier . --write"
   },

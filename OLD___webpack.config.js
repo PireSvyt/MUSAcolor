@@ -1,4 +1,4 @@
-module.exports = {
+/*module.exports = {
     plugins: [
         new webpack.DefinePlugin({
             'process.env.REACT_APP_SERVER_URL': JSON.stringify(process.env.REACT_APP_SERVER_URL),
@@ -6,4 +6,4 @@ module.exports = {
             'process.env.REACT_APP_ENCRYPTION_KEY': JSON.stringify(process.env.REACT_APP_ENCRYPTION_KEY),
         })
     ],
-}
+}*/
