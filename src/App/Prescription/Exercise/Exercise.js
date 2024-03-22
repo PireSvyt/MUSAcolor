@@ -49,76 +49,82 @@ export default function Exercise(props) {
         }}
         >
 
-        { props.exercise.posology === undefined 
-        || props.exercise.posology === null 
-        || props.exercise.posology === '' ? (null) : (
-            <Box
-            sx={{                        
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                pb: 1
-            }}
-            >
-                <Typography 
-                    component="span" 
-                    variant="h6"
-                    align='justify'
+            { props.exercise.posology === undefined 
+            || props.exercise.posology === null 
+            || props.exercise.posology === '' ? (null) : (
+                <Box
+                sx={{                        
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    pb: 1
+                }}
                 >
-                    {t('prescription.label.posology')}
-                </Typography> 
-                <Typography 
-                    component="span" 
-                    variant="body1"
-                    align='justify'
-                    sx={{ whiteSpace: "pre-line", fontStyle: 'italic' }}
-                >
-                    {props.exercise.posology}
-                </Typography> 
-            </Box>
-        )}
-
-        { props.exercise.instructions === undefined 
-        || props.exercise.instructions === null 
-        || props.exercise.instructions === '' ? (null) : (
-            <Box
-            sx={{                        
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                pb: 1
-            }}
-            >
-                <Typography 
-                    component="span" 
-                    variant="h6"
-                    align='justify'
-                >
-                    {t('prescription.label.exercise')}
-                </Typography>   
-                <Typography 
-                    component="span" 
-                    variant="body1"
-                    sx={{ whiteSpace: "pre-line" }}
-                >
-                    {props.exercise.instructions}
-                </Typography>  
-            </Box>
-        )}
-
-        <Box
-            sx={{                        
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                pt: 1
-            }}
-        >   
-            {props.exercise.data === undefined ? (null) : 
-                props.exercise.data.videoToken === undefined ? (null) : (
-                <YoutubeEmbed embedId={props.exercise.data.videoToken} />
+                    <Typography 
+                        component="span" 
+                        variant="h6"
+                        align='justify'
+                    >
+                        {t('prescription.label.posology')}
+                    </Typography> 
+                    <Typography 
+                        component="span" 
+                        variant="body1"
+                        align='justify'
+                        sx={{ whiteSpace: "pre-line", fontStyle: 'italic' }}
+                    >
+                        {props.exercise.posology}
+                    </Typography> 
+                </Box>
             )}
-        </Box>
+
+            { props.exercise.instructions === undefined 
+            || props.exercise.instructions === null 
+            || props.exercise.instructions === '' ? (null) : (
+                <Box
+                sx={{                        
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    pb: 1
+                }}
+                >
+                    <Typography 
+                        component="span" 
+                        variant="h6"
+                        align='justify'
+                    >
+                        {t('prescription.label.exercise')}
+                    </Typography>   
+                    <Typography 
+                        component="span" 
+                        variant="body1"
+                        sx={{ whiteSpace: "pre-line" }}
+                    >
+                        {props.exercise.instructions}
+                    </Typography>  
+                </Box>
+            )}
+
+            <Box
+                sx={{ 
+                    display: 'flex',
+                    justifyContent: 'center'
+                }}
+            >   
+                {props.exercise.data === undefined ? (null) : 
+                    props.exercise.data.videoToken === undefined ? (null) : (
+                    <Box
+                        sx={{  
+                                
+                            width: '80%',
+                            maxWidth: 500,
+                        }}
+                    > 
+                        <YoutubeEmbed embedId={props.exercise.data.videoToken} />
+                    </Box>
+                )}
+            </Box>
 
         </Box>
 
