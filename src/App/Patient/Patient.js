@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { Box, Typography, Button, IconButton } from '@mui/material'
@@ -7,7 +7,6 @@ import EditIcon from '@mui/icons-material/Edit';
 
 // Components
 import { servicePatientGet } from '../services/patient.services.js'
-import { serviceExerciseGetMine } from '../services/exercise.services.js'
 import PatientExams from './PatientExams/PatientExams.js'
 import PatientPrescriptions from './PatientPrescriptions/PatientPrescriptions.js'
 // Shared
@@ -22,13 +21,16 @@ export default function Patient() {
   // i18n
   const { t } = useTranslation()
 
+  // State
+  const [patientIsAvailable, setPatientIsAvailable] = useState(null);
+
   // Selects
   const select = {
     authloaded: useSelector((state) => state.authSlice.loaded),
     signedin: useSelector((state) => state.authSlice.signedin),
-    userState: useSelector((state) => state.userSlice.state),
     patientState: useSelector((state) => state.patientSlice.state),
     patient: useSelector((state) => state.patientSlice),
+    exercisesState: useSelector((state) => state.exerciseSlice.state),
   }
 
   // Changes
@@ -57,14 +59,11 @@ export default function Patient() {
       // not signed in > redirection
       window.location = '/'
     } else {
-      // signed in
-      if (select.patientState.details === undefined) {
-        // details not loaded nor loading
-        servicePatientGet(window.location.href.split('/patient/')[1])
-      }
-      if (select.userState.exercises === undefined) {
-        // exercises not loaded nor loading
-        serviceExerciseGetMine()
+      if (patientIsAvailable === null) {
+        setPatientIsAvailable('wip')
+        servicePatientGet(window.location.href.split('/patient/')[1]).then(() => {
+          setPatientIsAvailable('available')
+        })
       }
     }
   }
@@ -82,7 +81,7 @@ export default function Patient() {
       />
       {select.authloaded === true &&
       select.signedin === true &&
-      select.patientState.details === 'available' ? (
+      patientIsAvailable === 'available' ? (
         <Box
         sx={{
           display: 'flex',

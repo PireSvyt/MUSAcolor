@@ -33,7 +33,7 @@ export default function ExerciseCard(props) {
   let changes = {
     openexercise: () => {
       setMenuOpen(false)
-      
+
       function depackageInputs(exercise) {
         let depackagedExercise = {...exercise}
         if (depackagedExercise.type === 'videoYoutube') {

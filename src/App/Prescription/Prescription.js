@@ -31,7 +31,6 @@ export default function Prescription() {
   // Changes
   let changes = {
   }
-
   
   if (isAvailable === null) {
     setIsAvailable('wip')

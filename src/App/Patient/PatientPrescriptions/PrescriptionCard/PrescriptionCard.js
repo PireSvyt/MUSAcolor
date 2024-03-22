@@ -55,7 +55,7 @@ export default function PrescriptionCard(props) {
       setConfirmOpen(true)
     },
     openprescription: () => {
-      console.log('prescription to open', props.prescription)
+      //console.log('prescription to open', props.prescription)
       setMenuOpen(false)
       appStore.dispatch({
         type: 'prescriptionModalSlice/load',
@@ -226,6 +226,7 @@ export default function PrescriptionCard(props) {
                   let ex = select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
                   //console.log("ex",ex)
                   if (ex === undefined) {
+                    console.log("!! undefined exercise",exercise)
                     return null
                   } else {
                     return (<Chip key={random_id()} label={ex.name} size="small" sx={{mr:0.5, mt: 0.5}}/>)

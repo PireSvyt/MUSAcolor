@@ -105,8 +105,6 @@ export default function ExerciseCard(props) {
   const [anchorEl, setAnchorEl] = useState(null)
   const [deleting, setDeleting] = useState(false)
 
-  console.log("ExerciseCard props", props)
-
   return (
     <Card
       index={props.index}

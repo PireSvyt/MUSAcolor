@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import {
@@ -15,6 +15,8 @@ import LinearProgress from '@mui/material/LinearProgress'
 
 // Components
 import PrescriptionCard from './PrescriptionCard/PrescriptionCard.js'
+// Services
+import { serviceExerciseGetMine } from '../../services/exercise.services.js'
 
 import appStore from '../../store.js'
 
@@ -27,7 +29,6 @@ export default function PatientPrescriptions() {
 
   // Selects
   const select = {
-    patientState: useSelector((state) => state.patientSlice.state),
     patientPrescriptions: useSelector((state) => state.patientSlice.prescriptions),
   }
 
@@ -60,11 +61,7 @@ export default function PatientPrescriptions() {
         </IconButton>
       </Stack>
 
-      {select.patientState.details !== 'available' ? (
-        <Box sx={{ left: '10%', right: '10%' }}>
-          <LinearProgress/>
-        </Box>
-      ) : select.patientPrescriptions.length === 0 ? (
+      {select.patientPrescriptions.length === 0 ? (
         <Box
           sx={{
             m: 2,
