@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Typography } from '@mui/material'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {getRow, setRow, shuffleList} from '../utils.js'
 
 

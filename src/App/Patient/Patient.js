@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
-import { Box, Typography, Card, CardActions, CardContent, Button, IconButton } from '@mui/material'
+import { Box, Typography, Button, IconButton } from '@mui/material'
 import LinearProgress from '@mui/material/LinearProgress'
 import EditIcon from '@mui/icons-material/Edit';
 

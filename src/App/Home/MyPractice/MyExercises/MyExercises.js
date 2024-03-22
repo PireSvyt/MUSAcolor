@@ -3,9 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import {
   Box,
-  Stack,
   Typography,
-  IconButton,
   List,
   ListItem,
 } from '@mui/material'

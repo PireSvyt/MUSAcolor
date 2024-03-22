@@ -3,18 +3,10 @@ import { useTranslation } from 'react-i18next'
 import {
   Box,
   Container,
-  Card,
   Typography,
-  IconButton,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
-  Chip
 } from '@mui/material'
 import Canvas from './Canvas/Canvas.js';
 import { random_id } from '../../../services/toolkit.js';
-import { alignProperty } from '@mui/material/styles/cssUtils.js';
 
 export default function ChartPVO(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ButtonGroup, Button, Box, Typography } from '@mui/material'
+import { Button, Box } from '@mui/material'
 
 // Reducers
 import WelcomeCarousel from "./WelcomeCarousel/WelcomeCarousel.js";
