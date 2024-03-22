@@ -20,7 +20,7 @@ export default function WelcomeCarousel() {
   const { t } = useTranslation();
 
   // Constants
-  const componentHeight = window.innerHeight - 330;
+  const componentHeight = window.innerHeight - 220;
 
   const items = [
     <Box
