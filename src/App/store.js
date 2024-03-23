@@ -7,7 +7,7 @@ import exerciseSlice from './services/exercise.slice.js'
 import examSlice from './services/exam.slice.js'
 import prescriptionSlice from './services/prescription.slice.js'
 // Modals
-import signinModalSlice from './Appbar/SignInModal/signinmodal.slice.js'
+import signinModalSlice from './Appbar/SignInModal/signin.slice.js'
 import patientModalSlice from './Appbar/PatientModal/patientmodal.slice.js'
 import exerciseModalSlice from './Appbar/ExerciseModal/exercisemodal.slice.js'
 import examModalSlice from './Appbar/ExamModal/exammodal.slice.js'
