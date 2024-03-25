@@ -100,7 +100,7 @@
       "noexercises": "Aucun exercice",
       "noexercisesexplanation": "Vous trouverez vos exercice ici à l'avenir.\nAjoutez un exercice avec l'icon '+'",
       "carousel1": "FACILE LE RGPD!\n\nTravaillez avec des données anonymisées",
-      "carousel2": "ELARGIR MA PRATIQUE?\n\nAvec de plus en plus d'analyses\nGrâce à votre retour pour créer un produit qui correspond à vos besoin",
+      "carousel2": "ELARGIR MA PRATIQUE?\n\nAvec de plus en plus d'analyses\nGrâce à vos retours, pour un produit qui correspond à vos besoins!",
       "carousel3": "JE DEVRAIS ESSAYER?\n\nJusqu'ici, c'est facile et gratuit!"
     },
     "confirm": {
@@ -141,12 +141,19 @@
       "title": "Exercise",
       "new": "Nouvel exercise",
       "videoYoutube": "Vidéo Youtube",
-      "rendering": "Rendu"
+      "userDefined": "Exercise personnalisé",
+      "customExercise": "Exercise sur mesure",
+      "rendering": "Rendu",
+      "userDefinedInstruction": "Définissez un exercise sur mesure"
     },
     "input": {
       "instructions": "Instructions",
       "videoToken": "Token de video (Youtube)",
-      "duration": "Durée (en secondes)"
+      "duration": "Durée (en secondes)",
+      "title": "Titre personnalisé",
+      "variableDuration": "Durée variable",
+      "fixedDuration": "fixe",
+      "tag": "Tag"
     }
   },
   "exam": {

@@ -66,7 +66,7 @@ export default function PrescriptionCard(props) {
     },
     copyurl: () => {
       navigator.clipboard.writeText(
-        "https://musacolor.vercel.app/" + 'prescription/' + props.prescription.prescriptionid
+        window.location.origin + '/prescription/' + props.prescription.prescriptionid
       )
       setMenuOpen(false)
     },
@@ -229,7 +229,11 @@ export default function PrescriptionCard(props) {
                     console.log("!! undefined exercise",exercise)
                     return null
                   } else {
-                    return (<Chip key={random_id()} label={ex.name} size="small" sx={{mr:0.5, mt: 0.5}}/>)
+                    if (ex.exerciseid === 'userDefined') {
+                      return (<Chip key={random_id()} label={exercise.data.tag} size="small" sx={{mr:0.5, mt: 0.5}}/>)
+                    } else {
+                      return (<Chip key={random_id()} label={ex.name} size="small" sx={{mr:0.5, mt: 0.5}}/>)
+                    }
                   }
                 })}
               </Stack>

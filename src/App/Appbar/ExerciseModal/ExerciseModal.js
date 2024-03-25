@@ -9,10 +9,13 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   Typography,
   Select,
   InputLabel,
-  MenuItem 
+  MenuItem,
+  Switch,
+  Stack
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
@@ -119,6 +122,32 @@ export default function ExerciseModal() {
         },
       })
     },
+    title: (e) => {
+      appStore.dispatch({
+        type: 'exerciseModalSlice/change',
+        payload: {
+          inputs: {
+            title: e.target.value,
+          },
+          errors: {
+            title: false,
+          },
+        },
+      })
+    },
+    fixedDuration: (e) => {
+      appStore.dispatch({
+        type: 'exerciseModalSlice/change',
+        payload: {
+          inputs: {
+            fixedDuration: e.target.checked,
+          },
+          errors: {
+            fixedDuration: false,
+          },
+        },
+      })
+    },
     create: () => {
       console.log('ExerciseModal.create')
       serviceExerciseSave()
@@ -167,69 +196,128 @@ export default function ExerciseModal() {
                 data-testid="modal-exercise-input-name"
               />
             </FormControl>
-
             <FormControl variant="standard" size="small" sx={{ mt: 0 }}>
-              <InputLabel required id="modal-exercise-select-namelabel">
+              <InputLabel required id="modal-exercise-select-typelabel">
                 {t('generic.input.type')}
               </InputLabel>        
               <Select
                 name="type"
-                
                 value={select.inputs.type}
                 error={select.errors.type}
                 onChange={changes.type}
-                labelId="modal-exercise-select-namelabel"
-                data-testid="modal-exercise-select-name"
+                labelId="modal-exercise-select-typelabel"
+                data-testid="modal-exercise-select-type"
                 small
               >
                 <MenuItem value={'videoYoutube'}>{t('exercise.label.videoYoutube')}</MenuItem>
               </Select>
             </FormControl>
 
-            {select.inputs.type !== 'videoYoutube' ? (null) : (
-              <FormControl>
-                <TextField
-                  name="videoToken"
-                  required
-                  label={t('exercise.input.videoToken')}
-                  variant="standard"
-                  value={select.inputs.videoToken}
-                  onChange={changes.videoToken}
-                  autoComplete="off"
-                  error={select.errors.videoToken}
-                  data-testid="modal-exercise-input-videoToken"
-                />
-              </FormControl>
+            {select.inputs.type !== 'userDefined' ? (null) : (
+              <Box
+              component="form"
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-evenly',
+              }}>
+                <FormControl>
+                  <Box 
+                    component="form"
+                    display='flex' 
+                    direction="row" 
+                    spacing={1} 
+                    alignItems="center"
+                  >
+                    <Typography>
+                      {t('exercise.input.variableDuration')}
+                    </Typography>
+                    <Switch 
+                      name="fixedDuration"
+                      checked={select.inputs.fixedDuration}
+                      onChange={changes.fixedDuration}
+                      data-testid="modal-exercise-switch-fixedDuration"
+                      inputProps={{ 'aria-label': 'controlled' }}
+                    />                   
+                    <Typography>
+                      {t('exercise.input.fixedDuration')}
+                    </Typography>
+                  </Box>
+                  {select.inputs.fixedDuration === false ? (null) : (
+                    <TextField
+                        name="duration"
+                        label={t('exercise.input.duration')}
+                        variant="standard"
+                        value={select.inputs.duration}
+                        onChange={changes.duration}
+                        autoComplete="off"
+                        error={select.errors.duration}
+                        data-testid="modal-exercise-input-duration"
+                        type="number"
+                      />
+                  )}
+                  
+                  <TextField
+                    name="instructions"
+                    label={t('exercise.input.instructions')}
+                    variant="standard"
+                    value={select.inputs.instructions}
+                    onChange={changes.instructions}
+                    autoComplete="off"
+                    error={select.errors.instructions}
+                    data-testid="modal-exercise-input-instructions"
+                    multiline
+                  />
+                </FormControl>
+              </Box>
             )}
 
-            <FormControl>
-              <TextField
-                name="duration"
-                required
-                label={t('exercise.input.duration')}
-                variant="standard"
-                value={select.inputs.duration}
-                onChange={changes.duration}
-                autoComplete="off"
-                error={select.errors.duration}
-                data-testid="modal-exercise-input-duration"
-                type="number"
-              />
-            </FormControl>
-
-            <FormControl>
-              <TextField
-                name="instructions"
-                label={t('exercise.input.instructions')}
-                variant="standard"
-                value={select.inputs.instructions}
-                onChange={changes.instructions}
-                autoComplete="off"
-                error={select.errors.instructions}
-                data-testid="modal-exercise-input-instructions"
-                multiline
-              />
-            </FormControl>
+            {select.inputs.type !== 'videoYoutube' ? (null) : (
+              <Box
+              component="form"
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-evenly',
+              }}>
+                <FormControl>
+                  <TextField
+                    name="videoToken"
+                    required
+                    label={t('exercise.input.videoToken')}
+                    variant="standard"
+                    value={select.inputs.videoToken}
+                    onChange={changes.videoToken}
+                    autoComplete="off"
+                    error={select.errors.videoToken}
+                    data-testid="modal-exercise-input-videoToken"
+                  />
+                  <TextField
+                    name="duration"
+                    required
+                    label={t('exercise.input.duration')}
+                    variant="standard"
+                    value={select.inputs.duration}
+                    onChange={changes.duration}
+                    autoComplete="off"
+                    error={select.errors.duration}
+                    data-testid="modal-exercise-input-duration"
+                    type="number"
+                  />
+                  <TextField
+                    name="instructions"
+                    label={t('exercise.input.instructions')}
+                    variant="standard"
+                    value={select.inputs.instructions}
+                    onChange={changes.instructions}
+                    autoComplete="off"
+                    error={select.errors.instructions}
+                    data-testid="modal-exercise-input-instructions"
+                    multiline
+                  />
+                </FormControl>
+              </Box>
+            )}
 
             <Box
               sx={{

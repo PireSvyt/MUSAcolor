@@ -10,9 +10,6 @@ const prescriptionModalSlice = createSlice({
     inputs: {
       exercises: [],
     },
-    errors: {
-      exercises: false,
-    },
   },
   reducers: {
     lock: (state) => {
@@ -29,7 +26,6 @@ const prescriptionModalSlice = createSlice({
       state.open = true
       state.prescriptionid = null
       state.inputs.exercises = []
-      state.errors.exercises = false
       state.disabled = false
       state.loading = false
     },
@@ -39,20 +35,36 @@ const prescriptionModalSlice = createSlice({
       state.prescriptionid = action.payload.prescription.prescriptionid
       let exercises = [...action.payload.prescription.exercises]
       exercises = exercises.map(exercise => {
-        return {
-          exerciseid: exercise.exerciseid,
-          posology: exercise.posology
+        if (exercise.exerciseid === 'userDefined') {
+          return {
+            exerciseid: exercise.exerciseid,
+            posology: exercise.posology,
+            data: exercise.data,
+            errors: {
+              name: false,
+              tag: false,
+              duration: false,
+              instructions: false,
+              posology: false
+            }
+          }
+        } else {
+          return {
+            exerciseid: exercise.exerciseid,
+            posology: exercise.posology,
+            errors: {
+              posology: false
+            }
+          }
         }
       })
       state.inputs.exercises = exercises
-      state.errors.exercises = false
       state.disabled = false
       state.loading = false
     },
     close: (state) => {
       state.open = false
       state.inputs.exercises = []
-      state.errors.exercises = false
       state.disabled = false
       state.loading = false
     },
@@ -67,22 +79,106 @@ const prescriptionModalSlice = createSlice({
           state.inputs.exercises = action.payload.inputs.exercises
         }
       }
+      // Errors
+      /*if (action.payload.errors !== undefined) {
+        if (action.payload.errors.exercises !== undefined) {
+          state.errors.exercises = action.payload.errors.exercises
+        }
+      }*/
+      // Exercise edit
       if (action.payload.index !== undefined) {
+        if (action.payload.name !== undefined) {
+          let changingExercise = {...state.inputs.exercises[action.payload.index]}
+          //console.log("changingExercise", changingExercise)
+          if (changingExercise.data === undefined) { changingExercise.data = {} }
+          changingExercise.data.name = action.payload.name
+          if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+          changingExercise.errors.name = false
+          let exercises = [...state.inputs.exercises]
+          exercises[action.payload.index] = changingExercise
+          //console.log("exercises", exercises)
+          state.inputs.exercises = exercises
+        }
+        if (action.payload.instructions !== undefined) {
+          let changingExercise = {...state.inputs.exercises[action.payload.index]}
+          //console.log("changingExercise", changingExercise)
+          if (changingExercise.data === undefined) { changingExercise.data = {} }
+          changingExercise.data.instructions = action.payload.instructions
+          if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+          changingExercise.errors.instructions = false
+          let exercises = [...state.inputs.exercises]
+          exercises[action.payload.index] = changingExercise
+          //console.log("exercises", exercises)
+          state.inputs.exercises = exercises
+        }
+        if (action.payload.tag !== undefined) {
+          let changingExercise = {...state.inputs.exercises[action.payload.index]}
+          //console.log("changingExercise", changingExercise)
+          if (changingExercise.data === undefined) { changingExercise.data = {} }
+          changingExercise.data.tag = action.payload.tag
+          if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+          changingExercise.errors.tag = false
+          let exercises = [...state.inputs.exercises]
+          exercises[action.payload.index] = changingExercise
+          //console.log("exercises", exercises)
+          state.inputs.exercises = exercises
+        }
+        if (action.payload.duration !== undefined) {
+          let changingExercise = {...state.inputs.exercises[action.payload.index]}
+          //console.log("changingExercise", changingExercise)
+          if (changingExercise.data === undefined) { changingExercise.data = {} }
+          changingExercise.data.duration = + action.payload.duration
+          if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+          changingExercise.errors.duration = false
+          let exercises = [...state.inputs.exercises]
+          exercises[action.payload.index] = changingExercise
+          //console.log("exercises", exercises)
+          state.inputs.exercises = exercises
+        }
         if (action.payload.posology !== undefined) {
           let changingExercise = {...state.inputs.exercises[action.payload.index]}
           //console.log("changingExercise", changingExercise)
           changingExercise.posology = action.payload.posology
+          if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+          changingExercise.errors.posology = false
           let exercises = [...state.inputs.exercises]
           exercises[action.payload.index] = changingExercise
           //console.log("exercises", exercises)
           state.inputs.exercises = exercises
         }
       }
-      // Errors
-      if (action.payload.errors !== undefined) {
-        if (action.payload.errors.exercises !== undefined) {
-          state.errors.exercises = action.payload.errors.exercises
-        }
+      if (action.payload.exercises !== undefined) {
+        let exercises = [...state.inputs.exercises]
+        action.payload.exercises.forEach(exercise => {
+          console.log('exercise',exercise)
+          let changingExercise = {...state.inputs.exercises[exercise.index]}
+          console.log('changingExercise',changingExercise)
+
+          if (exercise.errors.name !== undefined) {
+            if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+            changingExercise.errors.name = exercise.errors.name
+          }
+          if (exercise.errors.tag !== undefined) {
+            if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+            changingExercise.errors.tag = exercise.errors.tag
+          }
+          if (exercise.errors.instructions !== undefined) {
+            if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+            changingExercise.errors.instructions = exercise.errors.instructions
+          }
+          if (exercise.errors.duration !== undefined) {
+            if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+            changingExercise.errors.duration = exercise.errors.duration
+          }
+          if (exercise.errors.posology !== undefined) {
+            if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+            changingExercise.errors.posology = exercise.errors.posology
+          }
+
+          exercises[exercise.index] = changingExercise          
+        });
+        //console.log("exercises", exercises)
+        state.inputs.exercises = exercises
       }
       // Lock
       if (action.payload.disabled !== undefined) {
@@ -96,8 +192,14 @@ const prescriptionModalSlice = createSlice({
       //console.log("prescriptionModalSlice/addExercise", action.payload)
       let currentExercises = [...state.inputs.exercises]
       currentExercises.push({
+        exerciseid: action.payload.exerciseid,
         posology: '',
-        exerciseid: action.payload.exerciseid
+        data: {
+          name: '',
+          tag: '',
+          instructions: '',
+          duration: null
+        }
       })
       state.inputs.exercises = currentExercises
     },

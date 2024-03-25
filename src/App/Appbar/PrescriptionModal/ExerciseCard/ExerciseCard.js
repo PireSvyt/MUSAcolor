@@ -89,13 +89,49 @@ export default function ExerciseCard(props) {
         },
       })
     },
+    name: (e) => {
+      appStore.dispatch({
+        type: 'prescriptionModalSlice/change',
+        payload: {
+          index: props.index,
+          name: e.target.value
+        },  
+      })
+    },
+    instructions: (e) => {
+      appStore.dispatch({
+        type: 'prescriptionModalSlice/change',
+        payload: {
+          index: props.index,
+          instructions: e.target.value
+        },  
+      })
+    },
+    tag: (e) => {
+      appStore.dispatch({
+        type: 'prescriptionModalSlice/change',
+        payload: {
+          index: props.index,
+          tag: e.target.value
+        },  
+      })
+    },
+    duration: (e) => {
+      appStore.dispatch({
+        type: 'prescriptionModalSlice/change',
+        payload: {
+          index: props.index,
+          duration: e.target.value
+        },  
+      })
+    },
     posology: (e) => {
       appStore.dispatch({
         type: 'prescriptionModalSlice/change',
         payload: {
           index: props.index,
           posology: e.target.value
-        },  
+        },
       })
     },
   }
@@ -129,13 +165,42 @@ export default function ExerciseCard(props) {
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
                 alignItems: 'center',
                 width: '100%',
               }}
             >
-              <Typography>{ props.exercise.name }</Typography>
-              <Typography variant="caption">{toMinutesString(props.exercise.duration)}</Typography>
+              { props.exercise.type !== 'userDefined' ? (                  
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <Typography>{ props.exercise.name }</Typography>
+                  {props.exercise.duration === undefined ? (null) : (
+                    <Typography variant="caption">{toMinutesString(props.exercise.duration)}</Typography>
+                  )}              
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                 <Typography>{ t('exercise.label.' + props.exercise.type) }</Typography>
+                  
+                  {props.data === undefined ? (null) : props.data.duration === undefined ? (null) : (
+                    <Typography variant="caption">{toMinutesString(props.data.duration)}</Typography>
+                  )}              
+                </Box>
+              )}
             </Box>
           )}
           
@@ -213,6 +278,60 @@ export default function ExerciseCard(props) {
         <Box
           sx={{width: '100%'}}
         >
+          {props.exerciseid !== 'userDefined' ? (null) : (
+            <Box>
+              <TextField
+                name="name"
+                label={t('generic.input.name')}
+                placeholder={t('generic.input.name')}
+                variant="standard"
+                value={props.data ? props.data.name : undefined}
+                onChange={changes.name}
+                required
+                autoComplete="off"
+                fullWidth
+                error={props.data !== undefined ? (props.errors !== undefined ? props.errors.name : false) : false}
+              />
+              <TextField
+                name="tag"
+                label={t('exercise.input.tag')}
+                placeholder={t('exercise.input.tag')}
+                variant="standard"
+                value={props.data ? props.data.tag : undefined}
+                onChange={changes.tag}
+                required
+                autoComplete="off"
+                fullWidth
+                error={props.data !== undefined ? (props.errors !== undefined ? props.errors.tag : false) : false}
+              />
+              <TextField
+                name="instructions"
+                label={t('exercise.input.instructions')}
+                placeholder={t('exercise.input.instructions')}
+                variant="standard"
+                value={props.data ? props.data.instructions : undefined}
+                onChange={changes.instructions}
+                required
+                autoComplete="off"
+                fullWidth
+                multiline
+                error={props.data !== undefined ? (props.errors !== undefined ? props.errors.instructions : false) : false}
+              />              
+              <TextField
+                name="duration"
+                required
+                label={t('exercise.input.duration')}
+                variant="standard"
+                value={props.data ? props.data.duration : undefined}
+                onChange={changes.duration}
+                autoComplete="off"
+                type="number"
+                fullWidth
+                error={props.data !== undefined ? (props.errors !== undefined ? props.errors.duration : false) : false}
+                  />
+            </Box>
+          )}
+
           <TextField
             name="posology"
             label={t('prescription.label.posology')}
@@ -223,7 +342,9 @@ export default function ExerciseCard(props) {
             autoComplete="off"
             fullWidth
             multiline
+            error={props.data !== undefined ? (props.errors !== undefined ? props.errors.posology : false) : false}
           />
+
         </Box>
       </Box>
     </Card>

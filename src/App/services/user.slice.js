@@ -54,12 +54,18 @@ const userSlice = createSlice({
       if (action.payload.exercises === undefined) {
         state.exercises = []
       } else {
-        state.exercises = sortExercises(action.payload.exercises)
+        let userDefinedExercise = {
+          exerciseid: 'userDefined',
+          type: 'userDefined'
+        }
+        let exercises = sortExercises(action.payload.exercises)
+        exercises.unshift(userDefinedExercise)
+        state.exercises = exercises
         state.state.exercises = 'available'
       }
     },
     update: (state, action) => {
-      console.log("userSlice.update", action.payload)
+      //console.log("userSlice.update", action.payload)
       if (action.payload.patient !== undefined) {
         let patients = [...state.patients]
         let pos = patients
@@ -96,11 +102,28 @@ function sortPatients(patients) {
   }
 }
 function sortExercises(exercises) {
-  let sortedExercises = exercises.sort(compareExercises)
+  let sortedExercises = exercises.sort(compareExerciseNames)
+  sortedExercises = sortedExercises.sort(compareExerciseTypes)
   return sortedExercises
 
-  function compareExercises(a, b) {
-    return a.editionDate - b.editionDate
+  function compareExerciseTypes(a, b) {
+    if (a.type < b.type) {
+      return -1;
+    }
+    if (a.type > b.type) {
+      return 1;
+    }
+    return 0;
+  }
+
+  function compareExerciseNames(a, b) {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
   }
 }
 

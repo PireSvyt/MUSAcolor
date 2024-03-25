@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Button,
-  FormLabel,
+  Chip,
   Box,
   Dialog,
   DialogActions,
@@ -91,7 +91,15 @@ export default function PrescriptionModal() {
     let ex = select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
     if (ex !== undefined) {
       if (ex.duration !== undefined) {
+        //console.log ('ex',ex)
         prescrptionDuration += ex.duration
+      } else {
+        //console.log ('exercise',exercise)
+        if (exercise.data !== undefined) {
+          if (exercise.data.duration !== undefined) {
+            prescrptionDuration += exercise.data.duration
+          }
+        }
       }
     }
   })
@@ -126,12 +134,15 @@ export default function PrescriptionModal() {
             <List dense={false}>
               {select.inputs.exercises.map((exercise) => {
                 c += 1
-                //console.log("PrescriptionModal.exercise", exercise)
+                console.log("PrescriptionModal.exercise", exercise)
                 return (
                   <ListItem key={'exercise-' + c}>
                     <ExerciseCard
+                      exerciseid={exercise.exerciseid}
                       exercise={select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]}
                       posology={exercise.posology}
+                      data={exercise.data}
+                      errors={exercise.errors}
                       index={c}
                       patientid={window.location.href.split('/patient/')[1]}
                     />
@@ -153,8 +164,21 @@ export default function PrescriptionModal() {
                         <MenuItem 
                           value={exercise[1].exerciseid}
                           key={random_id()}
-                        >
-                            {exercise[1].name}
+                        > 
+                          {exercise[1].type === 'userDefined' ? (         
+                            <Box
+                              display='flex'
+                            >           
+                              <Typography>{t('exercise.label.'+exercise[1].type)}</Typography>
+                            </Box>        
+                          ) : (      
+                            <Box
+                              display='flex'                              
+                            >           
+                              <Chip key={random_id()} label={t('exercise.label.'+exercise[1].type)} size="small" sx={{mr:1}}/>
+                              <Typography>{exercise[1].name}</Typography>
+                            </Box> 
+                          )}
                         </MenuItem>
                       )
                     })}

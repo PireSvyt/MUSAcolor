@@ -60,7 +60,7 @@ export const exerciseSaveInputs = {
           error: 'generic.error.missingtype',
           fieldsinerror: ['type'],
           checkfunction: (serviceInputs) => {
-            let supportedTypes = ['videoYoutube']
+            let supportedTypes = ['userDefined', 'videoYoutube']
             if (!supportedTypes.includes(serviceInputs.inputs.type)) {
               return {
                 errors: ['generic.error.invalidtype'],
@@ -73,6 +73,22 @@ export const exerciseSaveInputs = {
               }
             } else {
               switch (serviceInputs.inputs.type) {
+                case 'userDefined':
+                  if (serviceInputs.inputs.title === undefined
+                    || serviceInputs.inputs.title === ''
+                    || serviceInputs.inputs.title === null) {
+                    return {
+                      errors: ['generic.error.missingtitle'],
+                      stateChanges: {
+                        errors: {
+                          title: true,
+                        },
+                      },
+                      proceed: false,
+                    }
+                  }
+                  return { proceed: true }
+                  break
                 case 'videoYoutube':
                   if (serviceInputs.inputs.videoToken === undefined
                     || serviceInputs.inputs.videoToken === ''
@@ -145,6 +161,10 @@ export const exerciseSaveInputs = {
     repackagedInputs.inputs.duration = serviceInputs.inputs.duration + ''
 
     switch (serviceInputs.inputs.type) {
+      case 'userDefined':
+        repackagedInputs.inputs.data = {
+          title: serviceInputs.inputs.title
+        }
       case 'videoYoutube':
         repackagedInputs.inputs.data = {
           videoToken: serviceInputs.inputs.videoToken

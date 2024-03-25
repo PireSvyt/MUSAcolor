@@ -187,10 +187,88 @@ export const prescriptionSaveInputs = {
           fieldsinerror: ['patientid'],
         },
         {
-          // Check results is available
+          // Check exercises is available
           field: 'exercises',
           error: 'generic.error.missingexercises',
           fieldsinerror: ['exercises'],
+          subchecks: [
+            {
+              // Check exerciseid for userDefined
+              error: 'generic.error.invalidexercise',
+              fieldsinerror: ['exercises'],
+              checkfunction: (serviceInputs) => {
+                console.log(
+                  'sercivechecks.checkfunction serviceInputs',
+                  serviceInputs
+                )
+                let onlySupportedTypes = true
+                let errors = []
+                let i = -1
+                let erroneousExercises = []
+                serviceInputs.inputs.exercises.forEach(exercise => {
+                  i += 1
+                  let fieldsinerror = []
+                  let exerciseIsValid = true
+                  if (exercise.exerciseid === 'userDefined') {
+                    if (exercise.data === undefined) {
+                      exerciseIsValid = false
+                      errors.push('generic.error.missingdata')
+                    } else {
+                      if (exercise.data.name === undefined
+                        || exercise.data.name === null 
+                        || exercise.data.name ===  '') {
+                        exerciseIsValid = false
+                        errors.push('generic.error.missingname')
+                        fieldsinerror.push('name')
+                      }
+                      if (exercise.data.tag === undefined
+                        || exercise.data.tag === null 
+                        || exercise.data.tag ===  '') {
+                        exerciseIsValid = false
+                        errors.push('generic.error.missingtag')
+                        fieldsinerror.push('tag')
+                      }
+                      if (exercise.data.instructions === undefined
+                        || exercise.data.instructions === null 
+                        || exercise.data.instructions ===  '') {
+                        exerciseIsValid = false
+                        errors.push('generic.error.missinginstructions')
+                        fieldsinerror.push('instructions')
+                      }
+                      if (exercise.data.duration === undefined
+                        || exercise.data.duration === null 
+                        || exercise.data.duration ===  0) {
+                        exerciseIsValid = false
+                        errors.push('generic.error.missingduration')
+                        fieldsinerror.push('duration')
+                      }
+                    }
+                    if (!exerciseIsValid) {
+                      onlySupportedTypes = false
+                      let exerciseErrors = {}
+                      fieldsinerror.forEach(f => { exerciseErrors[f] = true })
+                      erroneousExercises.push({
+                        index: i,
+                        errors: exerciseErrors
+                      })
+                    }
+                  }
+                })
+                console.log("onlySupportedTypes", onlySupportedTypes)
+                console.log("erroneousExercises", erroneousExercises)
+                if (!onlySupportedTypes) {
+                  return {
+                    stateChanges: {
+                      exercises : erroneousExercises
+                    },
+                    proceed: false,
+                  }
+                } else {
+                  return { proceed: true }
+                }
+              },
+            },
+          ],
         },
       ],
     },
