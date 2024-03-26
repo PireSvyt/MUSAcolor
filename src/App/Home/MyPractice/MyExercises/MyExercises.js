@@ -82,12 +82,16 @@ export default function MyExercises() {
       ) : (
         <List dense={false} data-testid="component-my exercises-list-exercise">
           {select.myexercises.map((myexercise) => {
-            c += 1
-            return (
-              <ListItem key={'exercise-' + myexercise.exerciseid}>
-                <ExerciseCard exercise={myexercise} index={c} />
-              </ListItem>
-            )
+            if (myexercise.exerciseid === 'userDefined') {
+              return null
+            } else {
+              c += 1
+              return (
+                <ListItem key={'exercise-' + myexercise.exerciseid}>
+                  <ExerciseCard exercise={myexercise} index={c} />
+                </ListItem>
+              )
+            }
           })}
         </List>
       )}

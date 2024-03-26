@@ -258,6 +258,7 @@ export const prescriptionSaveInputs = {
                 console.log("erroneousExercises", erroneousExercises)
                 if (!onlySupportedTypes) {
                   return {
+                    errors: [ 'exercises' ],
                     stateChanges: {
                       exercises : erroneousExercises
                     },

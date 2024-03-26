@@ -180,7 +180,7 @@ export default function ExerciseCard(props) {
                   }}
                 >
                   <Typography>{ props.exercise.name }</Typography>
-                  {props.exercise.duration === undefined ? (null) : (
+                  {props.exercise.duration === undefined || props.exercise.duration === null ? (null) : (
                     <Typography variant="caption">{toMinutesString(props.exercise.duration)}</Typography>
                   )}              
                 </Box>
@@ -352,6 +352,11 @@ export default function ExerciseCard(props) {
 }
 
 function toMinutesString (seconds) {
+
+  if (seconds === undefined || seconds === null) {
+    return ''
+  }
+
   var sec_num = parseInt(seconds, 10);
   var hours   = Math.floor(sec_num / 3600);
   var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
