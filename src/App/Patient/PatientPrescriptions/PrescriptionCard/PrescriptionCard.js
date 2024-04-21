@@ -19,9 +19,12 @@ import LinkIcon from '@mui/icons-material/Link';
 import BiotechIcon from '@mui/icons-material/Biotech';
 
 // Services
-import { servicePrescriptionDelete } from '../../../services/prescription.services.js'
+import { 
+  servicePrescriptionDelete, 
+  servicePrescriptionGetDuration 
+} from '../../../services/prescription.services.js'
 import ConfirmModal from '../../../ConfirmModal/ConfirmModal.js'
-import { random_id } from '../../../services/toolkit.js'
+import { random_id, stringifyDate } from '../../../services/toolkit.js'
 import { servicePatientGet } from '../../../services/patient.services.js'
 
 import appStore from '../../../store.js'
@@ -105,30 +108,6 @@ export default function PrescriptionCard(props) {
         console.error('PrescriptionCard.confirmCallback unmatched ' + choice)
     }
   }
-
-  function stringifyDate() {
-    let date = new Date(props.prescription.editionDate)
-    const options = {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    }
-    return date.toLocaleString('fr-FR', options)
-    //{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-  }
-
-  // Duration
-  let prescrptionDuration = 0
-  props.prescription.exercises.forEach(exercise => {
-    let ex = select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
-    if (ex !== undefined) {
-      if (ex.duration !== undefined) {
-        prescrptionDuration += ex.duration
-      }
-    }
-  })
 
   return (
     <Card
@@ -215,7 +194,12 @@ export default function PrescriptionCard(props) {
               }}
               onClick={changes.openprescription}
             >
-              <Typography variant="body1">{stringifyDate() + " / " + toMinutesString(prescrptionDuration)}</Typography>
+              <Typography variant="body1">
+                {
+                  stringifyDate(props.prescription.editionDate) 
+                  //+ " / " + servicePrescriptionGetDuration(props.prescription.exercises)
+                }
+              </Typography>
               <Stack
                 spacing={{ xs: 0, sm: 0.5 }} 
                 direction="row" 
@@ -229,8 +213,9 @@ export default function PrescriptionCard(props) {
                     console.log("!! undefined exercise",exercise)
                     return null
                   } else {
+                    console.log("exercise",exercise)
                     if (ex.exerciseid === 'userDefined') {
-                      return (<Chip key={random_id()} label={exercise.data.tag} size="small" sx={{mr:0.5, mt: 0.5}}/>)
+                      return (<Chip key={random_id()} label={t('exercise.label.customExercise')} size="small" sx={{mr:0.5, mt: 0.5}}/>)
                     } else {
                       return (<Chip key={random_id()} label={ex.name} size="small" sx={{mr:0.5, mt: 0.5}}/>)
                     }

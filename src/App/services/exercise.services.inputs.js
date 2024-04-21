@@ -146,6 +146,7 @@ export const exerciseSaveInputs = {
 
     let repackagedInputs = {}
     repackagedInputs.inputs = {}
+    repackagedInputs.inputs.data = {}
 
     let exerciseid = appStore.getState().exerciseModalSlice.exerciseid
     if (exerciseid === undefined 
@@ -158,23 +159,20 @@ export const exerciseSaveInputs = {
 
     repackagedInputs.inputs.name = serviceInputs.inputs.name
     repackagedInputs.inputs.type = serviceInputs.inputs.type
-    repackagedInputs.inputs.duration = serviceInputs.inputs.duration + ''
+
+    repackagedInputs.inputs.data.duration = serviceInputs.inputs.duration
 
     switch (serviceInputs.inputs.type) {
       case 'userDefined':
-        repackagedInputs.inputs.data = {
-          title: serviceInputs.inputs.title
-        }
+        repackagedInputs.inputs.data.title = serviceInputs.inputs.title
       case 'videoYoutube':
-        repackagedInputs.inputs.data = {
-          videoToken: serviceInputs.inputs.videoToken
-        }
+        repackagedInputs.inputs.data .videoToken = serviceInputs.inputs.videoToken
       break
     }
     if (serviceInputs.inputs.instructions !== undefined
       && serviceInputs.inputs.instructions !== ''
       && serviceInputs.inputs.instructions !== null) {
-      repackagedInputs.inputs.instructions = serviceInputs.inputs.instructions
+      repackagedInputs.inputs.data.instructions = serviceInputs.inputs.instructions
     }
 
     console.log('repackagedInputs', repackagedInputs)

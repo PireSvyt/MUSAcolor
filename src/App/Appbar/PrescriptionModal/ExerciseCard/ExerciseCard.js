@@ -10,7 +10,8 @@ import {
   ListItemIcon,
   ListItemText,
   TextField,
-  FormControl
+  FormControl,
+  Button
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -26,7 +27,7 @@ import appStore from '../../../store.js'
 
 export default function ExerciseCard(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('ExerciseCard')
+    console.log('ExerciseCard', props)
   }
   // i18n
   const { t } = useTranslation()
@@ -150,17 +151,39 @@ export default function ExerciseCard(props) {
       }}
       data-testid={"component-exercise card"}
     >
-      <Box
-      >
+      {props.exercise === undefined ? (
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
+            justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
           }}
         >
-          {props.exercise === undefined ? (null) : (
+          <Typography
+          color={'error'}
+          >
+            {t('prescription.label.deletedExercise')}
+          </Typography>
+          <Button 
+            variant="text"
+            onClick={changes.delete}
+          >
+            <Typography>{t('generic.button.delete')}</Typography> 
+          </Button>
+        </Box>
+      ) : (
+        <Box
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
@@ -169,184 +192,172 @@ export default function ExerciseCard(props) {
                 width: '100%',
               }}
             >
-              { props.exercise.type !== 'userDefined' ? (                  
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    width: '100%',
-                  }}
-                >
-                  <Typography>{ props.exercise.name }</Typography>
-                  {props.exercise.duration === undefined || props.exercise.duration === null ? (null) : (
-                    <Typography variant="caption">{toMinutesString(props.exercise.duration)}</Typography>
-                  )}              
-                </Box>
-              ) : (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    width: '100%',
-                  }}
-                >
-                 <Typography>{ t('exercise.label.' + props.exercise.type) }</Typography>
-                  
-                  {props.data === undefined ? (null) : props.data.duration === undefined ? (null) : (
-                    <Typography variant="caption">{toMinutesString(props.data.duration)}</Typography>
-                  )}              
-                </Box>
-              )}
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <Typography>
+                  { props.exercise.type !== 'userDefined' ? (
+                    props.exercise.name
+                  ) : (
+                    t('exercise.label.' + props.exercise.type)
+                  ) }
+                </Typography>                  
+                {props.exercise.data === undefined ? (null) : props.exercise.data.duration === undefined ? (null) : (
+                  <Typography variant="caption">{toMinutesString(props.exercise.data.duration)}</Typography>
+                )}              
+              </Box>
             </Box>
-          )}
-          
-          <Box>
-            <IconButton 
-              size="large" 
-              onClick={changes.openMenu}
-              data-testid={"listitem-exercise-menu+"+props.index}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              open={menuOpen}
-              onClose={changes.closeMenu}
-              anchorEl={anchorEl}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem
-                key={random_id()}
-                onClick={changes.delete}
-                disabled={deleting}
-                data-testid={"listitem-exercise-menuitem-delete+"+props.index}
+            
+            <Box>
+              <IconButton 
+                size="large" 
+                onClick={changes.openMenu}
+                data-testid={"listitem-exercise-menu+"+props.index}
               >
-                <ListItemIcon>
-                  <RemoveCircleOutlineIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('generic.button.delete')}</ListItemText>   
-              </MenuItem>
-              <MenuItem
-                key={random_id()}
-                onClick={changes.movetotop}
-                data-testid={"listitem-exercise-menuitem-movetotop+"+props.index}
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                open={menuOpen}
+                onClose={changes.closeMenu}
+                anchorEl={anchorEl}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
               >
-                <ListItemIcon>
-                  <KeyboardDoubleArrowUpIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('generic.button.movetotop')}</ListItemText>
-              </MenuItem>
-              <MenuItem
-                key={random_id()}
-                onClick={changes.moveup}
-                data-testid={"listitem-exercise-menuitem-moveup+"+props.index}
-              >
-                <ListItemIcon>
-                  <KeyboardArrowUpIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('generic.button.moveup')}</ListItemText>
-              </MenuItem>
-              <MenuItem
-                key={random_id()}
-                onClick={changes.movedown}
-                data-testid={"listitem-exercise-menuitem-movedown+"+props.index}
-              >
-                <ListItemIcon>
-                  <KeyboardArrowDownIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('generic.button.movedown')}</ListItemText>
-              </MenuItem>
-              <MenuItem
-                key={random_id()}
-                onClick={changes.movetobottom}
-                data-testid={"listitem-exercise-menuitem-movetobottom+"+props.index}
-              >
-                <ListItemIcon>
-                  <KeyboardDoubleArrowDownIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('generic.button.movetobottom')}</ListItemText>
-              </MenuItem>
-            </Menu>
+                <MenuItem
+                  key={random_id()}
+                  onClick={changes.delete}
+                  disabled={deleting}
+                  data-testid={"listitem-exercise-menuitem-delete+"+props.index}
+                >
+                  <ListItemIcon>
+                    <RemoveCircleOutlineIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>{t('generic.button.delete')}</ListItemText>   
+                </MenuItem>
+                <MenuItem
+                  key={random_id()}
+                  onClick={changes.movetotop}
+                  data-testid={"listitem-exercise-menuitem-movetotop+"+props.index}
+                >
+                  <ListItemIcon>
+                    <KeyboardDoubleArrowUpIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>{t('generic.button.movetotop')}</ListItemText>
+                </MenuItem>
+                <MenuItem
+                  key={random_id()}
+                  onClick={changes.moveup}
+                  data-testid={"listitem-exercise-menuitem-moveup+"+props.index}
+                >
+                  <ListItemIcon>
+                    <KeyboardArrowUpIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>{t('generic.button.moveup')}</ListItemText>
+                </MenuItem>
+                <MenuItem
+                  key={random_id()}
+                  onClick={changes.movedown}
+                  data-testid={"listitem-exercise-menuitem-movedown+"+props.index}
+                >
+                  <ListItemIcon>
+                    <KeyboardArrowDownIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>{t('generic.button.movedown')}</ListItemText>
+                </MenuItem>
+                <MenuItem
+                  key={random_id()}
+                  onClick={changes.movetobottom}
+                  data-testid={"listitem-exercise-menuitem-movetobottom+"+props.index}
+                >
+                  <ListItemIcon>
+                    <KeyboardDoubleArrowDownIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>{t('generic.button.movetobottom')}</ListItemText>
+                </MenuItem>
+              </Menu>
+            </Box>
+          </Box>
+
+          <Box
+            sx={{width: '100%'}}
+          >
+            {props.exerciseid !== 'userDefined' ? (null) : (
+              <Box>
+                <TextField
+                  name="name"
+                  label={t('generic.input.name')}
+                  placeholder={t('generic.input.name')}
+                  variant="standard"
+                  value={props.data ? props.data.name : undefined}
+                  onChange={changes.name}
+                  required
+                  autoComplete="off"
+                  fullWidth
+                  error={props.data !== undefined ? (props.errors !== undefined ? props.errors.name : false) : false}
+                />
+                <TextField
+                  name="tag"
+                  label={t('exercise.input.tag')}
+                  placeholder={t('exercise.input.tag')}
+                  variant="standard"
+                  value={props.data ? props.data.tag : undefined}
+                  onChange={changes.tag}
+                  required
+                  autoComplete="off"
+                  fullWidth
+                  error={props.data !== undefined ? (props.errors !== undefined ? props.errors.tag : false) : false}
+                />
+                <TextField
+                  name="instructions"
+                  label={t('exercise.input.instructions')}
+                  placeholder={t('exercise.input.instructions')}
+                  variant="standard"
+                  value={props.data ? props.data.instructions : undefined}
+                  onChange={changes.instructions}
+                  required
+                  autoComplete="off"
+                  fullWidth
+                  multiline
+                  error={props.data !== undefined ? (props.errors !== undefined ? props.errors.instructions : false) : false}
+                />              
+                <TextField
+                  name="duration"
+                  required
+                  label={t('exercise.input.duration')}
+                  variant="standard"
+                  value={props.data ? props.data.duration : undefined}
+                  onChange={changes.duration}
+                  autoComplete="off"
+                  type="number"
+                  fullWidth
+                  error={props.data !== undefined ? (props.errors !== undefined ? props.errors.duration : false) : false}
+                    />
+              </Box>
+            )}
+
+            <TextField
+              name="posology"
+              label={t('prescription.label.posology')}
+              placeholder={t('prescription.label.optional')}
+              variant="standard"
+              value={props.posology}
+              onChange={changes.posology}
+              autoComplete="off"
+              fullWidth
+              multiline
+              error={props.data !== undefined ? (props.errors !== undefined ? props.errors.posology : false) : false}
+            />
+
           </Box>
         </Box>
-
-        <Box
-          sx={{width: '100%'}}
-        >
-          {props.exerciseid !== 'userDefined' ? (null) : (
-            <Box>
-              <TextField
-                name="name"
-                label={t('generic.input.name')}
-                placeholder={t('generic.input.name')}
-                variant="standard"
-                value={props.data ? props.data.name : undefined}
-                onChange={changes.name}
-                required
-                autoComplete="off"
-                fullWidth
-                error={props.data !== undefined ? (props.errors !== undefined ? props.errors.name : false) : false}
-              />
-              <TextField
-                name="tag"
-                label={t('exercise.input.tag')}
-                placeholder={t('exercise.input.tag')}
-                variant="standard"
-                value={props.data ? props.data.tag : undefined}
-                onChange={changes.tag}
-                required
-                autoComplete="off"
-                fullWidth
-                error={props.data !== undefined ? (props.errors !== undefined ? props.errors.tag : false) : false}
-              />
-              <TextField
-                name="instructions"
-                label={t('exercise.input.instructions')}
-                placeholder={t('exercise.input.instructions')}
-                variant="standard"
-                value={props.data ? props.data.instructions : undefined}
-                onChange={changes.instructions}
-                required
-                autoComplete="off"
-                fullWidth
-                multiline
-                error={props.data !== undefined ? (props.errors !== undefined ? props.errors.instructions : false) : false}
-              />              
-              <TextField
-                name="duration"
-                required
-                label={t('exercise.input.duration')}
-                variant="standard"
-                value={props.data ? props.data.duration : undefined}
-                onChange={changes.duration}
-                autoComplete="off"
-                type="number"
-                fullWidth
-                error={props.data !== undefined ? (props.errors !== undefined ? props.errors.duration : false) : false}
-                  />
-            </Box>
-          )}
-
-          <TextField
-            name="posology"
-            label={t('prescription.label.posology')}
-            placeholder={t('prescription.label.optional')}
-            variant="standard"
-            value={props.posology}
-            onChange={changes.posology}
-            autoComplete="off"
-            fullWidth
-            multiline
-            error={props.data !== undefined ? (props.errors !== undefined ? props.errors.posology : false) : false}
-          />
-
-        </Box>
-      </Box>
+      )}
     </Card>
   )
 }

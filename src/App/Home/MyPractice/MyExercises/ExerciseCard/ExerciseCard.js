@@ -29,20 +29,21 @@ export default function ExerciseCard(props) {
   // i18n
   const { t } = useTranslation()
 
+  function depackageInputs(exercise) {
+    let depackagedExercise = {...exercise}
+    if (depackagedExercise.type === 'videoYoutube') {
+      depackagedExercise.instructions = depackagedExercise.data.instructions
+      depackagedExercise.duration = depackagedExercise.data.duration
+      depackagedExercise.videoToken = depackagedExercise.data.videoToken
+      delete depackagedExercise.data
+    }
+    return depackagedExercise
+  }
+
   // Changes
   let changes = {
     openexercise: () => {
       setMenuOpen(false)
-
-      function depackageInputs(exercise) {
-        let depackagedExercise = {...exercise}
-        if (depackagedExercise.type === 'videoYoutube') {
-          depackagedExercise.videoToken = depackagedExercise.data.videoToken
-          delete depackagedExercise.data
-        }
-        return depackagedExercise
-      }
-
       appStore.dispatch({
         type: 'exerciseModalSlice/load',
         payload: {
@@ -153,7 +154,9 @@ export default function ExerciseCard(props) {
           >
             <Typography>{props.exercise.name}</Typography>
             <Box>
-              <Typography variant="caption">{toMinutesString(props.exercise.duration)}</Typography>
+              {props.exercise.data.duration ? (
+                <Typography variant="caption">{toMinutesString(props.exercise.data.duration)}</Typography>
+              ) : null}
               <Chip label={t('exercise.label.' + props.exercise.type)} size="small" sx={{ml:1}}/>
             </Box>
           </Box>

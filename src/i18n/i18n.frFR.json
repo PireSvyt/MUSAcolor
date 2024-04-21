@@ -219,7 +219,8 @@
       "duration": "Durée",
       "instructions": "Instructions",
       "optional": "optional",
-      "posology": "Posologie"
+      "posology": "Posologie",
+      "deletedExercise": "Exercise supprimé"
     },
     "exercise": {
       "videoBleu" : "Vidéo: Bleu",

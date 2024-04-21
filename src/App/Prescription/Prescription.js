@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import {
@@ -7,10 +7,12 @@ import {
 } from '@mui/material'
 
 import Appbar from '../Appbar/Appbar.js'
-import { servicePrescriptionGet } from '../services/prescription.services.js'
+import { 
+  servicePrescriptionGet, 
+  servicePrescriptionGetDuration 
+} from '../services/prescription.services.js'
 import Exercise from "./Exercise/Exercise.js";
-
-import { random_id } from '../services/toolkit.js';
+import { random_id, stringifyDate } from '../services/toolkit.js';
 
 export default function Prescription() {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
@@ -21,6 +23,8 @@ export default function Prescription() {
 
   // State
   const [isAvailable, setIsAvailable] = React.useState(null);
+  const [expandedExercise, setExpandedExercise] = React.useState(null);
+  const [prescriptionDuration, setPrescriptionDuration] = React.useState(null);
 
   // Selects
   const select = {
@@ -30,8 +34,17 @@ export default function Prescription() {
 
   // Changes
   let changes = {
+    expandExercise: (index) => {
+      if (expandedExercise === index) {
+        console.log('close exercise')
+        setExpandedExercise(null)
+      } else {
+        setExpandedExercise(index)
+        console.log('open exercise' + index)
+      }
+    }
   }
-  
+
   if (isAvailable === null) {
     setIsAvailable('wip')
     servicePrescriptionGet({
@@ -39,28 +52,16 @@ export default function Prescription() {
     })
     .then(() => {
         setIsAvailable('available')
+        
     })
   }
 
-  // Duration
-  function stringifyDuration() {
-    let prescrptionDuration = 0
-    Object.entries(select.exercises).forEach(exercise => {
-      prescrptionDuration += exercise[1].duration
-    })
-    return toMinutesString(prescrptionDuration)
-  }
+  useEffect(() => {
+    let duration = servicePrescriptionGetDuration(select.exercises)
+    console.log ('set duration', duration)
+    setPrescriptionDuration(duration)
+  }, [select.exercises])
 
-  function stringifyDate() {
-    let date = new Date(select.editionDate)
-    const options = {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-    }
-    return date.toLocaleString('fr-FR', options)
-    //{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-  }
 
   let skeleton = null
 
@@ -102,13 +103,23 @@ export default function Prescription() {
               variant="body1"
               sx={{pb:2}}
             >
-              {stringifyDate() + ' / ' + stringifyDuration()}
+              {
+                stringifyDate(select.editionDate) 
+                + ' / ' + prescriptionDuration
+              }
             </Typography>
 
             {Object.entries(select.exercises).map((exercise) => {
               //console.log("exercise", exercise)
+              c += 1
               return (
-                <Exercise key={random_id()} exercise={exercise[1]} index={c} />
+                <Exercise 
+                  key={random_id()} 
+                  exercise={exercise[1]} 
+                  index={c}
+                  expanded={expandedExercise}
+                  expand={changes.expandExercise}
+                />
               )
             })}
           </Box>
@@ -117,19 +128,4 @@ export default function Prescription() {
       </Box>
     </Box>
   )
-}
-
-function toMinutesString (seconds) {
-  var sec_num = parseInt(seconds, 10);
-  var hours   = Math.floor(sec_num / 3600);
-  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-  var seconds = sec_num - (hours * 3600) - (minutes * 60);
-
-  return minutes + 'min'
-  /*
-  if (hours   < 10) {hours   = "0"+hours;}
-  if (minutes < 10) {minutes = "0"+minutes;}
-  if (seconds < 10) {seconds = "0"+seconds;}
-  return hours+':'+minutes+':'+seconds;
-  */
 }

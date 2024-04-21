@@ -47,7 +47,7 @@ export default function MyExercises() {
         <Box sx={{ left: '10%', right: '10%' }}>
           <LinearProgress/>
         </Box>
-      ) : select.myexercises.length === 0 ? (
+      ) : select.myexercises.length === 1 ? (
         <Box
           sx={{
             m: 2,

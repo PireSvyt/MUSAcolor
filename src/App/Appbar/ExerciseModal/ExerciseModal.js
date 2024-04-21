@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Button,
@@ -28,6 +28,7 @@ import { serviceUserGetDetails } from '../../services/user.services.js'
 import {
   exerciseSaveInputs,
 } from '../../services/exercise.services.inputs.js'
+//import { debounce, random_id, throttle } from '../../services/toolkit.js'
 // Reducers
 import appStore from '../../store.js'
 
@@ -50,6 +51,58 @@ export default function ExerciseModal() {
     errors: useSelector((state) => state.exerciseModalSlice.errors),
   }
 
+  // State
+  const [repackagedExercise, setRepackagedExercise] = useState(
+    exerciseSaveInputs.repackagingfunction({inputs: select.inputs}, [])
+  )
+  useEffect(() => {
+    setRepackagedExercise(exerciseSaveInputs.repackagingfunction({inputs: select.inputs}, []))
+  }, [ select.inputs ] );
+  /*const [debounced, setDebounced] = useState('')
+  const [debounces, setDebounces] = useState([])
+  const debounceOffset = 400*/
+
+  /*let dbSetRepackagedExercise0 = debounce((expirationDate) => {
+    console.log("debounced", debounced, expirationDate)
+    if (  expirationDate + debounceOffset < Date.now() // expiration date is expired for this trigger
+       && debounced + debounceOffset < Date.now()      // most recent debounce date is expired
+    ) {
+      setRepackagedExercise(
+        exerciseSaveInputs.repackagingfunction({inputs: appStore.getState().exerciseModalSlice.inputs}, [])
+      )
+    }
+  }, debounceOffset);*/
+  //let dbSetRepackagedExercise = debounce(repackageExercise, debounceOffset)
+  /*function repackageExercise () {
+    console.log("  > repackageExercise")
+    console.log("    debounces", debounces)
+    let triggerid = debounces.lastItem
+    console.log("    triggerid", triggerid)
+    console.log("    debounced", debounced)
+    if (debounced === triggerid) {
+      console.log("    setRepackagedExercise")
+      setRepackagedExercise(
+        exerciseSaveInputs.repackagingfunction({inputs: appStore.getState().exerciseModalSlice.inputs}, [])
+      )
+    } else {
+      console.log("    triggerid !== debounced => NO UPDATE")
+    }
+    console.log("  X repackageExercise")
+  }
+  function debounceRepackageExercise () {
+    console.log("> debounceRepackageExercise")
+    let triggerid = random_id()
+    console.log("  triggerid", triggerid)
+    setDebounced(triggerid)
+    setDebounces([...debounces].push(triggerid))
+    console.log("  setDebounced to triggerid")
+    let timer;
+    timer = setTimeout(() => repackageExercise(), debounceOffset);
+    console.log("X debounceRepackageExercise")
+  }*/
+  //let tSetRepackagedExercise = throttle(repackageExercise, debounceOffset);
+
+
   // Changes
   const changes = {
     close: () => {
@@ -58,6 +111,9 @@ export default function ExerciseModal() {
       })
     },
     name: (e) => {
+      //dbSetRepackagedExercise(Date.now())
+      //dbSetRepackagedExercise()
+      //debounceRepackageExercise()
       appStore.dispatch({
         type: 'exerciseModalSlice/change',
         payload: {
@@ -69,8 +125,10 @@ export default function ExerciseModal() {
           },
         },
       })
+      //tSetRepackagedExercise()
     },
     type: (e) => {
+      //debounceRepackageExercise()
       appStore.dispatch({
         type: 'exerciseModalSlice/change',
         payload: {
@@ -84,6 +142,7 @@ export default function ExerciseModal() {
       })
     },
     duration: (e) => {
+      //debounceRepackageExercise()
       appStore.dispatch({
         type: 'exerciseModalSlice/change',
         payload: {
@@ -97,6 +156,7 @@ export default function ExerciseModal() {
       })
     },
     instructions: (e) => {
+      //debounceRepackageExercise()
       appStore.dispatch({
         type: 'exerciseModalSlice/change',
         payload: {
@@ -110,6 +170,7 @@ export default function ExerciseModal() {
       })
     },
     videoToken: (e) => {
+      //debounceRepackageExercise()
       appStore.dispatch({
         type: 'exerciseModalSlice/change',
         payload: {
@@ -123,6 +184,7 @@ export default function ExerciseModal() {
       })
     },
     title: (e) => {
+      //debounceRepackageExercise()
       appStore.dispatch({
         type: 'exerciseModalSlice/change',
         payload: {
@@ -136,6 +198,7 @@ export default function ExerciseModal() {
       })
     },
     fixedDuration: (e) => {
+      //debounceRepackageExercise()
       appStore.dispatch({
         type: 'exerciseModalSlice/change',
         payload: {
@@ -157,8 +220,7 @@ export default function ExerciseModal() {
     },
   }
 
-  let repackagedExercise = exerciseSaveInputs.repackagingfunction({inputs: select.inputs}, [])
-  //console.log("repackagedExercise", repackagedExercise)
+  //console.log('debounced',debounced)
 
   // Render
   return (
@@ -332,7 +394,12 @@ export default function ExerciseModal() {
                   mt: 2
                 }}
               > 
-                <Exercise exercise={repackagedExercise.inputs} />
+                <Exercise 
+                  exercise={repackagedExercise.inputs}
+                  index={0}
+                  expanded={0}
+                  expand={() => (null)}
+                />
               </Box>  
             </Box>
 

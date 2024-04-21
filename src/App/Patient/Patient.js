@@ -44,7 +44,8 @@ export default function Patient() {
       })
     },
     gotodatabaseURL: () => {
-      window.location.href = select.patient.databaseURL
+      //window.location.href = select.patient.databaseURL
+      window.open(select.patient.databaseURL)
     },
     copyurl: () => {
       navigator.clipboard.writeText(

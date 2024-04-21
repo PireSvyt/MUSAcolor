@@ -203,7 +203,7 @@ export default function Appbar(props) {
     case 'prescription':
       menuItems.push(potentialMenuItems.toHome)
       menuItems.push(potentialMenuItems.toBack)
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'passwordreset':
       showLanguageSwitcher = true

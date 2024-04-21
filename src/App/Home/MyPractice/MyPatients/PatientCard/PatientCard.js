@@ -46,7 +46,8 @@ export default function PatientCard(props) {
       })
     },
     gotodatabaseURL: () => {
-      window.location.href = props.patient.databaseURL
+      //window.location.href = props.patient.databaseURL
+      window.open(props.patient.databaseURL)
     },
     openMenu: (event) => {
       setAnchorEl(event.currentTarget)
