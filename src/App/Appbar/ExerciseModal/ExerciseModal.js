@@ -280,10 +280,15 @@ export default function ExerciseModal() {
             <Box
               sx={{
                 width: '100%',
-                mt: 2
+                mt: 3,
               }}
             >              
-              <Typography variant='h6'>{t('exercise.label.rendering')}</Typography>
+              <Typography 
+                variant='overline'
+                color='grey'
+              >
+                {t('exercise.label.rendering')}
+              </Typography>
               <Box
                 sx={{
                   width: '100%',

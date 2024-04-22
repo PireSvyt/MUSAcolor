@@ -24,9 +24,9 @@ export default function ChartPVO(props) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
     function drawSector (inputs) {
-      ctx.beginPath()
       // Origin
       ctx.moveTo(width/2, width/2);
+      ctx.beginPath()
       // Arc
       ctx.arc(
         width/2, width/2, 
@@ -39,14 +39,43 @@ export default function ChartPVO(props) {
       ctx.fillStyle = inputs.color;
       ctx.fill();      
     }
-    /*
-     {
-                id: id, 
-                value: 1,//props.exam.analysis.colors[testColor.color], 
-                label: testColor.name,
-                color: testColor.color,
-            }
-     */
+    function drawCircle (inputs) {
+      // Origin
+      ctx.moveTo(width/2, width/2);
+      ctx.beginPath()
+      ctx.arc(width/2, width/2, width/2*maxRadius*inputs.radius, 0, 2 * Math.PI);
+      ctx.lineWidth = inputs.thickness ? inputs.thickness : 1
+      ctx.strokeStyle = inputs.color ? inputs.color : '#000000'
+      ctx.strokeStyle = inputs.color ? inputs.color : '#000000'
+      ctx.setLineDash(inputs.lineDash ? inputs.lineDash : [0, 0]);
+      ctx.stroke();  
+    }
+
+    // Referential
+    drawCircle({
+      radius: 0.25,
+      thickness: 0.25,
+      color: '#808080',
+      lineDash: [10, 10]
+    })
+    drawCircle({
+      radius: 0.5,
+      thickness: 1,
+      //color: '#808080'
+    })
+    drawCircle({
+      radius: 0.75,
+      thickness: 0.25,
+      color: '#808080',
+      lineDash: [10, 10]
+    })
+    drawCircle({
+      radius: 1,
+      thickness: 0.2,
+      color: '#808080'
+    })
+
+    // Results
     let s = -1
     props.inputs.data.forEach(sector => {
       s += 1
@@ -57,10 +86,11 @@ export default function ChartPVO(props) {
         angleEnd: (s+1) * sectorAngle
       })
     })
+
   }
   function legend (data) {
 
-    console.log("data", data)
+    //console.log("data", data)
 
     let k = -1
     function positionLabel(inputs) {
@@ -74,18 +104,18 @@ export default function ChartPVO(props) {
           pos = inputs.pos
           break
         case 'polar':
-          console.log("inputs.pos",inputs.pos)
-          console.log("maxRadius",maxRadius)
-          console.log("width",width)
+          //console.log("inputs.pos",inputs.pos)
+          //console.log("maxRadius",maxRadius)
+          //console.log("width",width)
           let labelWidth = 40//window.innerWidth/2 - width/2*inputs.pos.radius
           let R = width/2 * inputs.pos.radius
           let a = (inputs.pos.angle+90)/360
           let cos = -R*Math.cos(a*2*Math.PI)
           let sin = -R*Math.sin(-a*2*Math.PI)
-          console.log("R",R)
-          console.log("a",a)
-          console.log("cos",cos)
-          console.log("sin",sin)
+          //console.log("R",R)
+          //console.log("a",a)
+          //console.log("cos",cos)
+          //console.log("sin",sin)
           let offset = 0
           if (window.innerWidth > 600) { offset -= 22.5}
           k += 1
