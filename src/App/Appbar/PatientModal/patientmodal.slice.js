@@ -6,11 +6,14 @@ const patientModalSlice = createSlice({
     disabled: false,
     loading: false,
     open: false,
+    patientid: null,
     inputs: {
       name: '',
+      databaseURL: '',
     },
     errors: {
       name: false,
+      databaseURL: false,
     },
   },
   reducers: {
@@ -26,15 +29,32 @@ const patientModalSlice = createSlice({
     },
     new: (state) => {
       state.open = true
+      state.patientid = null
       state.inputs.name = ''
       state.errors.name = false
+      state.inputs.databaseURL = ''
+      state.errors.databaseURL = false
+      state.disabled = false
+      state.loading = false
+    },
+    load: (state, action) => {
+      console.log("patientModalSlice/load", action.payload)
+      state.open = true
+      state.patientid = action.payload.patient.patientid
+      state.inputs.name = action.payload.patient.name
+      state.errors.name = false
+      state.inputs.databaseURL = action.payload.patient.databaseURL
+      state.errors.databaseURL = false
       state.disabled = false
       state.loading = false
     },
     close: (state) => {
       state.open = false
+      state.patientid = null
       state.inputs.name = ''
       state.errors.name = false
+      state.inputs.databaseURL = ''
+      state.errors.databaseURL = false
       state.disabled = false
       state.loading = false
     },
@@ -48,11 +68,17 @@ const patientModalSlice = createSlice({
         if (action.payload.inputs.name !== undefined) {
           state.inputs.name = action.payload.inputs.name
         }
+        if (action.payload.inputs.databaseURL !== undefined) {
+          state.inputs.databaseURL = action.payload.inputs.databaseURL
+        }
       }
       // Errors
       if (action.payload.errors !== undefined) {
         if (action.payload.errors.name !== undefined) {
           state.errors.name = action.payload.errors.name
+        }
+        if (action.payload.errors.databaseURL !== undefined) {
+          state.errors.databaseURL = action.payload.errors.databaseURL
         }
       }
       // Lock

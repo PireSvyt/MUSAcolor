@@ -7,15 +7,21 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Button
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
-import CircularProgress from '@mui/material/CircularProgress'
+import EditIcon from '@mui/icons-material/Edit';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 // Services
 import { servicePatientDelete } from '../../../../services/patient.services.js'
 import ConfirmModal from '../../../../ConfirmModal/ConfirmModal.js'
 import { random_id } from '../../../../services/toolkit.js'
 import { serviceUserGetDetails } from '../../../../services/user.services.js'
+
+import appStore from '../../../../store.js'
 
 export default function PatientCard(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
@@ -27,7 +33,21 @@ export default function PatientCard(props) {
   // Changes
   let changes = {
     goto: () => {
+      setMenuOpen(false)
       window.location = '/patient/' + props.patient.patientid
+    },
+    editpatient: () => {
+      setMenuOpen(false)
+      appStore.dispatch({
+        type: 'patientModalSlice/load',
+        payload: {
+          patient: props.patient
+        },
+      })
+    },
+    gotodatabaseURL: () => {
+      //window.location.href = props.patient.databaseURL
+      window.open(props.patient.databaseURL)
     },
     openMenu: (event) => {
       setAnchorEl(event.currentTarget)
@@ -68,6 +88,7 @@ export default function PatientCard(props) {
   return (
     <Card
       index={props.index}
+      data-testid={"component-patient card"}
       sx={{
         width: '100%',
         p: 1,
@@ -90,7 +111,11 @@ export default function PatientCard(props) {
           }}
         >
           <Box>
-            <IconButton size="large" onClick={changes.openMenu}>
+            <IconButton 
+              size="large" 
+              onClick={changes.openMenu}
+              data-testid={"listitem-patient-menu+"+props.patient.name}
+            >
               <MenuIcon />
             </IconButton>
             <Menu
@@ -103,10 +128,24 @@ export default function PatientCard(props) {
             >
               <MenuItem
                 key={random_id()}
+                onClick={changes.editpatient}
+                data-testid={"listitem-patient-menuitem-edit+"+props.patient.name}
+              >
+                <ListItemIcon>
+                  <EditIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.edit')}</ListItemText>                
+              </MenuItem>
+              <MenuItem
+                key={random_id()}
                 onClick={changes.attemptDelete}
                 disabled={deleting}
+                data-testid={"listitem-patient-menuitem-delete+"+props.patient.name}
               >
-                {t('generic.button.delete')}
+                <ListItemIcon>
+                  <RemoveCircleOutlineIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.delete')}</ListItemText>                
               </MenuItem>
             </Menu>
           </Box>
@@ -116,11 +155,20 @@ export default function PatientCard(props) {
               flexDirection: 'row',
               alignItems: 'center',
               width: '100%',
+              justifyContent: 'space-between',
             }}
             onClick={changes.goto}
+            data-testid={"listitem-patient-click+"+props.patient.name}
           >
             <Typography>{props.patient.name}</Typography>
+            
           </Box>
+          <Button 
+            onClick={changes.gotodatabaseURL}
+            disabled={props.patient.databaseURL === undefined 
+              || props.patient.databaseURL === null 
+              || props.patient.databaseURL === ''}
+          >{t('patient.button.databaseurl')}</Button>
         </Box>
       </Box>
 

@@ -35,7 +35,15 @@
       "begin": "Commencer",
       "next": "Suivant",
       "continue": "Continuer",
-      "finish": "Terminer"
+      "finish": "Terminer",
+      "movetotop": "Déplacer en premier",
+      "moveup": "Déplacer en dessus",
+      "movedown": "Déplacer en dessous",
+      "movetobottom": "Déplacer en dernier",
+      "copyurl": "Copier le lien",
+      "test": "Essayer",
+      "newpatient": "Nouveau sujet",
+      "newexercise": "Nouvel exercise"
     },
     "language": {
       "enGB": {
@@ -56,7 +64,8 @@
     "label": {
       "title": "Se connecter",
       "notfoundaccount": "Cet email n'est associé à aucun de nos comptes.",
-      "successsendingpassword": "Un email vous a été envoyer pour mettre à jour votre mot de passe.\nVerifiez bien vos spams."
+      "successsendingpassword": "Un email vous a été envoyer pour mettre à jour votre mot de passe.\nVerifiez bien vos spams.",
+      "toomanyattempts": "Vous avez procédé à trop de tentatives de connection.\nAttendez un moment..."
     },
     "input": {},
     "button": {
@@ -87,14 +96,21 @@
       "mypatients": "Mes sujets",
       "nopatients": "Aucun sujet",
       "nopatientsexplanation": "Vous trouverez vos sujets ici à l'avenir.\nAjoutez un sujet avec l'icon '+'",
+      "myexercises": "Mes exercices",
+      "noexercises": "Aucun exercice",
+      "noexercisesexplanation": "Vous trouverez vos exercice ici à l'avenir.\nAjoutez un exercice avec l'icon '+'",
       "carousel1": "FACILE LE RGPD!\n\nTravaillez avec des données anonymisées",
-      "carousel2": "ELARGIR MA PRATIQUE?\n\nAvec de plus en plus d'analyses\nGrâce à votre retour pour créer un produit qui correspond à vos besoin",
+      "carousel2": "ELARGIR MA PRATIQUE?\n\nAvec de plus en plus d'analyses\nGrâce à vos retours, pour un produit qui correspond à vos besoins!",
       "carousel3": "JE DEVRAIS ESSAYER?\n\nJusqu'ici, c'est facile et gratuit!"
     },
     "confirm": {
       "deletepatient": {
         "title": "Suppression du sujet",
         "content": "Cette action est irreversible et entraine la perte de toutes les données associées à ce sujet."
+      },
+      "deleteexercise": {
+        "title": "Suppression de l'exercise",
+        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à cet exercise."
       }
     }
   },
@@ -104,7 +120,14 @@
       "new": "Nouveau sujet",
       "exams": "Analyses",
       "noexams": "Aucune analyse",
-      "noexamsexplanation": "Vous trouverez les analyses de ce sujet ici à l'avenir.\nAjoutez une analyse avec l'icon '+'"
+      "noexamsexplanation": "Vous trouverez les analyses de ce sujet ici à l'avenir.\nAjoutez une analyse avec l'icon '+'",
+      "prescriptions": "Prescriptions",
+      "noprescriptions": "Aucune prescription",
+      "noprescriptionsexplanation": "Vous trouverez les prescriptions de ce sujet ici à l'avenir.\nAjoutez une prescription avec l'icon '+'",
+      "databaseurl": "Lien fiche patient"
+    },
+    "button": {
+      "databaseurl": "Fiche"
     },
     "confirm": {
       "deleteexam": {
@@ -113,12 +136,34 @@
       }
     }
   },
+  "exercise": {
+    "label": {
+      "title": "Exercise",
+      "new": "Nouvel exercise",
+      "videoYoutube": "Vidéo Youtube",
+      "userDefined": "Exercise personnalisé",
+      "customExercise": "Exercise sur mesure",
+      "rendering": "Rendu",
+      "userDefinedInstruction": "Définissez un exercise sur mesure"
+    },
+    "input": {
+      "instructions": "Instructions",
+      "videoToken": "Token de video (Youtube)",
+      "duration": "Durée (en secondes)",
+      "title": "Titre personnalisé",
+      "variableDuration": "Durée variable",
+      "fixedDuration": "fixe",
+      "tag": "Tag"
+    }
+  },
   "exam": {
     "label": {
       "title": "Analyse",
       "new": "Nouvelle analyse",
       "test": "C'est à vous!",
       "results": "Résultats",
+      "unknown": "Analyse inconnue",
+      "deniedaccess": "Vous faites fausse route...",
       "violet": "violet",
       "indigo": "indigo",
       "bleu": "bleu",
@@ -159,6 +204,37 @@
         "indifference": "==",
         "rejection": "--",
         "fifthterm": "+-"
+      }
+    }
+  },
+  "prescription": {
+    "label": {
+      "title": "Prescription",
+      "new": "Prescription",
+      "unknown": "Prescription inconnue",
+      "deniedaccess": "Vous faites fausse route...",
+      "newexercise": "Nouvel exercice",
+      "exercises": "Exercices",
+      "exercise": "Exercice",
+      "duration": "Durée",
+      "instructions": "Instructions",
+      "optional": "optional",
+      "posology": "Posologie",
+      "deletedExercise": "Exercise supprimé"
+    },
+    "exercise": {
+      "videoBleu" : "Vidéo: Bleu",
+      "videoRouge" : "Vidéo: Rouge"
+    },
+    "prescriptions": {
+      "unknown": {
+        "name": "inconnue"
+      }
+    },
+    "confirm": {
+      "deleteprescription": {
+        "title": "Suppression de la prescription",
+        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à cette prescription."
       }
     }
   },

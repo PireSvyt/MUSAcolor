@@ -15,7 +15,7 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
 
 // Services
-import { servicePatientCreate } from '../../services/patient.services.js'
+import { servicePatientSave, servicePatientGet } from '../../services/patient.services.js'
 // Reducers
 import appStore from '../../store.js'
 
@@ -34,6 +34,7 @@ export default function PatientModal() {
     open: useSelector((state) => state.patientModalSlice.open),
     disabled: useSelector((state) => state.patientModalSlice.disabled),
     loading: useSelector((state) => state.patientModalSlice.loading),
+    patientid: useSelector((state) => state.patientModalSlice.patientid),
     inputs: useSelector((state) => state.patientModalSlice.inputs),
     errors: useSelector((state) => state.patientModalSlice.errors),
   }
@@ -58,9 +59,29 @@ export default function PatientModal() {
         },
       })
     },
-    create: () => {
-      console.log('PatientModal.create')
-      servicePatientCreate()
+    databaseURL: (e) => {
+      appStore.dispatch({
+        type: 'patientModalSlice/change',
+        payload: {
+          inputs: {
+            databaseURL: e.target.value,
+          },
+          errors: {
+            databaseURL: false,
+          },
+        },
+      })
+    },
+    save: () => {
+      console.log('PatientModal.save')
+      servicePatientSave()
+      .then(() => {
+        if (select.patientid !== undefined 
+          && select.patientid !== null 
+          && select.patientid !== '') {
+            servicePatientGet(select.patientid)
+        }
+      })
     },
   }
 
@@ -100,6 +121,18 @@ export default function PatientModal() {
                 data-testid="modal-patient-input-name"
               />
             </FormControl>
+            <FormControl>
+              <TextField
+                name="databaseURL"
+                label={t('patient.label.databaseurl')}
+                variant="standard"
+                value={select.inputs.databaseURL}
+                onChange={changes.databaseURL}
+                autoComplete="off"
+                error={select.errors.databaseURL}
+                data-testid="modal-patient-input-databaseURL"
+              />
+            </FormControl>
           </Box>
         </DialogContent>
 
@@ -112,7 +145,7 @@ export default function PatientModal() {
           </Button>
           <LoadingButton
             variant="contained"
-            onClick={changes.create}
+            onClick={changes.save}
             disabled={select.disabled}
             loading={select.loading}
             data-testid="modal-patient-button-proceed"

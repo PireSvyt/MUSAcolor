@@ -88,7 +88,12 @@ export default function ExamModal() {
   // Render
   return (
     <Box>
-      <Dialog open={select.open} onClose={changes.close} fullWidth={true}>
+      <Dialog
+        open={select.open}
+        onClose={changes.close}
+        fullWidth={true}
+        data-testid="modal-exam"
+      >
         <DialogTitle>{t('exam.label.new')}</DialogTitle>
         <DialogContent
           //sx={{
@@ -111,9 +116,20 @@ export default function ExamModal() {
                 defaultValue={select.inputs.type}
                 name="radio-buttons-group"
                 onChange={changes.type}
+                data-testid="modal-exam-select-examtype"
               >
-                <FormControlLabel value="pvo" control={<Radio />} label={t('exam.exams.pvo.name')} />
-                <FormControlLabel value='luscher8' control={<Radio />} label={t('exam.exams.luscher8.name')} />
+                <FormControlLabel 
+                  value="pvo" 
+                  control={<Radio />} 
+                  label={t('exam.exams.pvo.name')} 
+                  data-testid="modal-exam-select-examtype-PVO"
+                />
+                <FormControlLabel 
+                  value='luscher8' 
+                  control={<Radio />} 
+                  label={t('exam.exams.luscher8.name')} 
+                  data-testid="modal-exam-select-examtype-Luscher 8)"
+                />
               </RadioGroup>
             </FormControl>
           </Box>
@@ -121,7 +137,7 @@ export default function ExamModal() {
 
         <DialogActions>
           <Button
-            data-testid="modal-patient-button-close"
+            data-testid="modal-exam-button-close"
             onClick={changes.close}
           >
             {t('generic.button.cancel')}
@@ -131,7 +147,7 @@ export default function ExamModal() {
             onClick={changes.launch}
             disabled={select.disabled}
             loading={select.loading}
-            data-testid="modal-patient-button-proceed"
+            data-testid="modal-exam-button-proceed"
           >
             {t('generic.button.proceed')}
           </LoadingButton>

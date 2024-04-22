@@ -9,11 +9,19 @@ import {
   Menu,
   MenuItem,
   Box,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material'
 
 import MenuIcon from '@mui/icons-material/Menu.js'
 import CloseIcon from '@mui/icons-material/Close.js'
-import EditIcon from '@mui/icons-material/Edit.js'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HelpIcon from '@mui/icons-material/Help';
+import InfoIcon from '@mui/icons-material/Info';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 // Services
 import { random_id } from '../services/toolkit.js'
@@ -22,7 +30,9 @@ import { serviceAuthAccessDeny } from '../services/auth.services.js'
 import LanguageSwitcher from './LanguageSwitcher/LanguageSwitcher.js'
 import SignInModal from './SignInModal/SignInModal.js'
 import PatientModal from './PatientModal/PatientModal.js'
+import ExerciseModal from './ExerciseModal/ExerciseModal.js'
 import ExamModal from './ExamModal/ExamModal.js'
+import PrescriptionModal from './PrescriptionModal/PrescriptionModal.js'
 
 export default function Appbar(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
@@ -41,7 +51,9 @@ export default function Appbar(props) {
     usertype: useSelector((state) => state.userSlice.type),
     signInModal: useSelector((state) => state.signinModalSlice.open),
     patientModal: useSelector((state) => state.patientModalSlice.open),
+    exerciseModal: useSelector((state) => state.exerciseModalSlice.open),
     examModal: useSelector((state) => state.examModalSlice.open),
+    prescriptionModal: useSelector((state) => state.prescriptionModalSlice.open),
   }
 
   // Handles
@@ -72,6 +84,10 @@ export default function Appbar(props) {
     toAdmin: () => {
       setMenuOpen(false)
       window.location = '/admin'
+    },
+    toBack: () => {
+      setMenuOpen(false)
+      history.back()
     },
     signOut: () => {
       setMenuOpen(false)
@@ -108,36 +124,49 @@ export default function Appbar(props) {
         action.closeMenu()
       },
       signed: true,
+      icon: () => { return ( <RemoveCircleOutlineIcon fontSize="small" /> ) }
     },
     toAccount: {
       item: 'account',
       label: 'generic.menu.account',
       onclick: action.toAccount,
       signed: true,
+      icon: () => { return ( <AccountCircleIcon fontSize="small" /> ) }
     },
     toHome: {
       item: 'home',
       label: 'generic.menu.home',
       onclick: action.toHome,
       signed: true,
+      icon: () => { return ( <PlayCircleFilledIcon fontSize="small" /> ) }
     },
     toHelp: {
       item: 'help',
       label: 'generic.menu.help',
       onclick: action.toHelp,
       signed: false,
+      icon: () => { return ( <HelpIcon fontSize="small" /> ) }
     },
     toAbout: {
       item: 'about',
       label: 'generic.menu.about',
       onclick: action.toAbout,
       signed: false,
+      icon: () => { return ( <InfoIcon fontSize="small" /> ) }
     },
     toAdmin: {
       item: 'admin',
       label: 'Admin',
       onclick: action.toAdmin,
       signed: true,
+      icon: () => { return ( <AdminPanelSettingsIcon fontSize="small" /> ) }
+    },
+    toBack: {
+      item: 'back',
+      label: 'Back',
+      onclick: action.toBack,
+      signed: false,
+      icon: () => { return ( <ArrowBackIosNewIcon fontSize="small" /> ) }
     },
   }
 
@@ -166,25 +195,30 @@ export default function Appbar(props) {
       }
       //menuItems.push(potentialMenuItems.toContact);
       menuItems.push(potentialMenuItems.signOut)
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'exam':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
+      break
+    case 'prescription':
+      menuItems.push(potentialMenuItems.toHome)
+      menuItems.push(potentialMenuItems.toBack)
+      showLanguageSwitcher = false
       break
     case 'passwordreset':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'activation':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'account':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'help':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'about':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'admin':
       showLanguageSwitcher = false
@@ -264,11 +298,14 @@ export default function Appbar(props) {
                         return (
                           <MenuItem
                             hidden={!(item.signed && select.signedin)}
-                            data-testid={'list-app bar menu-listitem'}
+                            data-testid={'list-app bar menu-listitem-' + item.item}
                             key={random_id()}
                             onClick={item.onclick}
                           >
-                            {t(item.label)}
+                            <ListItemIcon>
+                              {item.icon()}
+                            </ListItemIcon>
+                            <ListItemText>{t(item.label)}</ListItemText>  
                           </MenuItem>
                         )
                       } else {
@@ -276,11 +313,14 @@ export default function Appbar(props) {
                           return (
                             <MenuItem
                               hidden={!(item.signed && select.signedin)}
-                              data-testid={'list-app bar menu-listitem'}
+                              data-testid={'list-app bar menu-listitem-' + item.item}
                               key={random_id()}
                               onClick={item.onclick}
                             >
-                              {t(item.label)}
+                              <ListItemIcon>
+                                {item.icon()}
+                              </ListItemIcon>
+                              <ListItemText>{t(item.label)}</ListItemText>  
                             </MenuItem>
                           )
                         } else {
@@ -307,7 +347,9 @@ export default function Appbar(props) {
 
       {select.signInModal === true ? <SignInModal /> : null}
       {select.patientModal === true ? <PatientModal /> : null}
+      {select.exerciseModal === true ? <ExerciseModal /> : null}
       {select.examModal === true ? <ExamModal /> : null}
+      {select.prescriptionModal === true ? <PrescriptionModal /> : null}
     </Box>
   )
 }

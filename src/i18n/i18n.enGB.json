@@ -56,7 +56,8 @@
     "label": {
       "title": "Sign in",
       "notfoundaccount": "This email isnot  related to any account.",
-      "successsendingpassword": "An email has been sent to reset your password.\nReminder: Check as well your spams."
+      "successsendingpassword": "An email has been sent to reset your password.\nReminder: Check as well your spams.",
+      "toomanyattempts": "You proceeded to too many connexion attemps.\nPlease wait a moment..."
     },
     "input": {},
     "button": {
@@ -104,7 +105,11 @@
       "new": "New patient",
       "exams": "Exams",
       "noexams": "No exam",
-      "noexamsexplanation": "Your patient exams will be listed here.\nAdd an exam clicking the '+' icon"
+      "noexamsexplanation": "Your patient exams will be listed here.\nAdd an exam clicking the '+' icon",
+      "prescriptions": "Prescriptions",
+      "noprescriptions": "No prescriptions",
+      "noprescriptionsexplanation": "Your patient prescriptions will be listed here.\nAdd a prescription clicking the '+' icon",
+      "databaseurl": "Lien fiche patient"
     },
     "confirm": {
       "deleteexam": {
@@ -119,6 +124,8 @@
       "new": "New exam",
       "test": "Let's go!",
       "results": "Results",
+      "unknown": "Unknown exam",
+      "deniedaccess": "You're not on the right track...",
       "violet": "purple",
       "indigo": "indigo",
       "bleu": "blue",
@@ -159,6 +166,19 @@
         "indifference": "==",
         "rejection": "--",
         "fifthterm": "+-"
+      }
+    }
+  },
+  "prescription": {
+    "label": {
+      "title": "Prescription",
+      "new": "New prescription",
+      "unknown": "Unknown prescription",
+      "deniedaccess": "You're not on the right track..."
+    },
+    "prescriptions": {
+      "unknown": {
+        "name": "unknown"
       }
     }
   },

@@ -29,11 +29,21 @@ export default adminSlice.reducer
 function packageStats (inputStats) {
   // Object sizes in kb
   let objectSizes = {
+    // users
     admin: 89/4, // assumed the same as practician
     practician: 89/4, // assumed the same as admin
+
     patients: 72/9,
+
+    // exams
     pvo: 5.4,
     luscher8: 1.8,
+
+    // exercises
+    videoYoutube: 2, // au pif
+
+    prescriptions: 2, // au pif
+
     settings:  72/9 // assumed not bigger than patients
   }
   let outputStats = {
@@ -43,11 +53,12 @@ function packageStats (inputStats) {
   }
   let grandTotal = 0
   Object.keys(inputStats).forEach(inputStat => {
-    if (inputStats[inputStat] instanceof String) {
+    if (typeof(inputStats[inputStat]) === 'number') {
       grandTotal += inputStats[inputStat]
       outputStats.substats.push({
         name: inputStat,
-        count: inputStats[inputStat]
+        count: inputStats[inputStat],
+        size: objectSizes[inputStat] * inputStats[inputStat]
       })
     }
     if (inputStats[inputStat] instanceof Array) {
@@ -79,6 +90,8 @@ function packageStats (inputStats) {
       Object.keys(outputStats.substats[substat].substats).forEach(subsubstat => {
         substatSize += outputStats.substats[substat].substats[subsubstat].size
       })
+    } else {
+      substatSize = outputStats.substats[substat].size
     }
     outputStats.substats[substat].size = substatSize
     grandSize += substatSize
@@ -86,9 +99,7 @@ function packageStats (inputStats) {
   outputStats.size = grandSize
   // Shares
   Object.keys(outputStats.substats).forEach(substat => {
-    if (outputStats.substats[substat].substats !== undefined) {
-      outputStats.substats[substat].weight = 
-        Math.floor(outputStats.substats[substat].size / grandSize * 100)      
+    if (outputStats.substats[substat].substats !== undefined) {    
       Object.keys(outputStats.substats[substat].substats).forEach(subsubstat => {
         outputStats.substats[substat].substats[subsubstat].weight = 
           Math.floor(outputStats.substats[substat].substats[subsubstat].size / grandSize * 100)

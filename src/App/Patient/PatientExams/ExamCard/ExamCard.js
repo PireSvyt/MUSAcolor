@@ -7,9 +7,11 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
-import CircularProgress from '@mui/material/CircularProgress'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 // Services
 import { serviceExamDelete } from '../../../services/exam.services.js'
@@ -71,7 +73,14 @@ export default function ExamCard(props) {
 
   function stringifyDate() {
     let date = new Date(props.exam.date)
-    return date.toLocaleString('fr-FR')
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    }
+    return date.toLocaleString('fr-FR', options)
     //{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
   }
 
@@ -82,6 +91,7 @@ export default function ExamCard(props) {
         width: '100%',
         p: 1,
       }}
+      data-testid={"component-exam card"}
     >
       <Box
         sx={{
@@ -100,7 +110,11 @@ export default function ExamCard(props) {
           }}
         >
           <Box>
-            <IconButton size="large" onClick={changes.openMenu}>
+            <IconButton 
+              size="large" 
+              onClick={changes.openMenu}
+              data-testid={"listitem-exam-menu+"+props.index}
+            >
               <MenuIcon />
             </IconButton>
             <Menu
@@ -115,8 +129,12 @@ export default function ExamCard(props) {
                 key={random_id()}
                 onClick={changes.attemptDelete}
                 disabled={deleting}
+                data-testid={"listitem-exam-menuitem-delete+"+props.index}
               >
-                {t('generic.button.delete')}
+                <ListItemIcon>
+                  <RemoveCircleOutlineIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('generic.button.delete')}</ListItemText>   
               </MenuItem>
             </Menu>
           </Box>
@@ -129,6 +147,7 @@ export default function ExamCard(props) {
               width: '100%',
             }}
             onClick={changes.goto}
+            data-testid={"listitem-exam-click+"+props.index}
           >
             <Typography>{t('exam.exams.'+props.exam.type+'.name')}</Typography>
             <Typography variant="caption">{stringifyDate()}</Typography>
@@ -161,20 +180,3 @@ export default function ExamCard(props) {
     </Card>
   )
 }
-
-/**
- 
-
-        <IconButton 
-            id={props.exam.examid}
-            data-testid={"component-my exams-listitem-exam-button-delete exam"}
-            index={props.index}
-            onClick={() => setConfirmOpen(true)} disabled={deleting}
-        >
-            {deleting ? (
-                <CircularProgress size={24} sx={{ color: "grey.500" }} />
-            ) : (
-                <RemoveCircleOutlineIcon />
-            )}
-            </IconButton>
- */

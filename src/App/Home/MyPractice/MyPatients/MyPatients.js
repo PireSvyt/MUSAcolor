@@ -3,20 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import {
   Box,
-  Stack,
   Typography,
-  IconButton,
   List,
   ListItem,
 } from '@mui/material'
 import SmsFailedIcon from '@mui/icons-material/SmsFailed'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LinearProgress from '@mui/material/LinearProgress'
 
 // Components
 import PatientCard from './PatientCard/PatientCard.js'
-
-import appStore from '../../../store.js'
 
 export default function MyPatients() {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
@@ -31,15 +26,6 @@ export default function MyPatients() {
     mypatients: useSelector((state) => state.userSlice.patients),
   }
 
-  // Changes
-  let changes = {
-    new: () => {
-      appStore.dispatch({
-        type: 'patientModalSlice/new',
-      })
-    },
-  }
-
   let c = -1
 
   return (
@@ -49,6 +35,7 @@ export default function MyPatients() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      width: '100%',
     }}
     >
       <Box
@@ -56,20 +43,6 @@ export default function MyPatients() {
           width: '80%',
         }}
       >
-
-      <Stack direction="row" justifyContent="space-between">
-        <Typography sx={{ p: 2 }} variant="h6" component="span">
-          {t('home.label.mypatients')}
-        </Typography>
-        <IconButton
-          data-testid="component-my patients-button-new patient"
-          sx={{ p: 2 }}
-          onClick={changes.new}
-          color='primary'
-        >
-          <AddCircleIcon />
-        </IconButton>
-      </Stack>
 
       {select.userState.details !== 'available' ? (
         <Box sx={{ left: '10%', right: '10%' }}>

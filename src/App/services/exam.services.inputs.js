@@ -3,7 +3,6 @@ import { apiExamCreate, apiExamDelete, apiExamGet } from './exam.api.js'
 // Services
 import { random_id, random_string } from './toolkit.js'
 import appStore from '../store.js'
-import { serviceExamGet } from './exam.services.js'
 
 export const examCreateInputs = {
   lockuifunction: (log) => {
@@ -302,16 +301,30 @@ export const examGetInputs = {
           payload: response.data.exam,
         })
       },
-      'exam.getanalysis.error.onfind': () => {
+      'exam.getanalysis.error.undefined': () => {
+        console.warn("getmanageresponsefunction exam.getanalysis.error.undefined")
         appStore.dispatch({
-          type: 'sliceSnack/change',
+          type: 'examSlice/change',
           payload: {
-            uid: random_id(),
-            id: 'generic.snack.error.wip',
+            state: {
+              analysis: 'denied'
+            }
           },
         })
       },
-      'exam.getanalysis.error.undefined': () => {
+      'exam.getanalysis.error.onfind': () => {
+        console.warn("getmanageresponsefunction exam.getanalysis.error.onfind")
+        appStore.dispatch({
+          type: 'examSlice/setAnalysis',
+          payload: {
+            type: 'examSlice/change',
+            payload: {
+              state: {
+                analysis: 'denied'
+              }
+            },
+          },
+        })
         appStore.dispatch({
           type: 'sliceSnack/change',
           payload: {
@@ -321,6 +334,7 @@ export const examGetInputs = {
         })
       },
     }
+    console.log("WHAT IS THE response.type : " + response.type)
     return responses[response.type]()
   },
 }

@@ -59,10 +59,10 @@ export default function AdminStats() {
         ) : (
           <Box sx={{ mt:2 }}>
             <Stack direction="row" justifyContent="space-between" sx={{pl: 2.5, pr: 2}}>
-              <Typography>
+              <Typography  sx={{fontWeight: 'bold'}}>
                   {'Storage consumption (512Mb)'}
               </Typography>
-              <Typography>
+              <Typography  sx={{fontWeight: 'bold'}}>
                   { Math.floor(10000 * select.adminStats.size / 512000)/100 + '%'}
               </Typography>
             </Stack>  
@@ -77,8 +77,8 @@ export default function AdminStats() {
 }
 
 function StatLine (props) {
-  console.log("StatLine", props.stat)
-  console.log("props.stat.substats", props.stat.substats)
+  //console.log("StatLine", props.stat)
+  //console.log("props.stat.substats", props.stat.substats)
     return (
       <Box sx={{ width: '100%', pt: 0, pb: 0, pl: 0.5}}
       >

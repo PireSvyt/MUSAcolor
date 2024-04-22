@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Typography } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {getRow, setRow, shuffleList} from '../utils.js'
 
+import ChartPVO from './ChartPVO/ChartPVO.js'
 
 export default function ExamPVO(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
@@ -195,6 +196,99 @@ export default function ExamPVO(props) {
     }
   }
 
+  // Chart
+  let id = -1
+  const [chartInputs, setchartInputs] = useState({
+    options: {
+        chart: {
+            id: "basic-bar"
+        },
+        fill: {
+            opacity: 1
+        },
+        yaxis: {
+            show: false
+        },
+        plotOptions: {
+            polarArea: {
+              rings: {
+                strokeWidth: 0
+              },
+              spokes: {
+                strokeWidth: 0
+              },
+            }
+        },
+        legend: {
+            show: false,
+            onItemClick: {
+              toggleDataSeries: false
+            },
+            onItemHover: {
+                highlightDataSeries: false
+            },
+        },
+        dataLabels: {
+            enabled: true,
+            textAnchor: 'end',
+            formatter: function(val, opt) {
+                //console.log(opt)
+                return chartInputs.options.labels[opt.seriesIndex]
+            },
+            //offsetX: 0,
+        },
+        labels: testColors.map( (testColor) => { return testColor.name}),
+        colors: testColors.map( (testColor) => { return testColor.color}),
+    },
+    series:  testColors.map( (testColor) => {
+        return {
+            data: 0,
+            name: testColor.name
+        }
+    }),
+    data:
+        testColors.map( (testColor) => {
+            id += 1
+            return {
+                id: id, 
+                value: 0, 
+                label: testColor.name
+            }
+        }),
+  })
+  console.log("chartInputs", chartInputs)
+  useEffect(() => {
+    if (props.exam.state.analysis === 'available') {
+        let newChartInputs = {...chartInputs}
+        newChartInputs.series = []
+        newChartInputs.data = []
+        //newChartInputs.options.labels = []
+        //newChartInputs.options.colors = []
+        console.log("props.exam.analysis", props.exam.analysis)
+        console.log("testColors", testColors)
+        let id = -1
+        testColors.map(testColor => {
+            newChartInputs.series.push({
+                data: props.exam.analysis.colors[testColor.color],
+                name: testColor.name + " / " + props.exam.analysis.colors[testColor.color]
+            })
+            id += 1
+            newChartInputs.data.push({
+                id: id, 
+                value: props.exam.analysis.colors[testColor.color], 
+                label: testColor.name,
+                color: testColor.color,
+            })
+            //newChartInputs.options.labels.push(testColor.name)
+            //newChartInputs.options.colors.push(testColor.color)
+        })
+        console.log("newChartInputs", newChartInputs)
+        setchartInputs(newChartInputs)
+      }
+  }, [props.exam.state, props.exam.analysis]);
+  
+  
+
   const stages = [
     {
         name: "intro",
@@ -208,6 +302,7 @@ export default function ExamPVO(props) {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}
+                    data-testid='page-exam-stage-intro'
                 >
                     
                     <Typography sx={{ p: 2 }} component="span" variant="h6" gutterBottom>
@@ -236,6 +331,7 @@ export default function ExamPVO(props) {
                         onClick={changes.nextstage}
                         variant="contained"
                         size="large"
+                        data-testid='page-exam-button-begin'
                     >
                         {t('generic.button.begin')}
                     </Button>
@@ -261,6 +357,7 @@ export default function ExamPVO(props) {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}
+                    data-testid='page-exam-stage-test'
                 >
                     <Box/>
 
@@ -296,6 +393,7 @@ export default function ExamPVO(props) {
                                         return (
                                             <Box
                                                 key={'row-'+row+'-col-'+col}
+                                                data-testid={'component-pvoexam-test-'+'R-'+row+'-C-'+col}
                                                 sx={{   
                                                     m: m+'px',                     
                                                     height: tileSize,
@@ -322,11 +420,14 @@ export default function ExamPVO(props) {
                                         }}
                                         
                                     >
-                                        <CheckCircleIcon color={
-                                            inputs.rows[row].invalid === true 
-                                            ? 'disabled'
-                                            : "success"
-                                        }/>
+                                        <CheckCircleIcon 
+                                            color={
+                                                inputs.rows[row].invalid === true 
+                                                ? 'disabled'
+                                                : "success"
+                                            }
+                                            data-testid={'component-pvoexam-test-invalid-'+'R-'+row}
+                                        />
                                     </Box>
                                 </Box>
                             )
@@ -338,6 +439,7 @@ export default function ExamPVO(props) {
                         variant="contained"
                         size="large"
                         disabled={props.exam.state.storage !== undefined || inputs.invalid === true}
+                        data-testid='page-exam-button-finish'
                     >
                         {t('generic.button.finish')}
                     </Button>
@@ -356,6 +458,7 @@ export default function ExamPVO(props) {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}
+            data-testid='page-exam-stage-outro'
         >
             <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
             {t('exam.exams.'+props.exam.type+'.outro')}
@@ -374,6 +477,7 @@ export default function ExamPVO(props) {
                 onClick={changes.getanalysis}
                 size="large"
                 disabled={props.exam.state.storage !== 'available'}
+                data-testid='page-exam-button-gotoanalysis'
             >
                 {t('generic.button.next')}
             </Button>
@@ -391,72 +495,20 @@ export default function ExamPVO(props) {
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                width: '100%',
+                m: 0,
+                p: 0,
             }}
+            data-testid='page-exam-stage-analysis'
         >
             <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
                 {t('exam.label.results')}
             </Typography>
 
-            <Box>
-                {Object.keys(testColors).map(testColor => {
-                    //console.log("testColor", testColor, testColors[testColor])
-                    //console.log("props.exam.analysis.colors", props.exam.analysis.colors[testColors[testColor].color])
-                    return (
-                        <Box
-                        key={'color-'+testColors[testColor].color}
-                        sx={{                        
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            width: tileSize * 14,
-                        }}
-                        >
-                            <Box
-                                sx={{   
-                                    m: m+'px',                     
-                                    height: tileSize,
-                                    width: tileSize * props.exam.analysis.colors[testColors[testColor].color],
-                                    background: testColors[testColor].color
-                                }}
-                            />
-                            <Box
-                            sx={{                        
-                                display: 'flex',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                            }}
-                            >
-                                <Box
-                                sx={{               
-                                    width: tileSize * 2,
-                                    textAlign: 'right',
-                                    m: 0.5,
-                                }}
-                                >
-                                    <Typography>
-                                        {Math.floor(100*props.exam.analysis.colors[testColors[testColor].color]/numberOfCols) + '%'}
-                                    </Typography>
-                                </Box>
-                                <Box
-                                sx={{               
-                                    width: tileSize * 3,
-                                    textAlign: 'left',
-                                    m: 0.5,
-                                }}
-                                >
-                                    <Typography color="grey">
-                                        {t("exam.label."+testColors[testColor].name)}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        </Box>
-                    )
-                })}
-            </Box>
+            <ChartPVO width={window.innerWidth * 0.9} inputs={chartInputs} />
 
             <Typography
-                sx={{ mt: 2, mb: 2, whiteSpace: 'pre-line' }}
+                sx={{ m: 2, whiteSpace: 'pre-line', width: '80%' }}
                 component="span"
                 align="center"
                 variant="caption"
@@ -472,7 +524,13 @@ export default function ExamPVO(props) {
   const [inputs, setInputs] = useState(randomColorSelection())
 
   return (
-    <Box>
+    <Box
+        sx={{
+            width: '100%',
+            m: 0,
+            p: 0,
+        }}
+    >
         { props.exam.state.analysis === 'available' 
           ? (<Analysis/>)
           : props.exam.state.storage !== undefined 
