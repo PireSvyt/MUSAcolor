@@ -33,7 +33,6 @@ export default function ExerciseCard(props) {
     let depackagedExercise = {...exercise}
     if (depackagedExercise.type === 'videoYoutube') {
       depackagedExercise.instructions = depackagedExercise.data.instructions
-      depackagedExercise.duration = depackagedExercise.data.duration
       depackagedExercise.videoToken = depackagedExercise.data.videoToken
       delete depackagedExercise.data
     }
@@ -154,9 +153,6 @@ export default function ExerciseCard(props) {
           >
             <Typography>{props.exercise.name}</Typography>
             <Box>
-              {props.exercise.data.duration ? (
-                <Typography variant="caption">{toMinutesString(props.exercise.data.duration)}</Typography>
-              ) : null}
               <Chip label={t('exercise.label.' + props.exercise.type)} size="small" sx={{ml:1}}/>
             </Box>
           </Box>

@@ -19,8 +19,6 @@ export default function Exercise(props) {
   // i18n
   const { t } = useTranslation()
 
-  //console.log("props.exercise", props.exercise)
-
   return (
     <Accordion
         key={random_id()}
@@ -41,17 +39,10 @@ export default function Exercise(props) {
             component="span" 
             variant="h6"
             >
-            {
-                (
-                    props.exercise.exerciseid !== "userDefined" ? 
-                        props.exercise.name : 
-                        props.exercise.data.name
-                ) + (
-                    props.exercise.data.duration === undefined ? 
-                        "" : 
-                        " / " + toTimeString(props.exercise.data.duration)
-                )
-            }
+                { props.exercise.exerciseid !== "userDefined" ? 
+                    props.exercise.name : 
+                    props.exercise.data.name                
+                }
             </Typography>                      
         </AccordionSummary>
         <AccordionDetails>

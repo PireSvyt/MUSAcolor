@@ -85,25 +85,6 @@ export default function PrescriptionModal() {
     },
   }
 
-  // Duration
-  let prescrptionDuration = 0
-  select.inputs.exercises.forEach(exercise => {
-    let ex = select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
-    if (ex !== undefined) {
-      if (ex.duration !== undefined) {
-        //console.log ('ex',ex)
-        prescrptionDuration += ex.duration
-      } else {
-        //console.log ('exercise',exercise)
-        if (exercise.data !== undefined) {
-          if (exercise.data.duration !== undefined) {
-            prescrptionDuration += exercise.data.duration
-          }
-        }
-      }
-    }
-  })
-
   // Render
   let c = -1
   return (
@@ -128,9 +109,6 @@ export default function PrescriptionModal() {
               justifyContent: 'space-evenly',
             }}
           >
-          
-            <Typography>{t('prescription.label.duration') + " " + toMinutesString(prescrptionDuration)}</Typography>
-
             <List dense={false}>
               {select.inputs.exercises.map((exercise) => {
                 c += 1

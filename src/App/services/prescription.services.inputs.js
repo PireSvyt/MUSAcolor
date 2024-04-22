@@ -221,26 +221,12 @@ export const prescriptionSaveInputs = {
                         errors.push('generic.error.missingname')
                         fieldsinerror.push('name')
                       }
-                      if (exercise.data.tag === undefined
-                        || exercise.data.tag === null 
-                        || exercise.data.tag ===  '') {
-                        exerciseIsValid = false
-                        errors.push('generic.error.missingtag')
-                        fieldsinerror.push('tag')
-                      }
                       if (exercise.data.instructions === undefined
                         || exercise.data.instructions === null 
                         || exercise.data.instructions ===  '') {
                         exerciseIsValid = false
                         errors.push('generic.error.missinginstructions')
                         fieldsinerror.push('instructions')
-                      }
-                      if (exercise.data.duration === undefined
-                        || exercise.data.duration === null 
-                        || exercise.data.duration ===  0) {
-                        exerciseIsValid = false
-                        errors.push('generic.error.missingduration')
-                        fieldsinerror.push('duration')
                       }
                     }
                     if (!exerciseIsValid) {

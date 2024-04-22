@@ -141,20 +141,6 @@ export default function ExerciseModal() {
         },
       })
     },
-    duration: (e) => {
-      //debounceRepackageExercise()
-      appStore.dispatch({
-        type: 'exerciseModalSlice/change',
-        payload: {
-          inputs: {
-            duration: e.target.value,
-          },
-          errors: {
-            duration: false,
-          },
-        },
-      })
-    },
     instructions: (e) => {
       //debounceRepackageExercise()
       appStore.dispatch({
@@ -183,34 +169,6 @@ export default function ExerciseModal() {
         },
       })
     },
-    title: (e) => {
-      //debounceRepackageExercise()
-      appStore.dispatch({
-        type: 'exerciseModalSlice/change',
-        payload: {
-          inputs: {
-            title: e.target.value,
-          },
-          errors: {
-            title: false,
-          },
-        },
-      })
-    },
-    fixedDuration: (e) => {
-      //debounceRepackageExercise()
-      appStore.dispatch({
-        type: 'exerciseModalSlice/change',
-        payload: {
-          inputs: {
-            fixedDuration: e.target.checked,
-          },
-          errors: {
-            fixedDuration: false,
-          },
-        },
-      })
-    },
     create: () => {
       console.log('ExerciseModal.create')
       serviceExerciseSave()
@@ -219,8 +177,6 @@ export default function ExerciseModal() {
       })
     },
   }
-
-  //console.log('debounced',debounced)
 
   // Render
   return (
@@ -275,65 +231,6 @@ export default function ExerciseModal() {
               </Select>
             </FormControl>
 
-            {select.inputs.type !== 'userDefined' ? (null) : (
-              <Box
-              component="form"
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-evenly',
-              }}>
-                <FormControl>
-                  <Box 
-                    component="form"
-                    display='flex' 
-                    direction="row" 
-                    spacing={1} 
-                    alignItems="center"
-                  >
-                    <Typography>
-                      {t('exercise.input.variableDuration')}
-                    </Typography>
-                    <Switch 
-                      name="fixedDuration"
-                      checked={select.inputs.fixedDuration}
-                      onChange={changes.fixedDuration}
-                      data-testid="modal-exercise-switch-fixedDuration"
-                      inputProps={{ 'aria-label': 'controlled' }}
-                    />                   
-                    <Typography>
-                      {t('exercise.input.fixedDuration')}
-                    </Typography>
-                  </Box>
-                  {select.inputs.fixedDuration === false ? (null) : (
-                    <TextField
-                        name="duration"
-                        label={t('exercise.input.duration')}
-                        variant="standard"
-                        value={select.inputs.duration}
-                        onChange={changes.duration}
-                        autoComplete="off"
-                        error={select.errors.duration}
-                        data-testid="modal-exercise-input-duration"
-                        type="number"
-                      />
-                  )}
-                  
-                  <TextField
-                    name="instructions"
-                    label={t('exercise.input.instructions')}
-                    variant="standard"
-                    value={select.inputs.instructions}
-                    onChange={changes.instructions}
-                    autoComplete="off"
-                    error={select.errors.instructions}
-                    data-testid="modal-exercise-input-instructions"
-                    multiline
-                  />
-                </FormControl>
-              </Box>
-            )}
-
             {select.inputs.type !== 'videoYoutube' ? (null) : (
               <Box
               component="form"
@@ -354,32 +251,31 @@ export default function ExerciseModal() {
                     error={select.errors.videoToken}
                     data-testid="modal-exercise-input-videoToken"
                   />
-                  <TextField
-                    name="duration"
-                    required
-                    label={t('exercise.input.duration')}
-                    variant="standard"
-                    value={select.inputs.duration}
-                    onChange={changes.duration}
-                    autoComplete="off"
-                    error={select.errors.duration}
-                    data-testid="modal-exercise-input-duration"
-                    type="number"
-                  />
-                  <TextField
-                    name="instructions"
-                    label={t('exercise.input.instructions')}
-                    variant="standard"
-                    value={select.inputs.instructions}
-                    onChange={changes.instructions}
-                    autoComplete="off"
-                    error={select.errors.instructions}
-                    data-testid="modal-exercise-input-instructions"
-                    multiline
-                  />
                 </FormControl>
               </Box>
             )}
+            
+            <Box
+              component="form"
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-evenly',
+            }}>
+              <FormControl>
+                <TextField
+                  name="instructions"
+                  label={t('exercise.input.instructions')}
+                  variant="standard"
+                  value={select.inputs.instructions}
+                  onChange={changes.instructions}
+                  autoComplete="off"
+                  error={select.errors.instructions}
+                  data-testid="modal-exercise-input-instructions"
+                  multiline
+                />
+              </FormControl>
+            </Box>
 
             <Box
               sx={{

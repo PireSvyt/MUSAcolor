@@ -195,10 +195,10 @@ export default function Appbar(props) {
       }
       //menuItems.push(potentialMenuItems.toContact);
       menuItems.push(potentialMenuItems.signOut)
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'exam':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'prescription':
       menuItems.push(potentialMenuItems.toHome)
@@ -206,19 +206,19 @@ export default function Appbar(props) {
       showLanguageSwitcher = false
       break
     case 'passwordreset':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'activation':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'account':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'help':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'about':
-      showLanguageSwitcher = true
+      showLanguageSwitcher = false
       break
     case 'admin':
       showLanguageSwitcher = false

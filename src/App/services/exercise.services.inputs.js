@@ -74,19 +74,6 @@ export const exerciseSaveInputs = {
             } else {
               switch (serviceInputs.inputs.type) {
                 case 'userDefined':
-                  if (serviceInputs.inputs.title === undefined
-                    || serviceInputs.inputs.title === ''
-                    || serviceInputs.inputs.title === null) {
-                    return {
-                      errors: ['generic.error.missingtitle'],
-                      stateChanges: {
-                        errors: {
-                          title: true,
-                        },
-                      },
-                      proceed: false,
-                    }
-                  }
                   return { proceed: true }
                   break
                 case 'videoYoutube':
@@ -119,12 +106,6 @@ export const exerciseSaveInputs = {
               
             }
           },
-        },
-        {
-          // Check duration is available
-          field: 'duration',
-          error: 'generic.error.missingduration',
-          fieldsinerror: ['duration'],
         },
       ],
     },
@@ -160,13 +141,9 @@ export const exerciseSaveInputs = {
     repackagedInputs.inputs.name = serviceInputs.inputs.name
     repackagedInputs.inputs.type = serviceInputs.inputs.type
 
-    repackagedInputs.inputs.data.duration = serviceInputs.inputs.duration
-
     switch (serviceInputs.inputs.type) {
-      case 'userDefined':
-        repackagedInputs.inputs.data.title = serviceInputs.inputs.title
       case 'videoYoutube':
-        repackagedInputs.inputs.data .videoToken = serviceInputs.inputs.videoToken
+        repackagedInputs.inputs.data.videoToken = serviceInputs.inputs.videoToken
       break
     }
     if (serviceInputs.inputs.instructions !== undefined

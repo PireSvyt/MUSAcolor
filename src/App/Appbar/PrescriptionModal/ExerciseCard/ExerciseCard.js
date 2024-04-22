@@ -108,24 +108,6 @@ export default function ExerciseCard(props) {
         },  
       })
     },
-    tag: (e) => {
-      appStore.dispatch({
-        type: 'prescriptionModalSlice/change',
-        payload: {
-          index: props.index,
-          tag: e.target.value
-        },  
-      })
-    },
-    duration: (e) => {
-      appStore.dispatch({
-        type: 'prescriptionModalSlice/change',
-        payload: {
-          index: props.index,
-          duration: e.target.value
-        },  
-      })
-    },
     posology: (e) => {
       appStore.dispatch({
         type: 'prescriptionModalSlice/change',
@@ -207,10 +189,7 @@ export default function ExerciseCard(props) {
                   ) : (
                     t('exercise.label.' + props.exercise.type)
                   ) }
-                </Typography>                  
-                {props.exercise.data === undefined ? (null) : props.exercise.data.duration === undefined ? (null) : (
-                  <Typography variant="caption">{toMinutesString(props.exercise.data.duration)}</Typography>
-                )}              
+                </Typography>                    
               </Box>
             </Box>
             
@@ -303,18 +282,6 @@ export default function ExerciseCard(props) {
                   error={props.data !== undefined ? (props.errors !== undefined ? props.errors.name : false) : false}
                 />
                 <TextField
-                  name="tag"
-                  label={t('exercise.input.tag')}
-                  placeholder={t('exercise.input.tag')}
-                  variant="standard"
-                  value={props.data ? props.data.tag : undefined}
-                  onChange={changes.tag}
-                  required
-                  autoComplete="off"
-                  fullWidth
-                  error={props.data !== undefined ? (props.errors !== undefined ? props.errors.tag : false) : false}
-                />
-                <TextField
                   name="instructions"
                   label={t('exercise.input.instructions')}
                   placeholder={t('exercise.input.instructions')}
@@ -326,19 +293,7 @@ export default function ExerciseCard(props) {
                   fullWidth
                   multiline
                   error={props.data !== undefined ? (props.errors !== undefined ? props.errors.instructions : false) : false}
-                />              
-                <TextField
-                  name="duration"
-                  required
-                  label={t('exercise.input.duration')}
-                  variant="standard"
-                  value={props.data ? props.data.duration : undefined}
-                  onChange={changes.duration}
-                  autoComplete="off"
-                  type="number"
-                  fullWidth
-                  error={props.data !== undefined ? (props.errors !== undefined ? props.errors.duration : false) : false}
-                    />
+                />  
               </Box>
             )}
 

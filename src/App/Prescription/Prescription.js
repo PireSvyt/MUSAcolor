@@ -8,8 +8,7 @@ import {
 
 import Appbar from '../Appbar/Appbar.js'
 import { 
-  servicePrescriptionGet, 
-  servicePrescriptionGetDuration 
+  servicePrescriptionGet 
 } from '../services/prescription.services.js'
 import Exercise from "./Exercise/Exercise.js";
 import { random_id, stringifyDate } from '../services/toolkit.js';
@@ -24,7 +23,6 @@ export default function Prescription() {
   // State
   const [isAvailable, setIsAvailable] = React.useState(null);
   const [expandedExercise, setExpandedExercise] = React.useState(null);
-  const [prescriptionDuration, setPrescriptionDuration] = React.useState(null);
 
   // Selects
   const select = {
@@ -55,13 +53,6 @@ export default function Prescription() {
         
     })
   }
-
-  useEffect(() => {
-    let duration = servicePrescriptionGetDuration(select.exercises)
-    console.log ('set duration', duration)
-    setPrescriptionDuration(duration)
-  }, [select.exercises])
-
 
   let skeleton = null
 
@@ -103,10 +94,7 @@ export default function Prescription() {
               variant="body1"
               sx={{pb:2}}
             >
-              {
-                stringifyDate(select.editionDate) 
-                + ' / ' + prescriptionDuration
-              }
+              { stringifyDate(select.editionDate) }
             </Typography>
 
             {Object.entries(select.exercises).map((exercise) => {
