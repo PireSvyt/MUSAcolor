@@ -94,7 +94,7 @@ export default function PatientModal() {
         fullWidth={true}
         data-testid="modal-patient"
       >
-        <DialogTitle>{t('patient.label.new')}</DialogTitle>
+        <DialogTitle>{t('patient.label.title')}</DialogTitle>
         <DialogContent
           /*sx={{
             height: componentHeight,
@@ -150,7 +150,7 @@ export default function PatientModal() {
             loading={select.loading}
             data-testid="modal-patient-button-proceed"
           >
-            {t('generic.button.proceed')}
+            {t('generic.button.save')}
           </LoadingButton>
         </DialogActions>
       </Dialog>

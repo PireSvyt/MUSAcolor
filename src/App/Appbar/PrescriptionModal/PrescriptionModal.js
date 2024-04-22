@@ -95,7 +95,7 @@ export default function PrescriptionModal() {
         fullWidth={true}
         data-testid="modal-prescription"
       >
-        <DialogTitle>{t('prescription.label.new')}</DialogTitle>
+        <DialogTitle>{t('prescription.label.title')}</DialogTitle>
         <DialogContent
           sx={{
             height: componentHeight,
@@ -182,7 +182,7 @@ export default function PrescriptionModal() {
             loading={select.loading}
             data-testid="modal-prescription-button-proceed"
           >
-            {t('generic.button.proceed')}
+            {t('generic.button.save')}
           </LoadingButton>
         </DialogActions>
       </Dialog>

@@ -71,13 +71,6 @@ export default function Prescription() {
             textAlign: 'center'
         }}
       >
-        <Typography 
-          component="span" 
-          variant="h5"
-          sx={{pt:2}}
-        >
-          {t('prescription.label.title')}
-        </Typography>
     
         {isAvailable !== 'available' ? (
           skeleton
@@ -86,15 +79,23 @@ export default function Prescription() {
         ) : (
           <Box
             sx={{                        
-                width: '80%'
+                width: '80%',
+                pt:3
             }}
+            display='flex'
+            flexDirection='column'
           >
             <Typography 
               component="span" 
-              variant="body1"
-              sx={{pb:2}}
+              variant="h5"
             >
-              { stringifyDate(select.editionDate) }
+            { stringifyDate(select.editionDate) }
+            </Typography>
+            <Typography
+              sx={{pb:1}}
+              variant='overline'
+            >
+            {t('prescription.label.title')}
             </Typography>
 
             {Object.entries(select.exercises).map((exercise) => {

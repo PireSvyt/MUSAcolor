@@ -67,8 +67,8 @@ export default function Exercise(props) {
                     }}
                     >
                         <Typography 
-                            component="span" 
-                            variant="h6"
+                            variant="overline"
+                            color={'grey'}
                             align='left'
                         >
                             {t('prescription.label.posology')}
@@ -98,11 +98,11 @@ export default function Exercise(props) {
                     }}
                     >
                         <Typography 
-                            component="span" 
-                            variant="h6"
+                            variant="overline"
+                            color={'grey'}
                             align='left'
                         >
-                            {t('prescription.label.exercise')}
+                            {t('prescription.label.instructions')}
                         </Typography>   
                         <Typography 
                             component="span" 
@@ -114,15 +114,16 @@ export default function Exercise(props) {
                         </Typography>  
                     </Box>
                 )}
-
-                <Box
-                    sx={{ 
-                        display: 'flex',
-                        justifyContent: 'center'
-                    }}
-                >   
-                    {props.exercise.data === undefined ? (null) : 
-                        props.exercise.data.videoToken === undefined ? (null) : (
+                {props.exercise.data === undefined ? (null) : 
+                props.exercise.data.videoToken === undefined ? (null) : (
+                    <Box
+                        sx={{ 
+                            display: 'flex',
+                            justifyContent: 'center',
+                            pt: 2,
+                            pb: 1
+                        }}
+                    >   
                         <Box
                             sx={{  
                                     
@@ -132,8 +133,8 @@ export default function Exercise(props) {
                         > 
                             <YoutubeEmbed embedId={props.exercise.data.videoToken} />
                         </Box>
-                    )}
-                </Box>
+                    </Box>
+                )}
 
             </Box>
 

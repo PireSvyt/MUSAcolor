@@ -164,6 +164,8 @@ export default function PatientCard(props) {
             
           </Box>
           <Button 
+            sx={{'min-width': 'max-content'}}
+            size="small"
             onClick={changes.gotodatabaseURL}
             disabled={props.patient.databaseURL === undefined 
               || props.patient.databaseURL === null 

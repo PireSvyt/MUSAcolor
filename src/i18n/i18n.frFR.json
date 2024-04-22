@@ -121,13 +121,13 @@
       "exams": "Analyses",
       "noexams": "Aucune analyse",
       "noexamsexplanation": "Vous trouverez les analyses de ce sujet ici à l'avenir.\nAjoutez une analyse avec l'icon '+'",
-      "prescriptions": "Prescriptions",
-      "noprescriptions": "Aucune prescription",
-      "noprescriptionsexplanation": "Vous trouverez les prescriptions de ce sujet ici à l'avenir.\nAjoutez une prescription avec l'icon '+'",
-      "databaseurl": "Lien fiche patient"
+      "prescriptions": "Protocoles",
+      "noprescriptions": "Aucun protocole",
+      "noprescriptionsexplanation": "Vous trouverez les protocoles de ce sujet ici à l'avenir.\nAjoutez un protocole avec l'icon '+'",
+      "databaseurl": "Lien vers la fiche du sujet"
     },
     "button": {
-      "databaseurl": "Fiche"
+      "databaseurl": "Fiche sujet"
     },
     "confirm": {
       "deleteexam": {
@@ -148,12 +148,7 @@
     },
     "input": {
       "instructions": "Instructions",
-      "videoToken": "Token de video (Youtube)",
-      "duration": "Durée (en secondes)",
-      "title": "Titre personnalisé",
-      "variableDuration": "Durée variable",
-      "fixedDuration": "fixe",
-      "tag": "Tag"
+      "videoToken": "Identifiant de la video (Youtube)"
     }
   },
   "exam": {
@@ -209,22 +204,17 @@
   },
   "prescription": {
     "label": {
-      "title": "Prescription",
-      "new": "Prescription",
-      "unknown": "Prescription inconnue",
+      "title": "Protocole",
+      "new": "Protocole",
+      "unknown": "Protocole inconnu",
       "deniedaccess": "Vous faites fausse route...",
       "newexercise": "Nouvel exercice",
       "exercises": "Exercices",
       "exercise": "Exercice",
-      "duration": "Durée",
       "instructions": "Instructions",
-      "optional": "optional",
-      "posology": "Posologie",
+      "optional": "optionnel",
+      "posology": "Consignes",
       "deletedExercise": "Exercise supprimé"
-    },
-    "exercise": {
-      "videoBleu" : "Vidéo: Bleu",
-      "videoRouge" : "Vidéo: Rouge"
     },
     "prescriptions": {
       "unknown": {
@@ -233,8 +223,8 @@
     },
     "confirm": {
       "deleteprescription": {
-        "title": "Suppression de la prescription",
-        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à cette prescription."
+        "title": "Suppression du protocole",
+        "content": "Cette action est irreversible et entraine la perte de toutes les données associées à ce protocole."
       }
     }
   },
