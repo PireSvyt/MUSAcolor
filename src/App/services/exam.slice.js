@@ -8,7 +8,7 @@ const examSlice = createSlice({
     patientid: '',
     type: '',
     results: {},
-    analysis: {}
+    analysis: {},
   },
   reducers: {
     new: (state, action) => {
@@ -56,4 +56,3 @@ const examSlice = createSlice({
 })
 
 export default examSlice.reducer
-

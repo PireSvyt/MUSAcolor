@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Button,
@@ -14,7 +14,7 @@ import {
   MenuItem,
   Typography,
   List,
-  ListItem
+  ListItem,
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
@@ -37,9 +37,9 @@ export default function PrescriptionModal() {
 
   // Constants
   const componentHeight = window.innerHeight - 115
-  
+
   // State
-  const [selectedExercise, setSelectedExercise] = React.useState('');
+  const [selectedExercise, setSelectedExercise] = React.useState('')
 
   // Selects
   const select = {
@@ -71,15 +71,14 @@ export default function PrescriptionModal() {
         },
       })
       // Reset
-      setSelectedExercise('');
+      setSelectedExercise('')
     },
     create: () => {
       console.log('PrescriptionModal.create')
-      servicePrescriptionSave( {
+      servicePrescriptionSave({
         prescriptionid: random_id(),
         patientid: window.location.href.split('/patient/')[1],
-      })
-      .then(() => {
+      }).then(() => {
         servicePatientGet(window.location.href.split('/patient/')[1])
       })
     },
@@ -112,12 +111,16 @@ export default function PrescriptionModal() {
             <List dense={false}>
               {select.inputs.exercises.map((exercise) => {
                 c += 1
-                console.log("PrescriptionModal.exercise", exercise)
+                console.log('PrescriptionModal.exercise', exercise)
                 return (
                   <ListItem key={'exercise-' + c}>
                     <ExerciseCard
                       exerciseid={exercise.exerciseid}
-                      exercise={select.myexercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]}
+                      exercise={
+                        select.myexercises.filter(
+                          (ex) => ex.exerciseid === exercise.exerciseid
+                        )[0]
+                      }
                       posology={exercise.posology}
                       data={exercise.data}
                       errors={exercise.errors}
@@ -128,7 +131,7 @@ export default function PrescriptionModal() {
                 )
               })}
 
-              <ListItem key={'exercise-' + c+1}>
+              <ListItem key={'exercise-' + c + 1}>
                 <FormControl fullWidth>
                   <InputLabel>{t('prescription.label.newexercise')}</InputLabel>
                   <Select
@@ -136,26 +139,29 @@ export default function PrescriptionModal() {
                     label={t('prescription.exercise.newexercise')}
                     onChange={changes.selectExercise}
                   >
-                    {Object.entries(select.myexercises).map(exercise => {
+                    {Object.entries(select.myexercises).map((exercise) => {
                       //console.log("menuitem", exercise[1])
                       return (
-                        <MenuItem 
+                        <MenuItem
                           value={exercise[1].exerciseid}
                           key={random_id()}
-                        > 
-                          {exercise[1].type === 'userDefined' ? (         
-                            <Box
-                              display='flex'
-                            >           
-                              <Typography>{t('exercise.label.'+exercise[1].type)}</Typography>
-                            </Box>        
-                          ) : (      
-                            <Box
-                              display='flex'                              
-                            >           
-                              <Chip key={random_id()} label={t('exercise.label.'+exercise[1].type)} size="small" sx={{mr:1}}/>
+                        >
+                          {exercise[1].type === 'userDefined' ? (
+                            <Box display="flex">
+                              <Typography>
+                                {t('exercise.label.' + exercise[1].type)}
+                              </Typography>
+                            </Box>
+                          ) : (
+                            <Box display="flex">
+                              <Chip
+                                key={random_id()}
+                                label={t('exercise.label.' + exercise[1].type)}
+                                size="small"
+                                sx={{ mr: 1 }}
+                              />
                               <Typography>{exercise[1].name}</Typography>
-                            </Box> 
+                            </Box>
                           )}
                         </MenuItem>
                       )
@@ -164,7 +170,6 @@ export default function PrescriptionModal() {
                 </FormControl>
               </ListItem>
             </List>
-            
           </Box>
         </DialogContent>
 
@@ -190,12 +195,11 @@ export default function PrescriptionModal() {
   )
 }
 
-
-function toMinutesString (seconds) {
-  var sec_num = parseInt(seconds, 10);
-  var hours   = Math.floor(sec_num / 3600);
-  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+function toMinutesString(seconds) {
+  var sec_num = parseInt(seconds, 10)
+  var hours = Math.floor(sec_num / 3600)
+  var minutes = Math.floor((sec_num - hours * 3600) / 60)
+  var seconds = sec_num - hours * 3600 - minutes * 60
 
   return minutes + 'min'
   /*

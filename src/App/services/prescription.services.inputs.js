@@ -1,9 +1,9 @@
 // APIs
-import { 
-  apiPrescriptionCreate, 
-  apiPrescriptionSave, 
-  apiPrescriptionDelete, 
-  apiPrescriptionGet 
+import {
+  apiPrescriptionCreate,
+  apiPrescriptionSave,
+  apiPrescriptionDelete,
+  apiPrescriptionGet,
 } from './prescription.api.js'
 // Services
 import { random_id, random_string } from './toolkit.js'
@@ -37,13 +37,13 @@ export const prescriptionCreateInputs = {
       tags: ['function'],
     })
     //console.log("directInputs", directInputs)
-    let inputs = {...appStore.getState().prescriptionModalSlice.inputs}
-    Object.keys(directInputs).forEach(k => {
+    let inputs = { ...appStore.getState().prescriptionModalSlice.inputs }
+    Object.keys(directInputs).forEach((k) => {
       //console.log("directInput", k, directInputs[k])
       inputs[k] = directInputs[k]
     })
-    console.log("getinputsfunction", inputs)
-    return {inputs: inputs}
+    console.log('getinputsfunction', inputs)
+    return { inputs: inputs }
   },
   sercivechecks: [
     {
@@ -84,7 +84,8 @@ export const prescriptionCreateInputs = {
     let repackagedInputs = {}
     repackagedInputs.inputs = {}
     repackagedInputs.inputs.prescriptionid = random_string()
-    repackagedInputs.inputs.patientid = appStore.getState().patientSlice.patientid
+    repackagedInputs.inputs.patientid =
+      appStore.getState().patientSlice.patientid
     repackagedInputs.inputs.exercises = serviceInputs.inputs.exercises
     console.log('repackagedInputs', repackagedInputs)
     return repackagedInputs
@@ -98,7 +99,10 @@ export const prescriptionCreateInputs = {
       tags: ['function'],
     })
     try {
-      return await apiPrescriptionCreate(inputs, appStore.getState().authSlice.token)
+      return await apiPrescriptionCreate(
+        inputs,
+        appStore.getState().authSlice.token
+      )
     } catch (err) {
       return err
     }
@@ -121,9 +125,9 @@ export const prescriptionCreateInputs = {
           type: 'prescriptionModalSlice/change',
           payload: {
             state: {
-              storage: 'error'
-            }
-          }
+              storage: 'error',
+            },
+          },
         })
         appStore.dispatch({
           type: 'sliceSnack/change',
@@ -166,13 +170,13 @@ export const prescriptionSaveInputs = {
       tags: ['function'],
     })
     //console.log("directInputs", directInputs)
-    let inputs = {...appStore.getState().prescriptionModalSlice.inputs}
-    Object.keys(directInputs).forEach(k => {
+    let inputs = { ...appStore.getState().prescriptionModalSlice.inputs }
+    Object.keys(directInputs).forEach((k) => {
       //console.log("directInput", k, directInputs[k])
       inputs[k] = directInputs[k]
     })
-    console.log("getinputsfunction", inputs)
-    return {inputs: inputs}
+    console.log('getinputsfunction', inputs)
+    return { inputs: inputs }
   },
   sercivechecks: [
     {
@@ -205,7 +209,7 @@ export const prescriptionSaveInputs = {
                 let errors = []
                 let i = -1
                 let erroneousExercises = []
-                serviceInputs.inputs.exercises.forEach(exercise => {
+                serviceInputs.inputs.exercises.forEach((exercise) => {
                   i += 1
                   let fieldsinerror = []
                   let exerciseIsValid = true
@@ -214,16 +218,20 @@ export const prescriptionSaveInputs = {
                       exerciseIsValid = false
                       errors.push('generic.error.missingdata')
                     } else {
-                      if (exercise.data.name === undefined
-                        || exercise.data.name === null 
-                        || exercise.data.name ===  '') {
+                      if (
+                        exercise.data.name === undefined ||
+                        exercise.data.name === null ||
+                        exercise.data.name === ''
+                      ) {
                         exerciseIsValid = false
                         errors.push('generic.error.missingname')
                         fieldsinerror.push('name')
                       }
-                      if (exercise.data.instructions === undefined
-                        || exercise.data.instructions === null 
-                        || exercise.data.instructions ===  '') {
+                      if (
+                        exercise.data.instructions === undefined ||
+                        exercise.data.instructions === null ||
+                        exercise.data.instructions === ''
+                      ) {
                         exerciseIsValid = false
                         errors.push('generic.error.missinginstructions')
                         fieldsinerror.push('instructions')
@@ -232,21 +240,23 @@ export const prescriptionSaveInputs = {
                     if (!exerciseIsValid) {
                       onlySupportedTypes = false
                       let exerciseErrors = {}
-                      fieldsinerror.forEach(f => { exerciseErrors[f] = true })
+                      fieldsinerror.forEach((f) => {
+                        exerciseErrors[f] = true
+                      })
                       erroneousExercises.push({
                         index: i,
-                        errors: exerciseErrors
+                        errors: exerciseErrors,
                       })
                     }
                   }
                 })
-                console.log("onlySupportedTypes", onlySupportedTypes)
-                console.log("erroneousExercises", erroneousExercises)
+                console.log('onlySupportedTypes', onlySupportedTypes)
+                console.log('erroneousExercises', erroneousExercises)
                 if (!onlySupportedTypes) {
                   return {
-                    errors: [ 'exercises' ],
+                    errors: ['exercises'],
                     stateChanges: {
-                      exercises : erroneousExercises
+                      exercises: erroneousExercises,
                     },
                     proceed: false,
                   }
@@ -278,11 +288,17 @@ export const prescriptionSaveInputs = {
     let repackagedInputs = {}
     repackagedInputs.inputs = {}
 
-    repackagedInputs.inputs.patientid = appStore.getState().patientSlice.patientid
+    repackagedInputs.inputs.patientid =
+      appStore.getState().patientSlice.patientid
     repackagedInputs.inputs.exercises = serviceInputs.inputs.exercises
-    
-    let prescriptionid = appStore.getState().prescriptionModalSlice.prescriptionid
-    if (prescriptionid !== undefined && prescriptionid !== null && prescriptionid !== '') {
+
+    let prescriptionid =
+      appStore.getState().prescriptionModalSlice.prescriptionid
+    if (
+      prescriptionid !== undefined &&
+      prescriptionid !== null &&
+      prescriptionid !== ''
+    ) {
       repackagedInputs.inputs.prescriptionid = prescriptionid
     } else {
       repackagedInputs.inputs.prescriptionid = random_string()
@@ -300,16 +316,23 @@ export const prescriptionSaveInputs = {
       tags: ['function'],
     })
     try {
-      
-      let prescriptionid = appStore.getState().prescriptionModalSlice.prescriptionid
-      if (prescriptionid === undefined 
-        || prescriptionid === null 
-        || prescriptionid === '' ) {
-        return await apiPrescriptionCreate(inputs, appStore.getState().authSlice.token)
+      let prescriptionid =
+        appStore.getState().prescriptionModalSlice.prescriptionid
+      if (
+        prescriptionid === undefined ||
+        prescriptionid === null ||
+        prescriptionid === ''
+      ) {
+        return await apiPrescriptionCreate(
+          inputs,
+          appStore.getState().authSlice.token
+        )
       } else {
-        return await apiPrescriptionSave(inputs, appStore.getState().authSlice.token)
+        return await apiPrescriptionSave(
+          inputs,
+          appStore.getState().authSlice.token
+        )
       }
-
     } catch (err) {
       return err
     }
@@ -337,9 +360,9 @@ export const prescriptionSaveInputs = {
           type: 'prescriptionModalSlice/change',
           payload: {
             state: {
-              storage: 'error'
-            }
-          }
+              storage: 'error',
+            },
+          },
         })
         appStore.dispatch({
           type: 'sliceSnack/change',
@@ -354,9 +377,9 @@ export const prescriptionSaveInputs = {
           type: 'prescriptionModalSlice/change',
           payload: {
             state: {
-              storage: 'error'
-            }
-          }
+              storage: 'error',
+            },
+          },
         })
         appStore.dispatch({
           type: 'sliceSnack/change',
@@ -371,9 +394,9 @@ export const prescriptionSaveInputs = {
           type: 'prescriptionModalSlice/change',
           payload: {
             state: {
-              storage: 'error'
-            }
-          }
+              storage: 'error',
+            },
+          },
         })
         appStore.dispatch({
           type: 'sliceSnack/change',
@@ -430,7 +453,10 @@ export const prescriptionDeleteInputs = {
       tags: ['function'],
     })
     try {
-      return await apiPrescriptionDelete(inputs, appStore.getState().authSlice.token)
+      return await apiPrescriptionDelete(
+        inputs,
+        appStore.getState().authSlice.token
+      )
     } catch (err) {
       return err
     }
@@ -494,7 +520,7 @@ export const prescriptionGetInputs = {
       tags: ['function'],
     })
     return {
-      inputs: {...directInputs},
+      inputs: { ...directInputs },
     }
   },
   sercivechecks: [
@@ -507,7 +533,7 @@ export const prescriptionGetInputs = {
           // Check patientid is available
           field: 'prescriptionid',
           error: 'patient.error.missingprescriptionid',
-        }
+        },
       ],
     },
   ],
@@ -539,26 +565,28 @@ export const prescriptionGetInputs = {
         })
       },
       'prescription.get.error.undefined': () => {
-        console.warn("getmanageresponsefunction prescription.get.error.undefined")
+        console.warn(
+          'getmanageresponsefunction prescription.get.error.undefined'
+        )
         appStore.dispatch({
           type: 'prescriptionSlice/change',
           payload: {
             state: {
-              analysis: 'denied'
-            }
+              analysis: 'denied',
+            },
           },
         })
       },
       'prescription.get.error.onfind': () => {
-        console.warn("getmanageresponsefunction prescription.get.error.onfind")
+        console.warn('getmanageresponsefunction prescription.get.error.onfind')
         appStore.dispatch({
           type: 'prescriptionSlice/setAnalysis',
           payload: {
             type: 'prescriptionSlice/change',
             payload: {
               state: {
-                analysis: 'denied'
-              }
+                analysis: 'denied',
+              },
             },
           },
         })
@@ -575,4 +603,3 @@ export const prescriptionGetInputs = {
     return responses[response.type]()
   },
 }
-

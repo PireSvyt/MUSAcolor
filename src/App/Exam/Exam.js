@@ -33,28 +33,28 @@ export default function Exam() {
         type: 'examSlice/new',
         payload: {
           type: newexamInputs.type,
-          patientid: newexamInputs.patientid
-        }
+          patientid: newexamInputs.patientid,
+        },
       })
     },
     patiendid: (newid) => {
       appStore.dispatch({
         type: 'examSlice/change',
         payload: {
-          patient: newid
-        }
+          patient: newid,
+        },
       })
     },
     store: (inputs) => {
-      console.log("changes.store", inputs)
-      serviceExamCreate( inputs )
+      console.log('changes.store', inputs)
+      serviceExamCreate(inputs)
     },
     getanalysis: () => {
       serviceExamGet({
         examid: select.examSliceContent.examid,
-        patientid: select.examSliceContent.patientid
+        patientid: select.examSliceContent.patientid,
       })
-    }
+    },
   }
 
   if (select.authloaded === true) {
@@ -78,14 +78,14 @@ export default function Exam() {
           // details not loaded nor loading
           serviceExamGet({
             examid: examFlowInputs.examid,
-            patientid: examFlowInputs.patientid
+            patientid: examFlowInputs.patientid,
           })
         }
       } else {
         // Aims at performing the exam
         // Type
-        let availableExamTypes = [ 'pvo', 'luscher8' ]
-        let selectedExamType = "unknown"
+        let availableExamTypes = ['pvo', 'luscher8']
+        let selectedExamType = 'unknown'
         if (availableExamTypes.includes(examFlowInputs.type)) {
           selectedExamType = examFlowInputs.type
         }
@@ -97,7 +97,7 @@ export default function Exam() {
         // Setup test
         changes.newexam({
           type: selectedExamType,
-          patientid: selectedPatientid
+          patientid: selectedPatientid,
         })
       }
     }
@@ -105,16 +105,26 @@ export default function Exam() {
 
   return (
     <Box
-      data-testid='page-exam'
+      data-testid="page-exam"
       sx={{
         m: 0,
         p: 0,
       }}
     >
-      <Appbar route="exam" title={t('exam.label.title') + " " + t('exam.exams.'+ (select.examType ? select.examType : "unknown") +'.name')} />
+      <Appbar
+        route="exam"
+        title={
+          t('exam.label.title') +
+          ' ' +
+          t(
+            'exam.exams.' +
+              (select.examType ? select.examType : 'unknown') +
+              '.name'
+          )
+        }
+      />
       <Box sx={{ height: 70 }} />
-      {select.authloaded === true &&
-      select.signedin === true  ? (
+      {select.authloaded === true && select.signedin === true ? (
         <Box
           sx={{
             display: 'flex',
@@ -126,26 +136,41 @@ export default function Exam() {
             p: 0,
           }}
         >
-          { // EXAM : unknown 
-          select.examState.analysis === 'denied' ? (
-            <Typography 
-              sx={{ p: 2 }} 
-              component="span" 
-              variant="h5" 
-              gutterBottom
-              data-testid='page-exam-label-deniedaccess'
-            >
-              {t("exam.label.deniedaccess")}
-            </Typography>
-          ) : select.examType === 'unknown' ? (
-            <Typography sx={{ p: 2 }} component="span" variant="h5" gutterBottom>
-              {t("exam.label.unknown")}
-            </Typography>
-          ) : select.examType === 'pvo' ? (
-            <ExamPVO exam={select.examSliceContent} store={changes.store} getanalysis={changes.getanalysis} />
-          ) : select.examType === 'luscher8' ? ( 
-            <ExamLuscher8 exam={select.examSliceContent} store={changes.store} getanalysis={changes.getanalysis} />
-          ) : (null)}
+          {
+            // EXAM : unknown
+            select.examState.analysis === 'denied' ? (
+              <Typography
+                sx={{ p: 2 }}
+                component="span"
+                variant="h5"
+                gutterBottom
+                data-testid="page-exam-label-deniedaccess"
+              >
+                {t('exam.label.deniedaccess')}
+              </Typography>
+            ) : select.examType === 'unknown' ? (
+              <Typography
+                sx={{ p: 2 }}
+                component="span"
+                variant="h5"
+                gutterBottom
+              >
+                {t('exam.label.unknown')}
+              </Typography>
+            ) : select.examType === 'pvo' ? (
+              <ExamPVO
+                exam={select.examSliceContent}
+                store={changes.store}
+                getanalysis={changes.getanalysis}
+              />
+            ) : select.examType === 'luscher8' ? (
+              <ExamLuscher8
+                exam={select.examSliceContent}
+                store={changes.store}
+                getanalysis={changes.getanalysis}
+              />
+            ) : null
+          }
         </Box>
       ) : (
         <Box sx={{ left: '10%', right: '10%' }}>

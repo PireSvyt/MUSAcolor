@@ -53,20 +53,19 @@ export function appendObject(obj, append) {
 export function stringifyDate(givenDate) {
   let date = new Date(givenDate)
   const options = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
   }
   return date.toLocaleString('fr-FR', options)
   //{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 }
 
-export function toTimeString (seconds) {
-  
-  var sec_num = parseInt(seconds, 10);
-  var hours   = Math.floor(sec_num / 3600);
-  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+export function toTimeString(seconds) {
+  var sec_num = parseInt(seconds, 10)
+  var hours = Math.floor(sec_num / 3600)
+  var minutes = Math.floor((sec_num - hours * 3600) / 60)
+  var seconds = sec_num - hours * 3600 - minutes * 60
 
   return minutes + 'min'
   /*
@@ -78,37 +77,37 @@ export function toTimeString (seconds) {
 }
 
 export const debounce = (mainFunction, delay) => {
-
   // https://dev.to/jeetvora331/javascript-debounce-easiest-explanation--29hc
 
   // Declare a variable called 'timer' to store the timer ID
-  let timer;
+  let timer
 
   // Return an anonymous function that takes in any number of arguments
   return function (...args) {
     // Clear the previous timer to prevent the execution of 'mainFunction'
-    clearTimeout(timer);
+    clearTimeout(timer)
 
     // Set a new timer that will execute 'mainFunction' after the specified delay
     timer = setTimeout(() => {
-      mainFunction(...args);
-    }, delay);
-  };
-};
+      mainFunction(...args)
+    }, delay)
+  }
+}
 
 export function throttle(mainFunction, delay) {
-
   // https://dev.to/jeetvora331/throttling-in-javascript-easiest-explanation-1081
 
-  let timerFlag = null; // Variable to keep track of the timer
+  let timerFlag = null // Variable to keep track of the timer
 
-  // Returning a throttled version 
+  // Returning a throttled version
   return (...args) => {
-    if (timerFlag === null) {         // If there is no timer currently running
-      mainFunction(...args);          // Execute the main function 
-      timerFlag = setTimeout(() => {  // Set a timer to clear the timerFlag after the specified delay
-        timerFlag = null;             // Clear the timerFlag to allow the main function to be executed again
-      }, delay);
+    if (timerFlag === null) {
+      // If there is no timer currently running
+      mainFunction(...args) // Execute the main function
+      timerFlag = setTimeout(() => {
+        // Set a timer to clear the timerFlag after the specified delay
+        timerFlag = null // Clear the timerFlag to allow the main function to be executed again
+      }, delay)
     }
-  };
+  }
 }

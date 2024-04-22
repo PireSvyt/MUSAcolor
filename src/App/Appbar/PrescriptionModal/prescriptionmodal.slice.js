@@ -34,7 +34,7 @@ const prescriptionModalSlice = createSlice({
       state.open = true
       state.prescriptionid = action.payload.prescription.prescriptionid
       let exercises = [...action.payload.prescription.exercises]
-      exercises = exercises.map(exercise => {
+      exercises = exercises.map((exercise) => {
         if (exercise.exerciseid === 'userDefined') {
           return {
             exerciseid: exercise.exerciseid,
@@ -43,16 +43,16 @@ const prescriptionModalSlice = createSlice({
             errors: {
               name: false,
               instructions: false,
-              posology: false
-            }
+              posology: false,
+            },
           }
         } else {
           return {
             exerciseid: exercise.exerciseid,
             posology: exercise.posology,
             errors: {
-              posology: false
-            }
+              posology: false,
+            },
           }
         }
       })
@@ -86,11 +86,17 @@ const prescriptionModalSlice = createSlice({
       // Exercise edit
       if (action.payload.index !== undefined) {
         if (action.payload.name !== undefined) {
-          let changingExercise = {...state.inputs.exercises[action.payload.index]}
+          let changingExercise = {
+            ...state.inputs.exercises[action.payload.index],
+          }
           //console.log("changingExercise", changingExercise)
-          if (changingExercise.data === undefined) { changingExercise.data = {} }
+          if (changingExercise.data === undefined) {
+            changingExercise.data = {}
+          }
           changingExercise.data.name = action.payload.name
-          if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+          if (changingExercise.errors === undefined) {
+            changingExercise.errors = {}
+          }
           changingExercise.errors.name = false
           let exercises = [...state.inputs.exercises]
           exercises[action.payload.index] = changingExercise
@@ -98,11 +104,17 @@ const prescriptionModalSlice = createSlice({
           state.inputs.exercises = exercises
         }
         if (action.payload.instructions !== undefined) {
-          let changingExercise = {...state.inputs.exercises[action.payload.index]}
+          let changingExercise = {
+            ...state.inputs.exercises[action.payload.index],
+          }
           //console.log("changingExercise", changingExercise)
-          if (changingExercise.data === undefined) { changingExercise.data = {} }
+          if (changingExercise.data === undefined) {
+            changingExercise.data = {}
+          }
           changingExercise.data.instructions = action.payload.instructions
-          if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+          if (changingExercise.errors === undefined) {
+            changingExercise.errors = {}
+          }
           changingExercise.errors.instructions = false
           let exercises = [...state.inputs.exercises]
           exercises[action.payload.index] = changingExercise
@@ -110,10 +122,14 @@ const prescriptionModalSlice = createSlice({
           state.inputs.exercises = exercises
         }
         if (action.payload.posology !== undefined) {
-          let changingExercise = {...state.inputs.exercises[action.payload.index]}
+          let changingExercise = {
+            ...state.inputs.exercises[action.payload.index],
+          }
           //console.log("changingExercise", changingExercise)
           changingExercise.posology = action.payload.posology
-          if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+          if (changingExercise.errors === undefined) {
+            changingExercise.errors = {}
+          }
           changingExercise.errors.posology = false
           let exercises = [...state.inputs.exercises]
           exercises[action.payload.index] = changingExercise
@@ -123,26 +139,32 @@ const prescriptionModalSlice = createSlice({
       }
       if (action.payload.exercises !== undefined) {
         let exercises = [...state.inputs.exercises]
-        action.payload.exercises.forEach(exercise => {
-          console.log('exercise',exercise)
-          let changingExercise = {...state.inputs.exercises[exercise.index]}
-          console.log('changingExercise',changingExercise)
+        action.payload.exercises.forEach((exercise) => {
+          console.log('exercise', exercise)
+          let changingExercise = { ...state.inputs.exercises[exercise.index] }
+          console.log('changingExercise', changingExercise)
 
           if (exercise.errors.name !== undefined) {
-            if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+            if (changingExercise.errors === undefined) {
+              changingExercise.errors = {}
+            }
             changingExercise.errors.name = exercise.errors.name
           }
           if (exercise.errors.instructions !== undefined) {
-            if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+            if (changingExercise.errors === undefined) {
+              changingExercise.errors = {}
+            }
             changingExercise.errors.instructions = exercise.errors.instructions
           }
           if (exercise.errors.posology !== undefined) {
-            if (changingExercise.errors === undefined) { changingExercise.errors = {}}
+            if (changingExercise.errors === undefined) {
+              changingExercise.errors = {}
+            }
             changingExercise.errors.posology = exercise.errors.posology
           }
 
-          exercises[exercise.index] = changingExercise          
-        });
+          exercises[exercise.index] = changingExercise
+        })
         //console.log("exercises", exercises)
         state.inputs.exercises = exercises
       }
@@ -163,7 +185,7 @@ const prescriptionModalSlice = createSlice({
         data: {
           name: '',
           instructions: '',
-        }
+        },
       })
       state.inputs.exercises = currentExercises
     },
@@ -178,10 +200,10 @@ const prescriptionModalSlice = createSlice({
             exercises.unshift(movingExercise)
             break
           case 'up':
-            exercises.splice(action.payload.index-1, 0, movingExercise)
+            exercises.splice(action.payload.index - 1, 0, movingExercise)
             break
           case 'down':
-            exercises.splice(action.payload.index+1, 0, movingExercise)
+            exercises.splice(action.payload.index + 1, 0, movingExercise)
             break
           case 'tobottom':
             exercises.push(movingExercise)
@@ -195,7 +217,7 @@ const prescriptionModalSlice = createSlice({
       let exercises = [...state.inputs.exercises]
       exercises.splice(action.payload.index, 1)
       state.inputs.exercises = exercises
-    }
+    },
   },
 })
 

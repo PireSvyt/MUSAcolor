@@ -15,7 +15,10 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
 
 // Services
-import { servicePatientSave, servicePatientGet } from '../../services/patient.services.js'
+import {
+  servicePatientSave,
+  servicePatientGet,
+} from '../../services/patient.services.js'
 // Reducers
 import appStore from '../../store.js'
 
@@ -74,12 +77,13 @@ export default function PatientModal() {
     },
     save: () => {
       console.log('PatientModal.save')
-      servicePatientSave()
-      .then(() => {
-        if (select.patientid !== undefined 
-          && select.patientid !== null 
-          && select.patientid !== '') {
-            servicePatientGet(select.patientid)
+      servicePatientSave().then(() => {
+        if (
+          select.patientid !== undefined &&
+          select.patientid !== null &&
+          select.patientid !== ''
+        ) {
+          servicePatientGet(select.patientid)
         }
       })
     },
@@ -96,7 +100,7 @@ export default function PatientModal() {
       >
         <DialogTitle>{t('patient.label.title')}</DialogTitle>
         <DialogContent
-          /*sx={{
+        /*sx={{
             height: componentHeight,
           }}*/
         >

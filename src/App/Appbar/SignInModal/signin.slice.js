@@ -87,8 +87,8 @@ const signinModalSlice = createSlice({
       }
       // Next attempt
       if (action.payload.nextattempt !== undefined) {
-        const rightnow = new Date();
-        const event = new Date(action.payload.nextattempt);
+        const rightnow = new Date()
+        const event = new Date(action.payload.nextattempt)
         // UX
         state.nextattempt = event.toLocaleTimeString('fr-FR')
         // Timeout
@@ -97,12 +97,12 @@ const signinModalSlice = createSlice({
             type: 'signinModalSlice/change',
             payload: {
               state: {
-                signingin: ''
+                signingin: '',
               },
               disabled: false,
             },
           })
-        }, event - rightnow);
+        }, event - rightnow)
       }
       // Lock
       if (action.payload.disabled !== undefined) {
@@ -136,20 +136,20 @@ const signinModalSlice = createSlice({
       }
       if (Object.keys(action.payload).length === 0) {
         // Locking the modal
-        state.state.signingin = "loading"
+        state.state.signingin = 'loading'
         state.disabled = true
         state.loading = true
       } else {
         switch (action.payload) {
           case 'activation':
-            state.state.sendactivation = "loading"
+            state.state.sendactivation = 'loading'
             state.sendactivation.disabled = true
             state.sendactivation.loading = true
             state.disabled = true
             state.loading = true
             break
           case 'password':
-            state.state.sendpassword = "loading"
+            state.state.sendpassword = 'loading'
             state.sendpassword.disabled = true
             state.sendpassword.loading = true
             state.disabled = true

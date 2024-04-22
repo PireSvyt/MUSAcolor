@@ -34,7 +34,7 @@ const slices = {
   prescriptionModalSlice: prescriptionModalSlice,
   passwordResetSlice: passwordResetSlice,
   // Admin
-  adminSlice: adminSlice
+  adminSlice: adminSlice,
 }
 
 export default configureStore({

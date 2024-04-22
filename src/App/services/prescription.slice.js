@@ -7,7 +7,7 @@ const prescriptionSlice = createSlice({
     prescriptionid: '',
     patientid: '',
     editionDate: null,
-    exercises: []
+    exercises: [],
   },
   reducers: {
     new: (state, action) => {
@@ -58,4 +58,3 @@ const prescriptionSlice = createSlice({
 })
 
 export default prescriptionSlice.reducer
-

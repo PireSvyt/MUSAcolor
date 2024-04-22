@@ -3,7 +3,7 @@ import {
   exerciseSaveInputs,
   exerciseDeleteInputs,
   exerciseGetInputs,
-  exerciseGetMineInputs
+  exerciseGetMineInputs,
 } from './exercise.services.inputs.js'
 // Services
 import serviceProceed from './serviceProceed.js'

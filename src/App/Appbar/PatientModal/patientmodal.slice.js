@@ -38,7 +38,7 @@ const patientModalSlice = createSlice({
       state.loading = false
     },
     load: (state, action) => {
-      console.log("patientModalSlice/load", action.payload)
+      console.log('patientModalSlice/load', action.payload)
       state.open = true
       state.patientid = action.payload.patient.patientid
       state.inputs.name = action.payload.patient.name

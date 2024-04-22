@@ -56,7 +56,7 @@ export async function apiExerciseGet(getInputs, token) {
       method: 'post',
       url: apiURL + 'exercise/v1/get',
       data: {
-        exerciseid: getInputs.exerciseid
+        exerciseid: getInputs.exerciseid,
       },
       headers: {
         Authorization: 'Bearer ' + token,

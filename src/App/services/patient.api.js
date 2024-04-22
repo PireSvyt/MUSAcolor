@@ -56,7 +56,7 @@ export async function apiPatientGet(getInputs, token) {
       method: 'post',
       url: apiURL + 'patient/v1/getmine',
       data: {
-        patientid: getInputs.patientid
+        patientid: getInputs.patientid,
       },
       headers: {
         Authorization: 'Bearer ' + token,

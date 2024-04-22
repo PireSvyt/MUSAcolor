@@ -55,7 +55,7 @@ export async function apiPrescriptionGet(getInputs) {
   try {
     const res = await axios({
       method: 'get',
-      url: apiURL + 'prescription/v1/' + getInputs.prescriptionid
+      url: apiURL + 'prescription/v1/' + getInputs.prescriptionid,
     })
     return res.data
   } catch (err) {

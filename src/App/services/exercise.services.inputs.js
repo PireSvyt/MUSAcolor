@@ -77,9 +77,11 @@ export const exerciseSaveInputs = {
                   return { proceed: true }
                   break
                 case 'videoYoutube':
-                  if (serviceInputs.inputs.videoToken === undefined
-                    || serviceInputs.inputs.videoToken === ''
-                    || serviceInputs.inputs.videoToken === null) {
+                  if (
+                    serviceInputs.inputs.videoToken === undefined ||
+                    serviceInputs.inputs.videoToken === '' ||
+                    serviceInputs.inputs.videoToken === null
+                  ) {
                     return {
                       errors: ['generic.error.missingvideoToken'],
                       stateChanges: {
@@ -92,7 +94,7 @@ export const exerciseSaveInputs = {
                   }
                   return { proceed: true }
                   break
-                default: 
+                default:
                   return {
                     errors: ['generic.error.unmatchedtype'],
                     stateChanges: {
@@ -103,7 +105,6 @@ export const exerciseSaveInputs = {
                     proceed: false,
                   }
               }
-              
             }
           },
         },
@@ -130,9 +131,7 @@ export const exerciseSaveInputs = {
     repackagedInputs.inputs.data = {}
 
     let exerciseid = appStore.getState().exerciseModalSlice.exerciseid
-    if (exerciseid === undefined 
-      || exerciseid === null 
-      || exerciseid === '' ) {
+    if (exerciseid === undefined || exerciseid === null || exerciseid === '') {
       repackagedInputs.inputs.exerciseid = random_string()
     } else {
       repackagedInputs.inputs.exerciseid = exerciseid
@@ -143,13 +142,17 @@ export const exerciseSaveInputs = {
 
     switch (serviceInputs.inputs.type) {
       case 'videoYoutube':
-        repackagedInputs.inputs.data.videoToken = serviceInputs.inputs.videoToken
-      break
+        repackagedInputs.inputs.data.videoToken =
+          serviceInputs.inputs.videoToken
+        break
     }
-    if (serviceInputs.inputs.instructions !== undefined
-      && serviceInputs.inputs.instructions !== ''
-      && serviceInputs.inputs.instructions !== null) {
-      repackagedInputs.inputs.data.instructions = serviceInputs.inputs.instructions
+    if (
+      serviceInputs.inputs.instructions !== undefined &&
+      serviceInputs.inputs.instructions !== '' &&
+      serviceInputs.inputs.instructions !== null
+    ) {
+      repackagedInputs.inputs.data.instructions =
+        serviceInputs.inputs.instructions
     }
 
     console.log('repackagedInputs', repackagedInputs)
@@ -164,16 +167,22 @@ export const exerciseSaveInputs = {
       tags: ['function'],
     })
     try {
-
       let exerciseid = appStore.getState().exerciseModalSlice.exerciseid
-      if (exerciseid === undefined 
-        || exerciseid === null 
-        || exerciseid === '' ) {
-        return await apiExerciseCreate(inputs, appStore.getState().authSlice.token)
+      if (
+        exerciseid === undefined ||
+        exerciseid === null ||
+        exerciseid === ''
+      ) {
+        return await apiExerciseCreate(
+          inputs,
+          appStore.getState().authSlice.token
+        )
       } else {
-        return await apiExerciseSave(inputs, appStore.getState().authSlice.token)
+        return await apiExerciseSave(
+          inputs,
+          appStore.getState().authSlice.token
+        )
       }
-
     } catch (err) {
       return err
     }
@@ -273,7 +282,10 @@ export const exerciseDeleteInputs = {
       tags: ['function'],
     })
     try {
-      return await apiExerciseDelete(inputs, appStore.getState().authSlice.token)
+      return await apiExerciseDelete(
+        inputs,
+        appStore.getState().authSlice.token
+      )
     } catch (err) {
       return err
     }
@@ -395,7 +407,7 @@ export const exerciseGetMineInputs = {
     })
     appStore.dispatch({
       type: 'userSlice/change',
-      payload: { state: { exercises: 'wip'} },
+      payload: { state: { exercises: 'wip' } },
     })
   },
   getinputsfunction: (log, directInputs) => {
@@ -414,7 +426,10 @@ export const exerciseGetMineInputs = {
       tags: ['function'],
     })
     try {
-      return await apiExerciseGetMine(inputs, appStore.getState().authSlice.token)
+      return await apiExerciseGetMine(
+        inputs,
+        appStore.getState().authSlice.token
+      )
     } catch (err) {
       return err
     }

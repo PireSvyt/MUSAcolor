@@ -11,13 +11,13 @@ const exerciseModalSlice = createSlice({
       name: null,
       type: null, // userDefined, videoYoutube
       instructions: null,
-      videoToken: null, // type === videoYoutube 
+      videoToken: null, // type === videoYoutube
     },
     errors: {
       name: false,
       type: false,
       instructions: false,
-      videoToken: false, 
+      videoToken: false,
     },
   },
   reducers: {

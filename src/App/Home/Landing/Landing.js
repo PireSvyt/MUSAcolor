@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Button, Box } from '@mui/material'
 
 // Reducers
-import WelcomeCarousel from "./WelcomeCarousel/WelcomeCarousel.js";
+import WelcomeCarousel from './WelcomeCarousel/WelcomeCarousel.js'
 import appStore from '../../store.js'
 
 export default function Landing() {
@@ -31,7 +31,7 @@ export default function Landing() {
           onClick={changes.signin}
           size="large"
           data-testid="page-landing-button-sign in"
-          variant='contained'
+          variant="contained"
         >
           {t('generic.button.signin')}
         </Button>

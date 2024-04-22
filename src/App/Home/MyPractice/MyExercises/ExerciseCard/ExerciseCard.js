@@ -9,10 +9,10 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
-  Chip
+  Chip,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 
 // Services
 import { serviceExerciseDelete } from '../../../../services/exercise.services.js'
@@ -30,7 +30,7 @@ export default function ExerciseCard(props) {
   const { t } = useTranslation()
 
   function depackageInputs(exercise) {
-    let depackagedExercise = {...exercise}
+    let depackagedExercise = { ...exercise }
     if (depackagedExercise.type === 'videoYoutube') {
       depackagedExercise.instructions = depackagedExercise.data.instructions
       depackagedExercise.videoToken = depackagedExercise.data.videoToken
@@ -46,7 +46,7 @@ export default function ExerciseCard(props) {
       appStore.dispatch({
         type: 'exerciseModalSlice/load',
         payload: {
-          exercise: depackageInputs(props.exercise)
+          exercise: depackageInputs(props.exercise),
         },
       })
     },
@@ -89,7 +89,7 @@ export default function ExerciseCard(props) {
   return (
     <Card
       index={props.index}
-      data-testid={"component-exercise card"}
+      data-testid={'component-exercise card'}
       sx={{
         width: '100%',
         p: 1,
@@ -112,10 +112,10 @@ export default function ExerciseCard(props) {
           }}
         >
           <Box>
-            <IconButton 
-              size="large" 
+            <IconButton
+              size="large"
               onClick={changes.openMenu}
-              data-testid={"listitem-exercise-menu+"+props.exercise.name}
+              data-testid={'listitem-exercise-menu+' + props.exercise.name}
             >
               <MenuIcon />
             </IconButton>
@@ -131,12 +131,14 @@ export default function ExerciseCard(props) {
                 key={random_id()}
                 onClick={changes.attemptDelete}
                 disabled={deleting}
-                data-testid={"listitem-exercise-menuitem-delete+"+props.exercise.name}
+                data-testid={
+                  'listitem-exercise-menuitem-delete+' + props.exercise.name
+                }
               >
                 <ListItemIcon>
                   <RemoveCircleOutlineIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>{t('generic.button.delete')}</ListItemText>                
+                <ListItemText>{t('generic.button.delete')}</ListItemText>
               </MenuItem>
             </Menu>
           </Box>
@@ -149,11 +151,15 @@ export default function ExerciseCard(props) {
               width: '100%',
             }}
             onClick={changes.openexercise}
-            data-testid={"listitem-exercise-click+"+props.exercise.name}
+            data-testid={'listitem-exercise-click+' + props.exercise.name}
           >
             <Typography>{props.exercise.name}</Typography>
             <Box>
-              <Chip label={t('exercise.label.' + props.exercise.type)} size="small" sx={{ml:1}}/>
+              <Chip
+                label={t('exercise.label.' + props.exercise.type)}
+                size="small"
+                sx={{ ml: 1 }}
+              />
             </Box>
           </Box>
         </Box>
@@ -185,12 +191,11 @@ export default function ExerciseCard(props) {
   )
 }
 
-
-function toMinutesString (seconds) {
-  var sec_num = parseInt(seconds, 10);
-  var hours   = Math.floor(sec_num / 3600);
-  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+function toMinutesString(seconds) {
+  var sec_num = parseInt(seconds, 10)
+  var hours = Math.floor(sec_num / 3600)
+  var minutes = Math.floor((sec_num - hours * 3600) / 60)
+  var seconds = sec_num - hours * 3600 - minutes * 60
 
   return minutes + 'min'
   /*

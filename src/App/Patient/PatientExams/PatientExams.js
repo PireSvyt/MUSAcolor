@@ -10,7 +10,7 @@ import {
   ListItem,
 } from '@mui/material'
 import SmsFailedIcon from '@mui/icons-material/SmsFailed'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 import LinearProgress from '@mui/material/LinearProgress'
 
 // Components
@@ -43,26 +43,24 @@ export default function PatientExams() {
   let c = -1
 
   return (
-    <Box
-      data-testid="component-patient exams"
-    >
+    <Box data-testid="component-patient exams">
       <Stack direction="row" justifyContent="space-between">
         <Typography sx={{ p: 2 }} variant="h6" component="span">
           {t('patient.label.exams')}
         </Typography>
-        <IconButton 
-          sx={{ p: 2 }} 
-          onClick={changes.new} 
-          color='primary'
+        <IconButton
+          sx={{ p: 2 }}
+          onClick={changes.new}
+          color="primary"
           data-testid="component-patient exams-button-new exam"
-          >
+        >
           <AddCircleIcon />
         </IconButton>
       </Stack>
 
       {select.patientState.details !== 'available' ? (
         <Box sx={{ left: '10%', right: '10%' }}>
-          <LinearProgress/>
+          <LinearProgress />
         </Box>
       ) : select.patientExams.length === 0 ? (
         <Box

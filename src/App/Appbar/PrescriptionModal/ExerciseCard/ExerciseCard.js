@@ -11,14 +11,14 @@ import {
   ListItemText,
   TextField,
   FormControl,
-  Button
+  Button,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown'
 
 // Services
 import { random_id } from '../../../services/toolkit.js'
@@ -44,7 +44,7 @@ export default function ExerciseCard(props) {
         type: 'prescriptionModalSlice/move',
         payload: {
           index: props.index,
-          by: 'totop'
+          by: 'totop',
         },
       })
     },
@@ -54,7 +54,7 @@ export default function ExerciseCard(props) {
         type: 'prescriptionModalSlice/move',
         payload: {
           index: props.index,
-          by: 'up'
+          by: 'up',
         },
       })
     },
@@ -64,7 +64,7 @@ export default function ExerciseCard(props) {
         type: 'prescriptionModalSlice/move',
         payload: {
           index: props.index,
-          by: 'down'
+          by: 'down',
         },
       })
     },
@@ -74,7 +74,7 @@ export default function ExerciseCard(props) {
         type: 'prescriptionModalSlice/move',
         payload: {
           index: props.index,
-          by: 'tobottom'
+          by: 'tobottom',
         },
       })
     },
@@ -86,7 +86,7 @@ export default function ExerciseCard(props) {
       appStore.dispatch({
         type: 'prescriptionModalSlice/delete',
         payload: {
-          index: props.index
+          index: props.index,
         },
       })
     },
@@ -95,8 +95,8 @@ export default function ExerciseCard(props) {
         type: 'prescriptionModalSlice/change',
         payload: {
           index: props.index,
-          name: e.target.value
-        },  
+          name: e.target.value,
+        },
       })
     },
     instructions: (e) => {
@@ -104,8 +104,8 @@ export default function ExerciseCard(props) {
         type: 'prescriptionModalSlice/change',
         payload: {
           index: props.index,
-          instructions: e.target.value
-        },  
+          instructions: e.target.value,
+        },
       })
     },
     posology: (e) => {
@@ -113,7 +113,7 @@ export default function ExerciseCard(props) {
         type: 'prescriptionModalSlice/change',
         payload: {
           index: props.index,
-          posology: e.target.value
+          posology: e.target.value,
         },
       })
     },
@@ -131,7 +131,7 @@ export default function ExerciseCard(props) {
         width: '100%',
         p: 1,
       }}
-      data-testid={"component-exercise card"}
+      data-testid={'component-exercise card'}
     >
       {props.exercise === undefined ? (
         <Box
@@ -143,21 +143,15 @@ export default function ExerciseCard(props) {
             width: '100%',
           }}
         >
-          <Typography
-          color={'error'}
-          >
+          <Typography color={'error'}>
             {t('prescription.label.deletedExercise')}
           </Typography>
-          <Button 
-            variant="text"
-            onClick={changes.delete}
-          >
-            <Typography>{t('generic.button.delete')}</Typography> 
+          <Button variant="text" onClick={changes.delete}>
+            <Typography>{t('generic.button.delete')}</Typography>
           </Button>
         </Box>
       ) : (
-        <Box
-        >
+        <Box>
           <Box
             sx={{
               display: 'flex',
@@ -184,20 +178,18 @@ export default function ExerciseCard(props) {
                 }}
               >
                 <Typography>
-                  { props.exercise.type !== 'userDefined' ? (
-                    props.exercise.name
-                  ) : (
-                    t('exercise.label.' + props.exercise.type)
-                  ) }
-                </Typography>                    
+                  {props.exercise.type !== 'userDefined'
+                    ? props.exercise.name
+                    : t('exercise.label.' + props.exercise.type)}
+                </Typography>
               </Box>
             </Box>
-            
+
             <Box>
-              <IconButton 
-                size="large" 
+              <IconButton
+                size="large"
                 onClick={changes.openMenu}
-                data-testid={"listitem-exercise-menu+"+props.index}
+                data-testid={'listitem-exercise-menu+' + props.index}
               >
                 <MenuIcon />
               </IconButton>
@@ -213,17 +205,21 @@ export default function ExerciseCard(props) {
                   key={random_id()}
                   onClick={changes.delete}
                   disabled={deleting}
-                  data-testid={"listitem-exercise-menuitem-delete+"+props.index}
+                  data-testid={
+                    'listitem-exercise-menuitem-delete+' + props.index
+                  }
                 >
                   <ListItemIcon>
                     <RemoveCircleOutlineIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText>{t('generic.button.delete')}</ListItemText>   
+                  <ListItemText>{t('generic.button.delete')}</ListItemText>
                 </MenuItem>
                 <MenuItem
                   key={random_id()}
                   onClick={changes.movetotop}
-                  data-testid={"listitem-exercise-menuitem-movetotop+"+props.index}
+                  data-testid={
+                    'listitem-exercise-menuitem-movetotop+' + props.index
+                  }
                 >
                   <ListItemIcon>
                     <KeyboardDoubleArrowUpIcon fontSize="small" />
@@ -233,7 +229,9 @@ export default function ExerciseCard(props) {
                 <MenuItem
                   key={random_id()}
                   onClick={changes.moveup}
-                  data-testid={"listitem-exercise-menuitem-moveup+"+props.index}
+                  data-testid={
+                    'listitem-exercise-menuitem-moveup+' + props.index
+                  }
                 >
                   <ListItemIcon>
                     <KeyboardArrowUpIcon fontSize="small" />
@@ -243,7 +241,9 @@ export default function ExerciseCard(props) {
                 <MenuItem
                   key={random_id()}
                   onClick={changes.movedown}
-                  data-testid={"listitem-exercise-menuitem-movedown+"+props.index}
+                  data-testid={
+                    'listitem-exercise-menuitem-movedown+' + props.index
+                  }
                 >
                   <ListItemIcon>
                     <KeyboardArrowDownIcon fontSize="small" />
@@ -253,21 +253,23 @@ export default function ExerciseCard(props) {
                 <MenuItem
                   key={random_id()}
                   onClick={changes.movetobottom}
-                  data-testid={"listitem-exercise-menuitem-movetobottom+"+props.index}
+                  data-testid={
+                    'listitem-exercise-menuitem-movetobottom+' + props.index
+                  }
                 >
                   <ListItemIcon>
                     <KeyboardDoubleArrowDownIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText>{t('generic.button.movetobottom')}</ListItemText>
+                  <ListItemText>
+                    {t('generic.button.movetobottom')}
+                  </ListItemText>
                 </MenuItem>
               </Menu>
             </Box>
           </Box>
 
-          <Box
-            sx={{width: '100%'}}
-          >
-            {props.exerciseid !== 'userDefined' ? (null) : (
+          <Box sx={{ width: '100%' }}>
+            {props.exerciseid !== 'userDefined' ? null : (
               <Box>
                 <TextField
                   name="name"
@@ -279,7 +281,13 @@ export default function ExerciseCard(props) {
                   required
                   autoComplete="off"
                   fullWidth
-                  error={props.data !== undefined ? (props.errors !== undefined ? props.errors.name : false) : false}
+                  error={
+                    props.data !== undefined
+                      ? props.errors !== undefined
+                        ? props.errors.name
+                        : false
+                      : false
+                  }
                 />
                 <TextField
                   name="instructions"
@@ -292,8 +300,14 @@ export default function ExerciseCard(props) {
                   autoComplete="off"
                   fullWidth
                   multiline
-                  error={props.data !== undefined ? (props.errors !== undefined ? props.errors.instructions : false) : false}
-                />  
+                  error={
+                    props.data !== undefined
+                      ? props.errors !== undefined
+                        ? props.errors.instructions
+                        : false
+                      : false
+                  }
+                />
               </Box>
             )}
 
@@ -307,9 +321,14 @@ export default function ExerciseCard(props) {
               autoComplete="off"
               fullWidth
               multiline
-              error={props.data !== undefined ? (props.errors !== undefined ? props.errors.posology : false) : false}
+              error={
+                props.data !== undefined
+                  ? props.errors !== undefined
+                    ? props.errors.posology
+                    : false
+                  : false
+              }
             />
-
           </Box>
         </Box>
       )}
@@ -317,16 +336,15 @@ export default function ExerciseCard(props) {
   )
 }
 
-function toMinutesString (seconds) {
-
+function toMinutesString(seconds) {
   if (seconds === undefined || seconds === null) {
     return ''
   }
 
-  var sec_num = parseInt(seconds, 10);
-  var hours   = Math.floor(sec_num / 3600);
-  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+  var sec_num = parseInt(seconds, 10)
+  var hours = Math.floor(sec_num / 3600)
+  var minutes = Math.floor((sec_num - hours * 3600) / 60)
+  var seconds = sec_num - hours * 3600 - minutes * 60
 
   return minutes + 'min'
   /*

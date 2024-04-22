@@ -241,14 +241,14 @@ export const patientSaveInputs = {
     repackagedInputs.inputs = {}
     repackagedInputs.inputs.name = serviceInputs.inputs.name
     repackagedInputs.inputs.databaseURL = serviceInputs.inputs.databaseURL
-    
+
     let patientid = appStore.getState().patientModalSlice.patientid
     if (patientid !== undefined && patientid !== null && patientid !== '') {
       repackagedInputs.inputs.patientid = patientid
     } else {
       repackagedInputs.inputs.patientid = random_string()
     }
-    
+
     console.log('repackagedInputs', repackagedInputs)
     return repackagedInputs
   },
@@ -262,10 +262,11 @@ export const patientSaveInputs = {
     })
     try {
       let patientid = appStore.getState().patientModalSlice.patientid
-      if (patientid === undefined 
-        || patientid === null 
-        || patientid === '' ) {
-        return await apiPatientCreate(inputs, appStore.getState().authSlice.token)
+      if (patientid === undefined || patientid === null || patientid === '') {
+        return await apiPatientCreate(
+          inputs,
+          appStore.getState().authSlice.token
+        )
       } else {
         return await apiPatientSave(inputs, appStore.getState().authSlice.token)
       }
@@ -451,7 +452,7 @@ export const patientGetInputs = {
           type: 'userSlice/update',
           payload: {
             patient: response.data.patient,
-          }
+          },
         })
       },
       'patient.getmine.error.onfinduser': () => {

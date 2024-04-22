@@ -14,7 +14,7 @@ import {
   MenuItem,
   FormControlLabel,
   Radio,
-  RadioGroup
+  RadioGroup,
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
@@ -48,7 +48,7 @@ export default function ExamModal() {
       type: 'examModalSlice/change',
       payload: {
         inputs: {
-          type: "pvo",
+          type: 'pvo',
         },
       },
     })
@@ -79,9 +79,8 @@ export default function ExamModal() {
       appStore.dispatch({
         type: 'examModalSlice/close',
       })
-      window.location = 
-        '/exam?type=' + select.inputs.type + 
-        '&patientid=' + select.patientid
+      window.location =
+        '/exam?type=' + select.inputs.type + '&patientid=' + select.patientid
     },
   }
 
@@ -96,9 +95,9 @@ export default function ExamModal() {
       >
         <DialogTitle>{t('exam.label.new')}</DialogTitle>
         <DialogContent
-          //sx={{
-          //  height: componentHeight,
-          //}}
+        //sx={{
+        //  height: componentHeight,
+        //}}
         >
           <Box
             component="form"
@@ -109,25 +108,23 @@ export default function ExamModal() {
             }}
           >
             <FormControl>
-              <FormLabel>
-                {t("generic.input.type")}
-              </FormLabel>
+              <FormLabel>{t('generic.input.type')}</FormLabel>
               <RadioGroup
                 defaultValue={select.inputs.type}
                 name="radio-buttons-group"
                 onChange={changes.type}
                 data-testid="modal-exam-select-examtype"
               >
-                <FormControlLabel 
-                  value="pvo" 
-                  control={<Radio />} 
-                  label={t('exam.exams.pvo.name')} 
+                <FormControlLabel
+                  value="pvo"
+                  control={<Radio />}
+                  label={t('exam.exams.pvo.name')}
                   data-testid="modal-exam-select-examtype-PVO"
                 />
-                <FormControlLabel 
-                  value='luscher8' 
-                  control={<Radio />} 
-                  label={t('exam.exams.luscher8.name')} 
+                <FormControlLabel
+                  value="luscher8"
+                  control={<Radio />}
+                  label={t('exam.exams.luscher8.name')}
                   data-testid="modal-exam-select-examtype-Luscher 8)"
                 />
               </RadioGroup>
@@ -136,10 +133,7 @@ export default function ExamModal() {
         </DialogContent>
 
         <DialogActions>
-          <Button
-            data-testid="modal-exam-button-close"
-            onClick={changes.close}
-          >
+          <Button data-testid="modal-exam-button-close" onClick={changes.close}>
             {t('generic.button.cancel')}
           </Button>
           <LoadingButton
