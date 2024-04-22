@@ -10,7 +10,7 @@ import {
   ListItem,
 } from '@mui/material'
 import SmsFailedIcon from '@mui/icons-material/SmsFailed'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 import LinearProgress from '@mui/material/LinearProgress'
 
 // Components
@@ -29,7 +29,9 @@ export default function PatientPrescriptions() {
 
   // Selects
   const select = {
-    patientPrescriptions: useSelector((state) => state.patientSlice.prescriptions),
+    patientPrescriptions: useSelector(
+      (state) => state.patientSlice.prescriptions
+    ),
   }
 
   // Changes
@@ -44,19 +46,17 @@ export default function PatientPrescriptions() {
   let c = -1
 
   return (
-    <Box
-      data-testid="component-patient prescriptions"
-    >
+    <Box data-testid="component-patient prescriptions">
       <Stack direction="row" justifyContent="space-between">
         <Typography sx={{ p: 2 }} variant="h6" component="span">
           {t('patient.label.prescriptions')}
         </Typography>
-        <IconButton 
-          sx={{ p: 2 }} 
-          onClick={changes.new} 
-          color='primary'
+        <IconButton
+          sx={{ p: 2 }}
+          onClick={changes.new}
+          color="primary"
           data-testid="component-patient prescriptions-button-new prescription"
-          >
+        >
           <AddCircleIcon />
         </IconButton>
       </Stack>
@@ -93,8 +93,7 @@ export default function PatientPrescriptions() {
           </Typography>
         </Box>
       ) : (
-        <List dense={false}       
-        >
+        <List dense={false}>
           {select.patientPrescriptions.map((prescription) => {
             c += 1
             return (

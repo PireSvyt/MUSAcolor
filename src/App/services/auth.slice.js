@@ -7,7 +7,7 @@ const authSlice = createSlice({
     signedin: false,
     token: '',
     state: {},
-    nextattempt: Date.now()
+    nextattempt: Date.now(),
   },
   reducers: {
     signingin: (state) => {
@@ -34,7 +34,7 @@ const authSlice = createSlice({
           state.state.signedin = action.payload.state.signedin
         }
       }
-    }
+    },
   },
 })
 

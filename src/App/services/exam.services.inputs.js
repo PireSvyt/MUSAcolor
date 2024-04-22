@@ -31,7 +31,7 @@ export const examCreateInputs = {
       message: 'examCreateInputs.getinputsfunction',
       tags: ['function'],
     })
-    return {...directInputs}
+    return { ...directInputs }
   },
   sercivechecks: [
     {
@@ -130,8 +130,8 @@ export const examCreateInputs = {
         appStore.dispatch({
           type: 'examSlice/storedResults',
           payload: {
-            examid: response.data.examid
-          }
+            examid: response.data.examid,
+          },
         })
       },
       'exam.create.error.oncreate': () => {
@@ -139,9 +139,9 @@ export const examCreateInputs = {
           type: 'examSlice/change',
           payload: {
             state: {
-              storage: 'error'
-            }
-          }
+              storage: 'error',
+            },
+          },
         })
         appStore.dispatch({
           type: 'sliceSnack/change',
@@ -252,7 +252,7 @@ export const examGetInputs = {
       tags: ['function'],
     })
     return {
-      inputs: {...directInputs},
+      inputs: { ...directInputs },
     }
   },
   sercivechecks: [
@@ -302,26 +302,28 @@ export const examGetInputs = {
         })
       },
       'exam.getanalysis.error.undefined': () => {
-        console.warn("getmanageresponsefunction exam.getanalysis.error.undefined")
+        console.warn(
+          'getmanageresponsefunction exam.getanalysis.error.undefined'
+        )
         appStore.dispatch({
           type: 'examSlice/change',
           payload: {
             state: {
-              analysis: 'denied'
-            }
+              analysis: 'denied',
+            },
           },
         })
       },
       'exam.getanalysis.error.onfind': () => {
-        console.warn("getmanageresponsefunction exam.getanalysis.error.onfind")
+        console.warn('getmanageresponsefunction exam.getanalysis.error.onfind')
         appStore.dispatch({
           type: 'examSlice/setAnalysis',
           payload: {
             type: 'examSlice/change',
             payload: {
               state: {
-                analysis: 'denied'
-              }
+                analysis: 'denied',
+              },
             },
           },
         })
@@ -334,8 +336,7 @@ export const examGetInputs = {
         })
       },
     }
-    console.log("WHAT IS THE response.type : " + response.type)
+    console.log('WHAT IS THE response.type : ' + response.type)
     return responses[response.type]()
   },
 }
-

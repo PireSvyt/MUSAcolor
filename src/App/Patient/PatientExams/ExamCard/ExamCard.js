@@ -8,10 +8,10 @@ import {
   Menu,
   MenuItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 
 // Services
 import { serviceExamDelete } from '../../../services/exam.services.js'
@@ -29,7 +29,8 @@ export default function ExamCard(props) {
   // Changes
   let changes = {
     goto: () => {
-      window.location = '/exam?examid=' + props.exam.examid + '&patientid=' + props.patientid
+      window.location =
+        '/exam?examid=' + props.exam.examid + '&patientid=' + props.patientid
     },
     openMenu: (event) => {
       setAnchorEl(event.currentTarget)
@@ -74,11 +75,11 @@ export default function ExamCard(props) {
   function stringifyDate() {
     let date = new Date(props.exam.date)
     const options = {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
     }
     return date.toLocaleString('fr-FR', options)
     //{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
@@ -91,7 +92,7 @@ export default function ExamCard(props) {
         width: '100%',
         p: 1,
       }}
-      data-testid={"component-exam card"}
+      data-testid={'component-exam card'}
     >
       <Box
         sx={{
@@ -110,10 +111,10 @@ export default function ExamCard(props) {
           }}
         >
           <Box>
-            <IconButton 
-              size="large" 
+            <IconButton
+              size="large"
               onClick={changes.openMenu}
-              data-testid={"listitem-exam-menu+"+props.index}
+              data-testid={'listitem-exam-menu+' + props.index}
             >
               <MenuIcon />
             </IconButton>
@@ -129,12 +130,12 @@ export default function ExamCard(props) {
                 key={random_id()}
                 onClick={changes.attemptDelete}
                 disabled={deleting}
-                data-testid={"listitem-exam-menuitem-delete+"+props.index}
+                data-testid={'listitem-exam-menuitem-delete+' + props.index}
               >
                 <ListItemIcon>
                   <RemoveCircleOutlineIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>{t('generic.button.delete')}</ListItemText>   
+                <ListItemText>{t('generic.button.delete')}</ListItemText>
               </MenuItem>
             </Menu>
           </Box>
@@ -147,9 +148,11 @@ export default function ExamCard(props) {
               width: '100%',
             }}
             onClick={changes.goto}
-            data-testid={"listitem-exam-click+"+props.index}
+            data-testid={'listitem-exam-click+' + props.index}
           >
-            <Typography>{t('exam.exams.'+props.exam.type+'.name')}</Typography>
+            <Typography>
+              {t('exam.exams.' + props.exam.type + '.name')}
+            </Typography>
             <Typography variant="caption">{stringifyDate()}</Typography>
           </Box>
         </Box>

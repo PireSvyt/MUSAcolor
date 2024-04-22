@@ -7,7 +7,7 @@ const userSlice = createSlice({
     userid: '',
     type: '',
     patients: [],
-    exercises: []
+    exercises: [],
   },
   reducers: {
     change: (state, action) => {
@@ -38,7 +38,10 @@ const userSlice = createSlice({
     },
     set: (state, action) => {
       // Details
-      if (action.payload.userid !== undefined && action.payload.type !== undefined) {
+      if (
+        action.payload.userid !== undefined &&
+        action.payload.type !== undefined
+      ) {
         state.userid = action.payload.userid
         state.type = action.payload.type
         state.state.details = 'available'
@@ -56,7 +59,7 @@ const userSlice = createSlice({
       } else {
         let userDefinedExercise = {
           exerciseid: 'userDefined',
-          type: 'userDefined'
+          type: 'userDefined',
         }
         let exercises = sortExercises(action.payload.exercises)
         exercises.unshift(userDefinedExercise)
@@ -69,7 +72,9 @@ const userSlice = createSlice({
       if (action.payload.patient !== undefined) {
         let patients = [...state.patients]
         let pos = patients
-          .map(patient => {return patient.patientid})
+          .map((patient) => {
+            return patient.patientid
+          })
           .indexOf(action.payload.patient.patientid)
         if (pos === -1) {
           patients.push(action.payload.patient)
@@ -108,22 +113,21 @@ function sortExercises(exercises) {
 
   function compareExerciseTypes(a, b) {
     if (a.type < b.type) {
-      return -1;
+      return -1
     }
     if (a.type > b.type) {
-      return 1;
+      return 1
     }
-    return 0;
+    return 0
   }
 
   function compareExerciseNames(a, b) {
     if (a.name < b.name) {
-      return -1;
+      return -1
     }
     if (a.name > b.name) {
-      return 1;
+      return 1
     }
-    return 0;
+    return 0
   }
 }
-

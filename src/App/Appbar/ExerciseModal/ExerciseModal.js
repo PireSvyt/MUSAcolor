@@ -15,19 +15,17 @@ import {
   InputLabel,
   MenuItem,
   Switch,
-  Stack
+  Stack,
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
 
 // Component
-import Exercise from "../../Prescription/Exercise/Exercise.js";
+import Exercise from '../../Prescription/Exercise/Exercise.js'
 // Services
 import { serviceExerciseSave } from '../../services/exercise.services.js'
 import { serviceUserGetDetails } from '../../services/user.services.js'
-import {
-  exerciseSaveInputs,
-} from '../../services/exercise.services.inputs.js'
+import { exerciseSaveInputs } from '../../services/exercise.services.inputs.js'
 //import { debounce, random_id, throttle } from '../../services/toolkit.js'
 // Reducers
 import appStore from '../../store.js'
@@ -53,11 +51,13 @@ export default function ExerciseModal() {
 
   // State
   const [repackagedExercise, setRepackagedExercise] = useState(
-    exerciseSaveInputs.repackagingfunction({inputs: select.inputs}, [])
+    exerciseSaveInputs.repackagingfunction({ inputs: select.inputs }, [])
   )
   useEffect(() => {
-    setRepackagedExercise(exerciseSaveInputs.repackagingfunction({inputs: select.inputs}, []))
-  }, [ select.inputs ] );
+    setRepackagedExercise(
+      exerciseSaveInputs.repackagingfunction({ inputs: select.inputs }, [])
+    )
+  }, [select.inputs])
   /*const [debounced, setDebounced] = useState('')
   const [debounces, setDebounces] = useState([])
   const debounceOffset = 400*/
@@ -101,7 +101,6 @@ export default function ExerciseModal() {
     console.log("X debounceRepackageExercise")
   }*/
   //let tSetRepackagedExercise = throttle(repackageExercise, debounceOffset);
-
 
   // Changes
   const changes = {
@@ -171,8 +170,7 @@ export default function ExerciseModal() {
     },
     create: () => {
       console.log('ExerciseModal.create')
-      serviceExerciseSave()
-      .then(() => {
+      serviceExerciseSave().then(() => {
         serviceUserGetDetails()
       })
     },
@@ -217,7 +215,7 @@ export default function ExerciseModal() {
             <FormControl variant="standard" size="small" sx={{ mt: 0 }}>
               <InputLabel required id="modal-exercise-select-typelabel">
                 {t('generic.input.type')}
-              </InputLabel>        
+              </InputLabel>
               <Select
                 name="type"
                 value={select.inputs.type}
@@ -227,18 +225,21 @@ export default function ExerciseModal() {
                 data-testid="modal-exercise-select-type"
                 small
               >
-                <MenuItem value={'videoYoutube'}>{t('exercise.label.videoYoutube')}</MenuItem>
+                <MenuItem value={'videoYoutube'}>
+                  {t('exercise.label.videoYoutube')}
+                </MenuItem>
               </Select>
             </FormControl>
 
-            {select.inputs.type !== 'videoYoutube' ? (null) : (
+            {select.inputs.type !== 'videoYoutube' ? null : (
               <Box
-              component="form"
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-evenly',
-              }}>
+                component="form"
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-evenly',
+                }}
+              >
                 <FormControl>
                   <TextField
                     name="videoToken"
@@ -254,14 +255,15 @@ export default function ExerciseModal() {
                 </FormControl>
               </Box>
             )}
-            
+
             <Box
               component="form"
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-evenly',
-            }}>
+              }}
+            >
               <FormControl>
                 <TextField
                   name="instructions"
@@ -282,28 +284,24 @@ export default function ExerciseModal() {
                 width: '100%',
                 mt: 3,
               }}
-            >              
-              <Typography 
-                variant='overline'
-                color='grey'
-              >
+            >
+              <Typography variant="overline" color="grey">
                 {t('exercise.label.rendering')}
               </Typography>
               <Box
                 sx={{
                   width: '100%',
-                  mt: 2
+                  mt: 2,
                 }}
-              > 
-                <Exercise 
+              >
+                <Exercise
                   exercise={repackagedExercise.inputs}
                   index={0}
                   expanded={0}
-                  expand={() => (null)}
+                  expand={() => null}
                 />
-              </Box>  
+              </Box>
             </Box>
-
           </Box>
         </DialogContent>
 

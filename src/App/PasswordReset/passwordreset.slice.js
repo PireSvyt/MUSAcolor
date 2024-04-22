@@ -6,13 +6,13 @@ const passwordResetSlice = createSlice({
     state: {},
     inputs: {
       password: '',
-      passwordrepeat: ''
+      passwordrepeat: '',
     },
     errors: {
       password: false,
-      passwordrepeat: false
+      passwordrepeat: false,
     },
-    disabled: false
+    disabled: false,
   },
   reducers: {
     lock: (state) => {
@@ -60,7 +60,7 @@ const passwordResetSlice = createSlice({
           state.errors.url = action.payload.errors.url
         }
       }
-    }
+    },
   },
 })
 

@@ -402,7 +402,7 @@ export const authSigninInputs = {
               type: 'signinModalSlice/change',
               payload: {
                 state: {
-                  signedin: 'error'
+                  signedin: 'error',
                 },
                 /*errors: {
                   outcome : true
@@ -434,7 +434,7 @@ export const authSigninInputs = {
           type: 'signinModalSlice/change',
           payload: {
             state: {
-              signedin: 'notfound'
+              signedin: 'notfound',
             },
             errors: {
               login: true,
@@ -449,7 +449,7 @@ export const authSigninInputs = {
           type: 'signinModalSlice/change',
           payload: {
             state: {
-              signedin: 'notfound'
+              signedin: 'notfound',
             },
             errors: {
               login: true,
@@ -464,7 +464,7 @@ export const authSigninInputs = {
           type: 'signinModalSlice/change',
           payload: {
             state: {
-              signedin: 'denied'
+              signedin: 'denied',
             },
             errors: {
               password: true,
@@ -479,7 +479,7 @@ export const authSigninInputs = {
           type: 'signinModalSlice/change',
           payload: {
             state: {
-              signedin: 'denied'
+              signedin: 'denied',
             },
             errors: {
               password: true,
@@ -494,7 +494,7 @@ export const authSigninInputs = {
           type: 'signinModalSlice/change',
           payload: {
             state: {
-              signedin: 'inactivated'
+              signedin: 'inactivated',
             },
           },
           loading: false,
@@ -506,19 +506,19 @@ export const authSigninInputs = {
           type: 'signinModalSlice/change',
           payload: {
             state: {
-              signedin: 'inactivated'
+              signedin: 'inactivated',
             },
           },
           loading: false,
           disabled: false,
         })
       },
-      "auth.signin.error.abovethreshold": () => {
+      'auth.signin.error.abovethreshold': () => {
         appStore.dispatch({
           type: 'signinModalSlice/change',
           payload: {
             state: {
-              signingin: 'toomanyattempts'
+              signingin: 'toomanyattempts',
             },
             errors: {
               password: true,
@@ -528,7 +528,7 @@ export const authSigninInputs = {
             disabled: true,
           },
         })
-      }
+      },
     }
     responses[response.type]()
     return
@@ -743,7 +743,7 @@ export const authSendPasswordInputs = {
     })
     return {
       inputs: {
-        login: appStore.getState().signinModalSlice.inputs.login 
+        login: appStore.getState().signinModalSlice.inputs.login,
       },
     }
   },
@@ -862,8 +862,8 @@ export const authSendPasswordInputs = {
             loading: false,
             sendpassword: {
               disabled: false,
-              loading: false
-            }
+              loading: false,
+            },
           },
         })
       },
@@ -878,8 +878,8 @@ export const authSendPasswordInputs = {
             loading: false,
             sendpassword: {
               disabled: false,
-              loading: false
-            }
+              loading: false,
+            },
           },
         })
         appStore.dispatch({
@@ -904,8 +904,8 @@ export const authSendPasswordInputs = {
             loading: false,
             sendpassword: {
               disabled: false,
-              loading: false
-            }
+              loading: false,
+            },
           },
         })
         appStore.dispatch({
@@ -930,8 +930,8 @@ export const authSendPasswordInputs = {
             loading: false,
             sendpassword: {
               disabled: false,
-              loading: false
-            }
+              loading: false,
+            },
           },
         })
         appStore.dispatch({
@@ -976,7 +976,7 @@ export const authPasswordResetInputs = {
       message: 'authPasswordResetInputs.getinputsfunction',
       tags: ['function'],
     })
-    let inputs = {...appStore.getState().passwordResetSlice.inputs}
+    let inputs = { ...appStore.getState().passwordResetSlice.inputs }
     inputs.urllogin = directInputs.urllogin
     inputs.urltoken = directInputs.urltoken
     return {
@@ -1038,7 +1038,10 @@ export const authPasswordResetInputs = {
             {
               // Check passwordrepeat is same as password
               checkfunction: (serviceInputs) => {
-                if (serviceInputs.inputs.password !== serviceInputs.inputs.passwordrepeat) {
+                if (
+                  serviceInputs.inputs.password !==
+                  serviceInputs.inputs.passwordrepeat
+                ) {
                   return {
                     errors: ['generic.error.passwordmissmatch'],
                     stateChanges: {
@@ -1054,8 +1057,8 @@ export const authPasswordResetInputs = {
               },
               error: 'generic.error.passwordmissmatch',
             },
-          ]
-        }
+          ],
+        },
       ],
     },
   ],
@@ -1079,7 +1082,7 @@ export const authPasswordResetInputs = {
       let repackagedInputs = { ...inputs }
       // Encrypt
       //console.log('repackagedInputs hash', hash)
-      repackagedInputs.inputs.password = bcrypt.hashSync(inputs.inputs.password);
+      repackagedInputs.inputs.password = bcrypt.hashSync(inputs.inputs.password)
       //console.log('repackagedInputs.inputs.password', repackagedInputs)
       repackagedInputs.inputs.token = AES.encrypt(
         inputs.inputs.urltoken,
@@ -1133,9 +1136,9 @@ export const authPasswordResetInputs = {
           type: 'passwordResetSlice/change',
           payload: {
             state: {
-              passwordreset: 'error'
-            }
-          }
+              passwordreset: 'error',
+            },
+          },
         })
       },
       'auth.passwordreset.error.inputs': () => {
@@ -1143,9 +1146,9 @@ export const authPasswordResetInputs = {
           type: 'passwordResetSlice/change',
           payload: {
             state: {
-              passwordreset: 'error'
-            }
-          }
+              passwordreset: 'error',
+            },
+          },
         })
       },
     }

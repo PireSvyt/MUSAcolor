@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { Box, Typography, Button, IconButton } from '@mui/material'
 import LinearProgress from '@mui/material/LinearProgress'
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from '@mui/icons-material/Edit'
 
 // Components
 import { servicePatientGet } from '../services/patient.services.js'
@@ -22,7 +22,7 @@ export default function Patient() {
   const { t } = useTranslation()
 
   // State
-  const [patientIsAvailable, setPatientIsAvailable] = useState(null);
+  const [patientIsAvailable, setPatientIsAvailable] = useState(null)
 
   // Selects
   const select = {
@@ -39,7 +39,7 @@ export default function Patient() {
       appStore.dispatch({
         type: 'patientModalSlice/load',
         payload: {
-          patient: select.patient
+          patient: select.patient,
         },
       })
     },
@@ -49,7 +49,7 @@ export default function Patient() {
     },
     copyurl: () => {
       navigator.clipboard.writeText(
-        "https://musacolor.vercel.app/" + 'patient/' + select.patient.patientid
+        'https://musacolor.vercel.app/' + 'patient/' + select.patient.patientid
       )
     },
   }
@@ -62,9 +62,11 @@ export default function Patient() {
     } else {
       if (patientIsAvailable === null) {
         setPatientIsAvailable('wip')
-        servicePatientGet(window.location.href.split('/patient/')[1]).then(() => {
-          setPatientIsAvailable('available')
-        })
+        servicePatientGet(window.location.href.split('/patient/')[1]).then(
+          () => {
+            setPatientIsAvailable('available')
+          }
+        )
       }
     }
   }
@@ -76,68 +78,70 @@ export default function Patient() {
       }}
     >
       <Appbar route="patient" title={t('patient.label.title')} />
-      <Box 
-        sx={{ height: 100 }} 
-        data-testid="page-patient"
-      />
+      <Box sx={{ height: 100 }} data-testid="page-patient" />
       {select.authloaded === true &&
       select.signedin === true &&
       patientIsAvailable === 'available' ? (
         <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%',
-        }}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%',
+          }}
         >
           <Box
             sx={{
               width: '80%',
             }}
           >
-            <Box 
+            <Box
               sx={{
                 display: 'block',
-                ml:2,mr:1
+                ml: 2,
+                mr: 1,
               }}
             >
-              <Box sx={{
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <Box
+                  sx={{
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    width: '100%'
-                  }}>
-                
-                  <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    width: '100%'
-                  }}>
-                    <Typography 
-                      component="span" 
-                      variant="h5" 
-                      gutterBottom
-                      data-testid="page-patient-label-patientname"
-                    >
-                      {select.patient.name}
-                    </Typography>
-                    <Button 
-                      onClick={changes.gotodatabaseURL}
-                      disabled={select.patient.databaseURL === undefined 
-                        || select.patient.databaseURL === null 
-                        || select.patient.databaseURL === ''}
-                    >{t('patient.button.databaseurl')}
-                    </Button>
-                  </Box>
-                  <IconButton
-                    onClick={changes.editpatient}
+                    width: '100%',
+                  }}
+                >
+                  <Typography
+                    component="span"
+                    variant="h5"
+                    gutterBottom
+                    data-testid="page-patient-label-patientname"
                   >
-                    <EditIcon />
-                  </IconButton>
+                    {select.patient.name}
+                  </Typography>
+                  <Button
+                    onClick={changes.gotodatabaseURL}
+                    disabled={
+                      select.patient.databaseURL === undefined ||
+                      select.patient.databaseURL === null ||
+                      select.patient.databaseURL === ''
+                    }
+                  >
+                    {t('patient.button.databaseurl')}
+                  </Button>
+                </Box>
+                <IconButton onClick={changes.editpatient}>
+                  <EditIcon />
+                </IconButton>
               </Box>
             </Box>
             <PatientExams />

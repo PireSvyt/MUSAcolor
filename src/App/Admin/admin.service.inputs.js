@@ -13,7 +13,7 @@ export const adminGetDatabaseLoadInputs = {
     })
     appStore.dispatch({
       type: 'adminSlice/lock',
-      action: 'stats'
+      action: 'stats',
     })
   },
   unlockuifunction: (log) => {
@@ -24,7 +24,7 @@ export const adminGetDatabaseLoadInputs = {
     })
     appStore.dispatch({
       type: 'adminSlice/unlock',
-      action: 'stats'
+      action: 'stats',
     })
   },
   getinputsfunction: (log) => {
@@ -88,7 +88,7 @@ export const adminGetDatabaseLoadInputs = {
         appStore.dispatch({
           type: 'adminSlice/set',
           payload: {
-            stats: response.data
+            stats: response.data,
           },
         })
       },

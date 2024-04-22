@@ -109,7 +109,7 @@ export default function SignInModal() {
       >
         <DialogTitle>{t('signin.label.title')}</DialogTitle>
         <DialogContent
-          /*sx={{
+        /*sx={{
             height: componentHeight,
           }}*/
         >
@@ -217,7 +217,7 @@ export default function SignInModal() {
                 </Box>
               ) : null}
 
-              { select.userState.signingin === 'toomanyattempts' ? (
+              {select.userState.signingin === 'toomanyattempts' ? (
                 <Box
                   sx={{
                     display: 'flex',
@@ -236,7 +236,9 @@ export default function SignInModal() {
                     component="span"
                     align="center"
                   >
-                    {t('signin.label.toomanyattempts') + ' ' + select.nextattempt}
+                    {t('signin.label.toomanyattempts') +
+                      ' ' +
+                      select.nextattempt}
                   </Typography>
                 </Box>
               ) : null}
@@ -254,7 +256,9 @@ export default function SignInModal() {
           <LoadingButton
             variant="contained"
             onClick={changes.signin}
-            disabled={select.disabled || select.userState.signingin === 'inactivated'}
+            disabled={
+              select.disabled || select.userState.signingin === 'inactivated'
+            }
             loading={select.loading}
             data-testid="modal-sign in-button-proceed"
           >

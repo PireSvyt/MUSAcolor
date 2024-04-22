@@ -150,17 +150,17 @@
       },
       "pvo": {
         "name": "PVO",
-        "intro":"Color exam",
+        "intro": "Color exam",
         "introdetails": "INSTRUCTIONS\n\nA table of color will appear during the test.\nYou shall click 4 color tiles from each row to be removed.\n\nRemove colors you dislike.\n\nFollow you instinct and do not overthink. \n\nYou can begin.",
-        "outro":"You finished the test."
+        "outro": "You finished the test."
       },
       "luscher8": {
         "name": "Luscher (8)",
-        "intro":"Luscher exam with 8 colors",
+        "intro": "Luscher exam with 8 colors",
         "introdetails": "INSTRUCTIONS\n\nBLA BLA BLA\n\nYou can begin.",
-        "intro2":"Luscher exam with 8 colors",
+        "intro2": "Luscher exam with 8 colors",
         "intro2details": "INSTRUCTIONS\n\nBLA BLA BLA\n\nYou can begin.",
-        "outro":"You finished the test.",
+        "outro": "You finished the test.",
         "preference": "++",
         "sympathy": "xx",
         "indifference": "==",

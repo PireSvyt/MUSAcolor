@@ -1,12 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
-import {
-  TextField,
-  Box,
-  FormControl,
-  Typography, Button
-} from '@mui/material'
+import { TextField, Box, FormControl, Typography, Button } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import LinearProgress from '@mui/material/LinearProgress'
 
@@ -52,7 +47,7 @@ export default function PasswordReset() {
           errors: {
             password: false,
           },
-          disabled: false
+          disabled: false,
         },
       })
     },
@@ -66,7 +61,7 @@ export default function PasswordReset() {
           errors: {
             passwordrepeat: false,
           },
-          disabled: false
+          disabled: false,
         },
       })
     },
@@ -74,7 +69,7 @@ export default function PasswordReset() {
       // URL analysis
       let consolidatedInputs = {
         urllogin: undefined,
-        urltoken: undefined
+        urltoken: undefined,
       }
       let queryString = window.location.search.split('?')[1]
       let queries = queryString.split('&')
@@ -85,7 +80,10 @@ export default function PasswordReset() {
       })
       // Check login
       if (Object.keys(passwordResetFlowInputs).includes('login')) {
-        if (passwordResetFlowInputs.login !== undefined && passwordResetFlowInputs.login !== "") {
+        if (
+          passwordResetFlowInputs.login !== undefined &&
+          passwordResetFlowInputs.login !== ''
+        ) {
           if (validateEmail(passwordResetFlowInputs.login)) {
             consolidatedInputs.urllogin = passwordResetFlowInputs.login
           }
@@ -93,7 +91,10 @@ export default function PasswordReset() {
       }
       // Check token
       if (Object.keys(passwordResetFlowInputs).includes('token')) {
-        if (passwordResetFlowInputs.token !== undefined && passwordResetFlowInputs.token !== "") {
+        if (
+          passwordResetFlowInputs.token !== undefined &&
+          passwordResetFlowInputs.token !== ''
+        ) {
           consolidatedInputs.urltoken = passwordResetFlowInputs.token
         }
       }
@@ -101,7 +102,7 @@ export default function PasswordReset() {
     },
     tohome: () => {
       window.location = '/'
-    }
+    },
   }
 
   console.log('select.passwordResetState', select.passwordResetState)
@@ -111,18 +112,27 @@ export default function PasswordReset() {
       <Appbar route="passwordreset" title={t('generic.label.product')} />
       <Box sx={{ height: 70 }} />
       <Box
-        sx={{                        
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            textAlign: 'center'
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          textAlign: 'center',
         }}
       >
-        <Typography sx={{ p: 2, whiteSpace: 'pre-line' }} component="span" variant="h5" gutterBottom>
+        <Typography
+          sx={{ p: 2, whiteSpace: 'pre-line' }}
+          component="span"
+          variant="h5"
+          gutterBottom
+        >
           {t('passwordreset.label.title')}
         </Typography>
-        <Typography sx={{ p: 2, whiteSpace: 'pre-line' }} component="span" gutterBottom>
+        <Typography
+          sx={{ p: 2, whiteSpace: 'pre-line' }}
+          component="span"
+          gutterBottom
+        >
           {t('passwordreset.label.explanations')}
         </Typography>
         <FormControl>
@@ -153,52 +163,60 @@ export default function PasswordReset() {
             onClick={changes.resetpassword}
             sx={{ mt: 2, mb: 1 }}
             disabled={
-              select.passwordResetState.passwordreset === 'loading'  || select.disabled === true
+              select.passwordResetState.passwordreset === 'loading' ||
+              select.disabled === true
             }
             loading={select.passwordResetState.passwordreset === 'loading'}
           >
             {t('generic.button.continue')}
           </LoadingButton>
         </FormControl>
-        { select.passwordResetState.passwordreset !== 'loading' ? (null) : (
+        {select.passwordResetState.passwordreset !== 'loading' ? null : (
           <Box sx={{ left: '10%', right: '10%' }}>
             <LinearProgress />
           </Box>
         )}
-        { select.passwordResetState.passwordreset !== 'error' ? (null) : (
-          <Typography sx={{ p: 2, whiteSpace: 'pre-line' }} component="span" gutterBottom>
+        {select.passwordResetState.passwordreset !== 'error' ? null : (
+          <Typography
+            sx={{ p: 2, whiteSpace: 'pre-line' }}
+            component="span"
+            gutterBottom
+          >
             {t('passwordreset.label.erroronreset')}
           </Typography>
         )}
-        { select.errors.url !== true ? (null) : (
-          <Typography sx={{ p: 2, whiteSpace: 'pre-line' }} component="span" gutterBottom>
+        {select.errors.url !== true ? null : (
+          <Typography
+            sx={{ p: 2, whiteSpace: 'pre-line' }}
+            component="span"
+            gutterBottom
+          >
             {'ERROR URL'}
           </Typography>
         )}
-        { select.passwordResetState.passwordreset !== 'available' ? (null) : (
-          <Box 
-          sx={{                        
+        {select.passwordResetState.passwordreset !== 'available' ? null : (
+          <Box
+            sx={{
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
               alignItems: 'center',
-              textAlign: 'center'
-          }}
+              textAlign: 'center',
+            }}
           >
-            <Typography sx={{ p: 2, whiteSpace: 'pre-line' }} component="span" gutterBottom>
+            <Typography
+              sx={{ p: 2, whiteSpace: 'pre-line' }}
+              component="span"
+              gutterBottom
+            >
               {t('passwordreset.label.successfulreset')}
             </Typography>
-            <Button
-              onClick={changes.tohome}
-              size="large"
-              variant='contained'
-            >
+            <Button onClick={changes.tohome} size="large" variant="contained">
               {t('generic.button.signin')}
             </Button>
           </Box>
         )}
-      </Box>  
+      </Box>
     </Box>
   )
 }
-
