@@ -16,7 +16,8 @@
       "email": "Email",
       "password": "Mot de passe",
       "passwordrepeat": "Répétition du mot de passe",
-      "type": "Type"
+      "type": "Type",
+      "remote": "A distance"
     },
     "button": {
       "add": "Ajouter",
@@ -170,7 +171,8 @@
       "orange": "orange",
       "rouge": "rouge",
       "rubis": "rubis",
-      "magenta": "magenta"
+      "magenta": "magenta",
+      "pending": "En attente"
     },
     "exams": {
       "unknown": {

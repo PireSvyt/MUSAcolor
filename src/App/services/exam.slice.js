@@ -25,7 +25,13 @@ const examSlice = createSlice({
     },
     storedResults: (state, action) => {
       state.state.storage = 'available'
-      state.examid = action.payload.examid
+      if (action !== undefined) {
+        if (action.payload !== undefined) {
+          if (action.payload.examid !== undefined) {
+            state.examid = action.payload.examid
+          }
+        }
+      }
     },
     loadAnalysis: (state) => {
       state.state.analysis = 'loading'

@@ -9,9 +9,11 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
+  Chip,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu.js'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import LinkIcon from '@mui/icons-material/Link'
 
 // Services
 import { serviceExamDelete } from '../../../services/exam.services.js'
@@ -29,14 +31,22 @@ export default function ExamCard(props) {
   // Changes
   let changes = {
     goto: () => {
-      window.location =
-        '/exam?examid=' + props.exam.examid + '&patientid=' + props.patientid
+      if (props.exam.token === undefined || props.exam.token === '') {
+        window.location =
+          '/exam?examid=' + props.exam.examid + '&patientid=' + props.patientid
+      }
     },
     openMenu: (event) => {
       setAnchorEl(event.currentTarget)
       setMenuOpen(true)
     },
     closeMenu: () => {
+      setMenuOpen(false)
+    },
+    copyurl: () => {
+      navigator.clipboard.writeText(
+        window.location.origin + '/remoteexam/' + props.exam.token
+      )
       setMenuOpen(false)
     },
     attemptDelete: () => {
@@ -126,6 +136,21 @@ export default function ExamCard(props) {
                 'aria-labelledby': 'basic-button',
               }}
             >
+              {props.exam.token === undefined ||
+              props.exam.token === '' ? null : (
+                <MenuItem
+                  key={random_id()}
+                  onClick={changes.copyurl}
+                  data-testid={
+                    'listitem-prescription-menuitem-copyurl+' + props.index
+                  }
+                >
+                  <ListItemIcon>
+                    <LinkIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>{t('generic.button.copyurl')}</ListItemText>
+                </MenuItem>
+              )}
               <MenuItem
                 key={random_id()}
                 onClick={changes.attemptDelete}
@@ -142,18 +167,48 @@ export default function ExamCard(props) {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              flexDirection: 'column',
               width: '100%',
             }}
-            onClick={changes.goto}
-            data-testid={'listitem-exam-click+' + props.index}
           >
-            <Typography>
-              {t('exam.exams.' + props.exam.type + '.name')}
-            </Typography>
-            <Typography variant="caption">{stringifyDate()}</Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+              onClick={changes.goto}
+              data-testid={'listitem-exam-click+' + props.index}
+            >
+              <Typography>
+                {t('exam.exams.' + props.exam.type + '.name')}
+              </Typography>
+              <Typography variant="caption">{stringifyDate()}</Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+              onClick={changes.goto}
+              data-testid={'listitem-exam-click+' + props.index}
+            >
+              {props.exam.token === undefined ||
+              props.exam.token === '' ? null : (
+                <Chip
+                  key={random_id()}
+                  label={t('exam.label.pending')}
+                  size="small"
+                  sx={{ mr: 0.5, mt: 0.5 }}
+                />
+              )}
+            </Box>
           </Box>
         </Box>
       </Box>

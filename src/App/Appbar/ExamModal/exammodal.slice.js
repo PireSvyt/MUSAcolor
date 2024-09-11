@@ -10,7 +10,7 @@ const examModalSlice = createSlice({
       type: '',
       date: Date.now(),
       results: {},
-      remote: false
+      remote: false,
     },
     errors: {
       name: false,
@@ -41,7 +41,7 @@ const examModalSlice = createSlice({
       state.open = false
       state.inputs.type = ''
       state.errors.type = false
-      state.inputs.remote = ''
+      state.inputs.remote = false
       state.errors.remote = false
       state.disabled = false
       state.loading = false
