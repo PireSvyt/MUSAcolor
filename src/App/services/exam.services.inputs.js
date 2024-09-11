@@ -70,13 +70,7 @@ export const examCreateInputs = {
               },
             },
           ],
-        },
-        {
-          // Check results is available
-          field: 'results',
-          error: 'generic.error.missingresults',
-          fieldsinerror: ['results'],
-        },
+        }
       ],
     },
   ],
