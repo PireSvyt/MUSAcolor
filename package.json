@@ -1,7 +1,14 @@
 {
-  "name": "musacolor",
+  "name": "MUSAcolor©",
+  "description": "MUSAcolor© is a free web app for color therapists aiming at supporting their practice with digital tests, in face to face and remotely.",
+  "keywords": [
+    "test de couleur",
+    "chromothérapie",
+    "chromathérapie"
+  ],
   "version": "1.1.0",
   "license": "MIT",
+  "author": "SAVOYAT Pierre",
   "main": "src/index.js",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
