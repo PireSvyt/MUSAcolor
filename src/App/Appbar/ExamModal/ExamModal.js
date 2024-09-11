@@ -15,9 +15,13 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  CheckBox
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
+
+import { serviceExamCreate } from '../../services/exam.services.js'
+import { random_string } from '../../services/toolkit.js'
 
 // Reducers
 import appStore from '../../store.js'
@@ -74,13 +78,35 @@ export default function ExamModal() {
         },
       })
     },
+    remote: (e) => {
+      appStore.dispatch({
+        type: 'examModalSlice/change',
+        payload: {
+          inputs: {
+            remote: e.target.checked,
+          },
+          errors: {
+            remote: false,
+          },
+        },
+      })
+    },
     launch: () => {
       console.log('ExamModal.launch')
       appStore.dispatch({
         type: 'examModalSlice/close',
       })
-      window.location =
-        '/exam?type=' + select.inputs.type + '&patientid=' + select.patientid
+      if (select.inputs.remote === true) {
+        // Create the exam (to enable practician to copy link)
+        serviceExamCreate({
+          type: select.inputs.type,
+          token: random_string(),
+        })
+      } else {
+        // Go to the exam
+        window.location =
+          '/exam?type=' + select.inputs.type + '&patientid=' + select.patientid
+      }
     },
   }
 
@@ -128,6 +154,14 @@ export default function ExamModal() {
                   data-testid="modal-exam-select-examtype-Luscher 8)"
                 />
               </RadioGroup>
+            </FormControl>
+                           
+            <FormControl>
+              <FormLabel>{t('generic.input.remote')}</FormLabel>
+              <Checkbox
+                checked={select.inputs.remote}
+                onChange={changes.remote}
+              />
             </FormControl>
           </Box>
         </DialogContent>
