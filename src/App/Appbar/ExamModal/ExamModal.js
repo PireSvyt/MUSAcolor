@@ -15,7 +15,7 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
-  CheckBox
+  Checkbox
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
@@ -162,7 +162,7 @@ export default function ExamModal() {
                            
             <FormControl>
               <FormLabel>{t('generic.input.remote')}</FormLabel>
-              <CheckBox
+              <Checkbox
                 checked={select.inputs.remote}
                 onChange={changes.remote}
               />
