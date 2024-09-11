@@ -70,13 +70,7 @@ export const examCreateInputs = {
               },
             },
           ],
-        },
-        {
-          // Check results is available
-          field: 'results',
-          error: 'generic.error.missingresults',
-          fieldsinerror: ['results'],
-        },
+        }
       ],
     },
   ],
@@ -98,9 +92,18 @@ export const examCreateInputs = {
     let repackagedInputs = {}
     repackagedInputs.inputs = {}
     repackagedInputs.inputs.examid = random_string()
-    repackagedInputs.inputs.patientid = appStore.getState().examSlice.patientid
+    if (serviceInputs.inputs.patientid !== undefined) {
+      repackagedInputs.inputs.patientid = serviceInputs.inputs.patientid      
+    } else {    
+      repackagedInputs.inputs.patientid = appStore.getState().examSlice.patientid    
+    }
     repackagedInputs.inputs.type = serviceInputs.inputs.type
-    repackagedInputs.inputs.results = serviceInputs.inputs.results
+    if (serviceInputs.inputs.results !== undefined) {
+      repackagedInputs.inputs.results = serviceInputs.inputs.results    
+    }
+    if (serviceInputs.inputs.token !== undefined) {
+      repackagedInputs.inputs.token = serviceInputs.inputs.token      
+    }
     console.log('repackagedInputs', repackagedInputs)
     return repackagedInputs
   },
