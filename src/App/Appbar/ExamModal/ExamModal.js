@@ -162,7 +162,7 @@ export default function ExamModal() {
                            
             <FormControl>
               <FormLabel>{t('generic.input.remote')}</FormLabel>
-              <Checkbox
+              <CheckBox
                 checked={select.inputs.remote}
                 onChange={changes.remote}
               />
