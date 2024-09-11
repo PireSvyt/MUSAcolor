@@ -101,6 +101,7 @@ export default function ExamModal() {
         serviceExamCreate({
           type: select.inputs.type,
           token: random_string(),
+          patientid: select.patientid
         })
       } else {
         // Go to the exam
