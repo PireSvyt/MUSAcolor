@@ -3,6 +3,8 @@ import {
   examCreateInputs,
   examDeleteInputs,
   examGetInputs,
+  examGetRemotelyInputs,
+  examSaveRemotelyInputs,
 } from './exam.services.inputs.js'
 // Services
 import serviceProceed from './serviceProceed.js'
@@ -30,4 +32,18 @@ export async function serviceExamGet(directInputs) {
     console.log('serviceExamGet')
   }
   await serviceProceed(examGetInputs, directInputs)
+}
+
+export async function serviceExamGetRemotely(directInputs) {
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceExamGetRemotely')
+  }
+  await serviceProceed(examGetRemotelyInputs, directInputs)
+}
+
+export async function serviceExamSaveRemotely(directInputs) {
+  if (process.env.REACT_APP_DEBUG === 'TRUE') {
+    console.log('serviceExamSaveRemotely')
+  }
+  await serviceProceed(examSaveRemotelyInputs, directInputs)
 }

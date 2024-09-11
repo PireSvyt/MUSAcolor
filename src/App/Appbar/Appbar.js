@@ -216,6 +216,9 @@ export default function Appbar(props) {
     case 'exam':
       showLanguageSwitcher = false
       break
+    case 'examremote':
+      showLanguageSwitcher = false
+      break
     case 'prescription':
       menuItems.push(potentialMenuItems.toHome)
       menuItems.push(potentialMenuItems.toBack)
