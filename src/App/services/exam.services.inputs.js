@@ -31,6 +31,7 @@ export const examCreateInputs = {
       message: 'examCreateInputs.getinputsfunction',
       tags: ['function'],
     })
+
     return { ...directInputs }
   },
   sercivechecks: [
@@ -38,39 +39,14 @@ export const examCreateInputs = {
       // Check inputs root is available
       field: 'inputs',
       error: 'generic.error.missinginputs',
+      fieldsinerror: ['inputs'],
       subchecks: [
         {
           // Check type is available
           field: 'type',
           error: 'generic.error.missingtype',
           fieldsinerror: ['type'],
-          subchecks: [
-            {
-              // Check type is valid
-              error: 'generic.error.invalidtype',
-              fieldsinerror: ['type'],
-              checkfunction: (serviceInputs) => {
-                console.log(
-                  'sercivechecks.checkfunction serviceInputs',
-                  serviceInputs
-                )
-                if (serviceInputs.inputs.type === '') {
-                  return {
-                    errors: ['generic.error.invalidtype'],
-                    stateChanges: {
-                      errors: {
-                        type: true,
-                      },
-                    },
-                    proceed: false,
-                  }
-                } else {
-                  return { proceed: true }
-                }
-              },
-            },
-          ],
-        }
+        },
       ],
     },
   ],
@@ -91,18 +67,23 @@ export const examCreateInputs = {
 
     let repackagedInputs = {}
     repackagedInputs.inputs = {}
-    repackagedInputs.inputs.examid = random_string()
+    if (serviceInputs.inputs.examid !== undefined) {
+      repackagedInputs.inputs.examid = serviceInputs.inputs.examid
+    } else {
+      repackagedInputs.inputs.examid = random_string()
+    }
     if (serviceInputs.inputs.patientid !== undefined) {
-      repackagedInputs.inputs.patientid = serviceInputs.inputs.patientid      
-    } else {    
-      repackagedInputs.inputs.patientid = appStore.getState().examSlice.patientid    
+      repackagedInputs.inputs.patientid = serviceInputs.inputs.patientid
+    } else {
+      repackagedInputs.inputs.patientid =
+        appStore.getState().examSlice.patientid
     }
     repackagedInputs.inputs.type = serviceInputs.inputs.type
     if (serviceInputs.inputs.results !== undefined) {
-      repackagedInputs.inputs.results = serviceInputs.inputs.results    
+      repackagedInputs.inputs.results = serviceInputs.inputs.results
     }
     if (serviceInputs.inputs.token !== undefined) {
-      repackagedInputs.inputs.token = serviceInputs.inputs.token      
+      repackagedInputs.inputs.token = serviceInputs.inputs.token
     }
     console.log('repackagedInputs', repackagedInputs)
     return repackagedInputs
@@ -130,12 +111,14 @@ export const examCreateInputs = {
     })
     let responses = {
       'exam.create.success': () => {
-        appStore.dispatch({
-          type: 'examSlice/storedResults',
-          payload: {
-            examid: response.data.examid,
-          },
-        })
+        if (appStore.getState().examModalSlice.inputs.remote === false) {
+          appStore.dispatch({
+            type: 'examSlice/storedResults',
+            payload: {
+              examid: response.data.examid,
+            },
+          })
+        }
       },
       'exam.create.error.oncreate': () => {
         appStore.dispatch({

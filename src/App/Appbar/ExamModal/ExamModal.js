@@ -11,11 +11,11 @@ import {
   FormControl,
   Select,
   InputLabel,
-  MenuItem,
+  Typography,
   FormControlLabel,
   Radio,
   RadioGroup,
-  Checkbox
+  Checkbox,
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux'
@@ -100,10 +100,15 @@ export default function ExamModal() {
       if (select.inputs.remote === true) {
         // Create the exam (to enable practician to copy link)
         serviceExamCreate({
-          type: select.inputs.type,
-          token: random_string(),
-          patientid: select.patientid
+          inputs: {
+            type: select.inputs.type,
+            token: random_string(),
+            patientid: select.patientid,
+          },
         }).then(() => {
+          appStore.dispatch({
+            type: 'examModalSlice/close',
+          })
           servicePatientGet(select.patientid)
         })
       } else {
@@ -130,43 +135,65 @@ export default function ExamModal() {
         //}}
         >
           <Box
-            component="form"
             sx={{
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-evenly',
             }}
           >
-            <FormControl>
-              <FormLabel>{t('generic.input.type')}</FormLabel>
-              <RadioGroup
-                defaultValue={select.inputs.type}
-                name="radio-buttons-group"
-                onChange={changes.type}
-                data-testid="modal-exam-select-examtype"
+            <Typography>{t('generic.input.type')}</Typography>
+            <RadioGroup
+              defaultValue={select.inputs.type}
+              name="radio-buttons-group"
+              onChange={changes.type}
+              data-testid="modal-exam-select-examtype"
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  mb: -0.5,
+                }}
               >
-                <FormControlLabel
+                <Radio
                   value="pvo"
-                  control={<Radio />}
-                  label={t('exam.exams.pvo.name')}
                   data-testid="modal-exam-select-examtype-PVO"
                 />
-                <FormControlLabel
+                <Typography>{t('exam.exams.pvo.name')}</Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  mb: -0.5,
+                }}
+              >
+                <Radio
                   value="luscher8"
-                  control={<Radio />}
-                  label={t('exam.exams.luscher8.name')}
                   data-testid="modal-exam-select-examtype-Luscher 8)"
                 />
-              </RadioGroup>
-            </FormControl>
-                           
-            <FormControl>
-              <FormLabel>{t('generic.input.remote')}</FormLabel>
+                <Typography>{t('exam.exams.luscher8.name')}</Typography>
+              </Box>
+            </RadioGroup>
+
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                mt: 2,
+                ml: -1.5,
+              }}
+            >
               <Checkbox
                 checked={select.inputs.remote}
                 onChange={changes.remote}
+                disabled
               />
-            </FormControl>
+              <Typography>{t('generic.input.remote')}</Typography>
+            </Box>
           </Box>
         </DialogContent>
 

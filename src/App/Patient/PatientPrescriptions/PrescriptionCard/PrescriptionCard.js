@@ -31,7 +31,7 @@ import appStore from '../../../store.js'
 
 export default function PrescriptionCard(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('PrescriptionCard ' + props.prescription.prescriptionid)
+    //console.log('PrescriptionCard ' + props.prescription.prescriptionid)
   }
   // i18n
   const { t } = useTranslation()
@@ -224,7 +224,7 @@ export default function PrescriptionCard(props) {
                     console.log('!! undefined exercise', exercise)
                     return null
                   } else {
-                    console.log('exercise', exercise)
+                    //console.log('exercise', exercise)
                     if (ex.exerciseid === 'userDefined') {
                       return (
                         <Chip
