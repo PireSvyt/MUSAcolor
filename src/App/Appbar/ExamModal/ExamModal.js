@@ -22,6 +22,7 @@ import { useSelector } from 'react-redux'
 
 import { serviceExamCreate } from '../../services/exam.services.js'
 import { random_string } from '../../services/toolkit.js'
+import { servicePatientGet } from '../../services/patient.services.js'
 
 // Reducers
 import appStore from '../../store.js'
@@ -102,6 +103,8 @@ export default function ExamModal() {
           type: select.inputs.type,
           token: random_string(),
           patientid: select.patientid
+        }).then(() => {
+          servicePatientGet(select.patientid)
         })
       } else {
         // Go to the exam
