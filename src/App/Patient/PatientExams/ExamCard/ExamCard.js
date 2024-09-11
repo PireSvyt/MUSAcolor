@@ -45,7 +45,7 @@ export default function ExamCard(props) {
     },
     copyurl: () => {
       navigator.clipboard.writeText(
-        window.location.origin + '/remoteexam/' + props.exam.token
+        window.location.origin + '/examremote?token=' + props.exam.token
       )
       setMenuOpen(false)
     },

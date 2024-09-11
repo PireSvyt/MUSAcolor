@@ -9,6 +9,7 @@ const examSlice = createSlice({
     type: '',
     results: {},
     analysis: {},
+    token: '',
   },
   reducers: {
     new: (state, action) => {
@@ -49,6 +50,9 @@ const examSlice = createSlice({
       if (action.payload.examid !== undefined) {
         state.examid = action.payload.examid
       }
+      if (action.payload.token !== undefined) {
+        state.token = action.payload.token
+      }
       if (action.payload.state !== undefined) {
         if (action.payload.state.storage !== undefined) {
           state.state.storage = action.payload.state.storage
@@ -56,6 +60,29 @@ const examSlice = createSlice({
         if (action.payload.state.analysis !== undefined) {
           state.state.analysis = action.payload.state.analysis
         }
+      }
+    },
+    getRemotely: (state, action) => {
+      state.state.getremotely = action.payload
+      state.state.getremotely = action.payload
+    },
+    setRemotely: (state, action) => {
+      state.state.getremotely = 'loaded'
+      state.type = action.payload.exam.type
+      state.examid = action.payload.exam.examid
+      state.state.type = 'available'
+    },
+    saveRemotely: (state, action) => {
+      switch (action.payload) {
+        case 'success':
+          state.state.storage = 'available'
+          break
+        case 'denied':
+          state.state.storage = 'alreadyperformed'
+          break
+        case 'error':
+          state.state.storage = 'error'
+          break
       }
     },
   },

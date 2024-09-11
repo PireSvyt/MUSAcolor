@@ -190,7 +190,7 @@ export default function ExamModal() {
               <Checkbox
                 checked={select.inputs.remote}
                 onChange={changes.remote}
-                disabled
+                //disabled
               />
               <Typography>{t('generic.input.remote')}</Typography>
             </Box>

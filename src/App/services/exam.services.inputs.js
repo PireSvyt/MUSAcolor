@@ -1,5 +1,11 @@
 // APIs
-import { apiExamCreate, apiExamDelete, apiExamGet } from './exam.api.js'
+import {
+  apiExamCreate,
+  apiExamDelete,
+  apiExamGet,
+  apiExamGetRemotely,
+  apiExamSaveRemotely,
+} from './exam.api.js'
 // Services
 import { random_id, random_string } from './toolkit.js'
 import appStore from '../store.js'
@@ -322,7 +328,221 @@ export const examGetInputs = {
         })
       },
     }
-    console.log('WHAT IS THE response.type : ' + response.type)
+    //console.log('WHAT IS THE response.type : ' + response.type)
+    return responses[response.type]()
+  },
+}
+
+export const examGetRemotelyInputs = {
+  lockuifunction: (log) => {
+    log.push({
+      date: new Date(),
+      message: 'examGetRemotelyInputs.lockuifunction',
+      tags: ['function'],
+    })
+    appStore.dispatch({
+      type: 'examSlice/getRemotely',
+      payload: 'loading',
+    })
+  },
+  unlockuifunction: (log) => {
+    log.push({
+      date: new Date(),
+      message: 'examGetRemotelyInputs.unlockuifunction',
+      tags: ['function'],
+    })
+    appStore.dispatch({
+      type: 'examSlice/getRemotely',
+      payload: 'loaded',
+    })
+  },
+  getinputsfunction: (log, directInputs) => {
+    log.push({
+      date: new Date(),
+      message: 'examGetRemotelyInputs.getinputsfunction',
+      tags: ['function'],
+    })
+    return {
+      inputs: { ...directInputs },
+    }
+  },
+  sercivechecks: [
+    {
+      // Check inputs root is available
+      field: 'inputs',
+      error: 'exam.error.missinginputs',
+      subchecks: [
+        {
+          // Check token is available
+          field: 'token',
+          error: 'patient.error.missingtoken',
+        },
+      ],
+    },
+  ],
+  apicall: async (inputs, log) => {
+    log.push({
+      date: new Date(),
+      message: 'examGetRemotelyInputs.apicall',
+      inputs: inputs,
+      tags: ['function'],
+    })
+    try {
+      return await apiExamGetRemotely(inputs)
+    } catch (err) {
+      return err
+    }
+  },
+  getmanageresponsefunction: (response, log) => {
+    log.push({
+      date: new Date(),
+      message: 'examGetRemotelyInputs.getmanageresponsefunction',
+      response: response,
+      tags: ['function'],
+    })
+    let responses = {
+      'exam.getremotely.success': () => {
+        appStore.dispatch({
+          type: 'examSlice/setRemotely',
+          payload: {
+            exam: response.data.exam,
+          },
+        })
+      },
+      'exam.getremotely.alreadyperformed': () => {
+        console.warn(
+          'getmanageresponsefunction exam.getanalysis.alreadyperformed'
+        )
+        appStore.dispatch({
+          type: 'examSlice/getRemotely',
+          payload: 'alreadyperformed',
+        })
+      },
+      'exam.getremotely.error.denied': () => {
+        console.warn('getmanageresponsefunction exam.getanalysis.error.denied')
+        appStore.dispatch({
+          type: 'examSlice/getRemotely',
+          payload: 'denied',
+        })
+      },
+      'exam.getremotely.error.onfind': () => {
+        console.warn('getmanageresponsefunction exam.getanalysis.error.onfind')
+        appStore.dispatch({
+          type: 'examSlice/getRemotely',
+          payload: 'denied',
+        })
+        appStore.dispatch({
+          type: 'sliceSnack/change',
+          payload: {
+            uid: random_id(),
+            id: 'generic.snack.error.wip',
+          },
+        })
+      },
+    }
+    //console.log('WHAT IS THE response.type : ' + response.type)
+    return responses[response.type]()
+  },
+}
+
+export const examSaveRemotelyInputs = {
+  lockuifunction: (log) => {
+    log.push({
+      date: new Date(),
+      message: 'examSaveRemotelyInputs.lockuifunction',
+      tags: ['function'],
+    })
+    appStore.dispatch({
+      type: 'examSlice/storingResults',
+    })
+  },
+  getinputsfunction: (log, directInputs) => {
+    log.push({
+      date: new Date(),
+      message: 'examSaveRemotelyInputs.getinputsfunction',
+      tags: ['function'],
+    })
+    return { ...directInputs }
+  },
+  sercivechecks: [
+    {
+      // Check inputs root is available
+      field: 'inputs',
+      error: 'exam.error.missinginputs',
+      subchecks: [
+        {
+          // Check examid is available
+          field: 'examid',
+          error: 'patient.error.missingexamid',
+          fieldsinerror: ['examid'],
+        },
+        {
+          // Check token is available
+          field: 'token',
+          error: 'patient.error.missingtoken',
+          fieldsinerror: ['token'],
+        },
+        {
+          // Check results is available
+          field: 'results',
+          error: 'patient.error.missingresults',
+          fieldsinerror: ['results'],
+        },
+      ],
+    },
+  ],
+  apicall: async (inputs, log) => {
+    log.push({
+      date: new Date(),
+      message: 'examSaveRemotelyInputs.apicall',
+      inputs: inputs,
+      tags: ['function'],
+    })
+    try {
+      return await apiExamSaveRemotely(inputs)
+    } catch (err) {
+      return err
+    }
+  },
+  getmanageresponsefunction: (response, log) => {
+    log.push({
+      date: new Date(),
+      message: 'examSaveRemotelyInputs.getmanageresponsefunction',
+      response: response,
+      tags: ['function'],
+    })
+    let responses = {
+      'exam.saveremotely.success.modified': () => {
+        appStore.dispatch({
+          type: 'examSlice/saveRemotely',
+          payload: 'success',
+        })
+      },
+      'exam.saveremotely.alreadyperformed': () => {
+        console.warn(
+          'getmanageresponsefunction exam.saveremotely.alreadyperformed'
+        )
+        appStore.dispatch({
+          type: 'examSlice/saveRemotely',
+          payload: 'alreadyperformed',
+        })
+      },
+      'exam.saveremotely.error.inputs': () => {
+        console.warn('getmanageresponsefunction exam.saveremotely.error.inputs')
+        appStore.dispatch({
+          type: 'examSlice/saveRemotely',
+          payload: 'error',
+        })
+      },
+      'exam.saveremotely.error.onfind': () => {
+        console.warn('getmanageresponsefunction exam.saveremotely.error.onfind')
+        appStore.dispatch({
+          type: 'examSlice/saveRemotely',
+          payload: 'error',
+        })
+      },
+    }
+    //console.log('WHAT IS THE response.type : ' + response.type)
     return responses[response.type]()
   },
 }
