@@ -10,11 +10,13 @@ const examModalSlice = createSlice({
       type: '',
       date: Date.now(),
       results: {},
+      remote: false
     },
     errors: {
       name: false,
       date: false,
       results: false,
+      remote: false,
     },
   },
   reducers: {
@@ -39,6 +41,8 @@ const examModalSlice = createSlice({
       state.open = false
       state.inputs.type = ''
       state.errors.type = false
+      state.inputs.remote = ''
+      state.errors.remote = false
       state.disabled = false
       state.loading = false
     },
@@ -57,6 +61,9 @@ const examModalSlice = createSlice({
         }
         if (action.payload.inputs.results !== undefined) {
           state.inputs.results = action.payload.inputs.results
+        }
+        if (action.payload.inputs.remote !== undefined) {
+          state.inputs.remote = action.payload.inputs.remote
         }
       }
       // Errors
