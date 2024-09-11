@@ -1,7 +1,15 @@
 {
   "short_name": "MUSAcolor©",
   "name": "MUSAcolor© webapp",
-  "description": "MUSAcolor is a webapp enabling chroma- and lumino-therapist patients to perform tests and exercises.",
+  "lang": "fr",
+  "description": "L'application MUSAcolor© aide les chromatérapeutes à pratiquer grâce à des tests de couleur digitaux, en présnetiel ainsi qu'à distance.",
+  "keywords": [
+    "test de couleur",
+    "chromothérapie",
+    "chromathérapie"
+  ],
+  "version": "1.1.0",
+  "license": "MIT",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,7 +18,8 @@
     }
   ],
   "display": "fullscreen",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
   "lang": "fr",
   "author": "SAVOYAT Pierre"
 }
