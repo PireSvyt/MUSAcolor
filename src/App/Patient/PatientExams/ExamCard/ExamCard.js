@@ -14,6 +14,8 @@ import {
 import MenuIcon from '@mui/icons-material/Menu.js'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import LinkIcon from '@mui/icons-material/Link'
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 // Services
 import { serviceExamDelete } from '../../../services/exam.services.js'
@@ -21,12 +23,16 @@ import ConfirmModal from '../../../ConfirmModal/ConfirmModal.js'
 import { random_id } from '../../../services/toolkit.js'
 import { servicePatientGet } from '../../../services/patient.services.js'
 
+import appStore from '../../../store.js'
+
 export default function ExamCard(props) {
   if (process.env.REACT_APP_DEBUG === 'TRUE') {
-    console.log('ExamCard ' + props.exam.examid)
+    //console.log('ExamCard ' + props.exam.examid)
   }
   // i18n
   const { t } = useTranslation()
+  
+  let selectableExams = ["pvo"]
 
   // Changes
   let changes = {
@@ -49,7 +55,17 @@ export default function ExamCard(props) {
       )
       setMenuOpen(false)
     },
+    select: () => {
+      appStore.dispatch({
+        type: "patientSlice/select",
+        payload: {
+          examid: props.exam.examid,
+        },
+      });
+      setMenuOpen(false);
+    },
     attemptDelete: () => {
+      setMenuOpen(false)
       setConfirmOpen(true)
     },
   }
@@ -65,7 +81,6 @@ export default function ExamCard(props) {
         setConfirmOpen(false)
         break
       case 'delete':
-        setMenuOpen(false)
         setConfirmOpen(false)
         setDeleting(true)
         serviceExamDelete({
@@ -136,6 +151,21 @@ export default function ExamCard(props) {
                 'aria-labelledby': 'basic-button',
               }}
             >
+              {!(selectableExams.includes(props.exam.type) &&
+              props.exam.token === undefined) ? null : (
+                <MenuItem
+                  key={random_id()}
+                  onClick={changes.select}
+                  data-testid={
+                    'listitem-prescription-menuitem-select+' + props.index
+                  }
+                >
+                  <ListItemIcon>
+                    <CheckBoxIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>{t('generic.button.select')}</ListItemText>
+                </MenuItem>
+              )}
               {props.exam.token === undefined ||
               props.exam.token === '' ? null : (
                 <MenuItem
@@ -210,6 +240,30 @@ export default function ExamCard(props) {
               )}
             </Box>
           </Box>
+          {props.selecting === "" ? null : (
+	          <Box
+            >
+              {props.exam.type !== props.selecting ? (
+                <IconButton
+	                size="small"
+	                disabled
+	              >
+	                <CheckBoxOutlineBlankIcon />
+	              </IconButton>
+              ) : (
+                <IconButton
+	                size="small"
+	                onClick={changes.select}
+	              >
+	                {props.exam.selected ? (
+	                  <CheckBoxIcon />
+	                ) : (
+	                  <CheckBoxOutlineBlankIcon />
+	                )}
+	              </IconButton>
+              )}
+            </Box>
+          )}
         </Box>
       </Box>
 

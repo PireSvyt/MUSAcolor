@@ -5,6 +5,7 @@ import userSlice from './services/user.slice.js'
 import patientSlice from './services/patient.slice.js'
 import exerciseSlice from './services/exercise.slice.js'
 import examSlice from './services/exam.slice.js'
+import comparisonSlice from './services/comparison.slice.js'
 import prescriptionSlice from './services/prescription.slice.js'
 // Modals
 import signinModalSlice from './Appbar/SignInModal/signin.slice.js'
@@ -25,6 +26,7 @@ const slices = {
   patientSlice: patientSlice,
   exerciseSlice: exerciseSlice,
   examSlice: examSlice,
+  comparisonSlice: comparisonSlice,
   prescriptionSlice: prescriptionSlice,
   // Modals
   signinModalSlice: signinModalSlice,

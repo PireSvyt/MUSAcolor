@@ -3,7 +3,8 @@
     "label": {
       "product": "MUSAcolor©",
       "account": "Compte",
-      "help": "Aide"
+      "help": "Aide",
+      "deniedaccess": "Vous faites fausse route..."
     },
     "menu": {
       "home": "Accueil",
@@ -44,7 +45,9 @@
       "copyurl": "Copier le lien",
       "test": "Essayer",
       "newpatient": "Nouveau sujet",
-      "newexercise": "Nouvel exercise"
+      "newexercise": "Nouvel exercise",
+      "compare": "Comparer",
+      "unselectall": "Tout déselectionner"
     },
     "language": {
       "enGB": {
@@ -172,7 +175,11 @@
       "rouge": "rouge",
       "rubis": "rubis",
       "magenta": "magenta",
-      "pending": "En attente"
+      "pending": "En attente",
+      "alreadyperformed": "Ce test a déjà été enregistré et ne peut plus être effectué.",
+      "remotestoring": "Nous avons enregistrons votre test...",
+      "remotesotred": "Vous avez terminé le test.\n\nIl est transmis à votre praticien qui va l'analyser et vous soumettre ses conclusions lors de votre prochain entretien.\n\nMerci.",
+      "storageerror": "Nous avons rencontré une erreur lors de la sauvegarde de ce test.\n\nMerci de vous adresser au support."
     },
     "exams": {
       "unknown": {
@@ -192,9 +199,9 @@
       "luscher8": {
         "name": "Luscher (8)",
         "intro": "Test de Luscher à 8 couleurs",
-        "introdetails": "CONSIGNES\n\nBLA BLA BLA\n\nVous pouvez commencer.",
+        "introdetails": "CONSIGNES\n\nVous allez voir 8 cartes de couleur.\nVous devez les classer par ordre de préférence de la  première à la dernière en cliquant dessus.\n\nLaissez vous guider par votre intuition. Ne réfléchissez pas.\n\nVous pouvez commencer.",
         "intro2": "Test de Luscher à 8 couleurs",
-        "intro2details": "CONSIGNES\n\nBLA BLA BLA\n\nVous pouvez continuer.",
+        "intro2details": "CONSIGNES\n\nFaites la même chose une seconde fois.\n\nVous pouvez continuer.",
         "outro": "Vous avez terminé votre test.",
         "preference": "++",
         "sympathy": "xx",
@@ -229,6 +236,11 @@
         "content": "Cette action est irreversible et entraine la perte de toutes les données associées à ce protocole."
       }
     }
+  },
+  "comparison": {
+	  "label": {
+		  "title": "Comparaison"
+	  }
   },
   "help": {
     "faq": {

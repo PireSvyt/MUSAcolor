@@ -75,3 +75,19 @@ export async function apiExamSaveRemotely(saveInputs) {
     return err.response.data
   }
 }
+
+export async function apiExamGetList(inputs, token) {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: apiURL + 'exam/v1/getlist',
+      data: inputs,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return res.data
+  } catch (err) {
+    return err.response.data
+  }
+}
