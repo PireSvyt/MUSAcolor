@@ -43,18 +43,20 @@ export default function Comparison() {
         let queryBreakdown = query.split('=')
         comparisonInputs[queryBreakdown[0]] = queryBreakdown[1]
       })
-      console.log("comparisonInputs", comparisonInputs)
+      //console.log("comparisonInputs", comparisonInputs)
       if (Object.keys(comparisonInputs).includes('patientid')) {
 	      if (Object.keys(comparisonInputs).includes('type')) {
 		      appStore.dispatch({
 		        type: 'comparisonSlice/change',
-		        payload: comparisonInputs.type
+		        payload: {
+              type : comparisonInputs.type
+            }
 		      })
 		      if (Object.keys(comparisonInputs).includes('examids')) {
 			      let examids = []
 			      let examidsstring = comparisonInputs["examids"].slice(1, -1).split(',')
 			      examidsstring.forEach (eid => {
-				      examids.push(eid.slice(1, -1))
+				      examids.push(eid.slice(3, -3))
 			      })	      
 		        if (select.comparisonState === "") {
                   console.log("fetching comparisonContent")
@@ -69,6 +71,8 @@ export default function Comparison() {
       }
     }
   }
+
+  console.log("comparisonContent", select.comparisonContent)
 
   return (
     <Box
@@ -85,7 +89,7 @@ export default function Comparison() {
           ' ' +
           t(
             'exam.exams.' +
-              (select.examType ? select.examType : 'unknown') +
+              (select.comparisonType ? select.comparisonType : 'unknown') +
               '.name'
           )
         }
@@ -124,11 +128,34 @@ export default function Comparison() {
               >
                 {t('exam.label.unknown')}
               </Typography>
-            ) : select.comparisonType === 'pvo' ? (
-              <ComparePVO
-                content={select.comparisonContent}
-              />
-            ) : null
+            ) : (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                  m: 0,
+                  p: 0,
+                }}
+              >
+                {select.comparisonType === 'pvo' ? (
+                  <ComparePVO
+                    content={select.comparisonContent}
+                  />
+                ) : null
+                }
+                <Typography
+                  sx={{whiteSpace: 'pre-line', width: '80%' }}
+                  component="span"
+                  align="center"
+                  variant="caption"
+                >
+                  {t('exam.exams.all.disclaimer')}
+                </Typography>
+              </Box>
+            )
           }
         </Box>
       ) : (

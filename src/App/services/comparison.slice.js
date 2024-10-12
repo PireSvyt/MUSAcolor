@@ -27,11 +27,12 @@ const comparisonSlice = createSlice({
 			    exams.sort((a,b) => {
 				    return a.date-b.date
 			    })
+				let series = {}
 			    exams.forEach(exam => {
 				    content.Xs.push(stringifyDate(exam.date))
 				    Object.keys(exam.analysis.colors).forEach(color => {
-					    if (content.Ys[color] === undefined) {
-						    content.Ys[color] = {
+					    if (series[color] === undefined) {
+						    series[color] = {
 						      data: [ exam.analysis.colors[color] / 8 * 100 ],
 						      type: 'line',
 						      lineStyle: {
@@ -41,10 +42,11 @@ const comparisonSlice = createSlice({
 						      symbol: 'none'
 						    }
 					    } else {
-						    content.Ys[color].data.push( exam.analysis.colors[color] / 8 * 100 )
+						    series[color].data.push( exam.analysis.colors[color] / 8 * 100 )
 					    }
 				    })
 			    })
+				content.Ys = Object.values(series)
 			    break
 	    }
 			state.content = content
