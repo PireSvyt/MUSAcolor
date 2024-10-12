@@ -7,6 +7,7 @@ import Home from './Home/Home.js'
 import Patient from './Patient/Patient.js'
 import Exam from './Exam/Exam.js'
 import ExamRemote from './Exam/ExamRemote.js'
+import Comparison from './Comparison/Comparison.js'
 import Prescription from './Prescription/Prescription.js'
 import PasswordReset from './PasswordReset/PasswordReset.js'
 import Help from './Help/Help.js'
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/patient/:patientid" element={<Patient />} />
         <Route path="/exam" element={<Exam />} />
         <Route path="/examremote" element={<ExamRemote />} />
+        <Route path="/compare" element={<Comparison />} />
         <Route
           path="/prescription/:prescriptionid"
           element={<Prescription />}

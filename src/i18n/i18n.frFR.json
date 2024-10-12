@@ -3,7 +3,8 @@
     "label": {
       "product": "MUSAcolor©",
       "account": "Compte",
-      "help": "Aide"
+      "help": "Aide",
+      "deniedaccess": "Vous faites fausse route..."
     },
     "menu": {
       "home": "Accueil",
@@ -44,7 +45,9 @@
       "copyurl": "Copier le lien",
       "test": "Essayer",
       "newpatient": "Nouveau sujet",
-      "newexercise": "Nouvel exercise"
+      "newexercise": "Nouvel exercise",
+      "compare": "Comparer",
+      "unselectall": "Tout déselectionner"
     },
     "language": {
       "enGB": {
@@ -229,6 +232,11 @@
         "content": "Cette action est irreversible et entraine la perte de toutes les données associées à ce protocole."
       }
     }
+  },
+  "comparison": {
+	  "label": {
+		  "title": "Comparaison"
+	  }
   },
   "help": {
     "faq": {

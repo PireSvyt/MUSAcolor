@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import {
@@ -8,11 +8,20 @@ import {
   IconButton,
   List,
   ListItem,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material'
 import SmsFailedIcon from '@mui/icons-material/SmsFailed'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import SsidChartIcon from '@mui/icons-material/SsidChart';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import LinearProgress from '@mui/material/LinearProgress'
 
+// Services
+import { random_id } from '../../services/toolkit.js'
 // Components
 import ExamCard from './ExamCard/ExamCard.js'
 
@@ -28,8 +37,13 @@ export default function PatientExams() {
   // Selects
   const select = {
     patientState: useSelector((state) => state.patientSlice.state),
+    patientPatientid: useSelector((state) => state.patientSlice.patientid),
     patientExams: useSelector((state) => state.patientSlice.exams),
+    selectingExams: useSelector((state) => state.patientSlice.selectingexams),
   }
+  
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
 
   // Changes
   let changes = {
@@ -38,6 +52,41 @@ export default function PatientExams() {
         type: 'examModalSlice/new',
       })
     },
+    openMenu: (event) => {
+      setAnchorEl(event.currentTarget)
+      setMenuOpen(true)
+    },
+    closeMenu: () => {
+      setMenuOpen(false)
+    },
+    compare: () => {
+      setMenuOpen(false);
+      // Find exams to compare
+      let examtype = ""
+      let examids = []
+      select.patientExams.forEach(exam => {
+        if (exam.selected === true) {
+          examids.push(exam.examid)
+          examtype = exam.type
+        }
+      })      
+      if (examtype !== "" && examids.length > 1) {
+	      let examidsstring = "["
+	      examids.forEach (eid => {
+		      examidsstring = examidsstring + "\"" + eid + "\"," 
+	      })
+	      examidsstring = examidsstring.slice(0, -1) + "]"
+	      // Go to comparison
+	      window.location =
+	        '/compare?patientid=' + select.patientPatientid + '&type=' + examtype + '&examids=' + examidsstring
+      }
+    },
+    unselectall: () => {
+      appStore.dispatch({
+        type: "patientSlice/unselectall",
+      });
+      setMenuOpen(false);
+    }
   }
 
   let c = -1
@@ -48,14 +97,62 @@ export default function PatientExams() {
         <Typography sx={{ p: 2 }} variant="h6" component="span">
           {t('patient.label.exams')}
         </Typography>
-        <IconButton
-          sx={{ p: 2 }}
-          onClick={changes.new}
-          color="primary"
-          data-testid="component-patient exams-button-new exam"
-        >
-          <AddCircleIcon />
-        </IconButton>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >	
+	        { !select.selectingExams ? null : (    
+		        <Box
+            > 
+			        <IconButton
+			          sx={{ p: 1 }}
+			          onClick={changes.openMenu}
+			          color="primary"
+			          data-testid="component-patient exams-button-exams menu"
+			        >
+			          <MoreHorizIcon />
+			        </IconButton>
+			        <Menu
+	              open={menuOpen}
+	              onClose={changes.closeMenu}
+	              anchorEl={anchorEl}
+	              MenuListProps={{
+	                'aria-labelledby': 'basic-button',
+	              }}
+	            >
+	              <MenuItem
+	                key={random_id()}
+	                onClick={changes.compare}
+	              >
+	                <ListItemIcon>
+	                  <SsidChartIcon fontSize="small" />
+	                </ListItemIcon>
+	                <ListItemText>{t('generic.button.compare')}</ListItemText>
+	              </MenuItem>
+	              <MenuItem
+	                key={random_id()}
+	                onClick={changes.unselectall}
+	              >
+	                <ListItemIcon>
+	                  <CheckBoxOutlineBlankIcon fontSize="small" />
+	                </ListItemIcon>
+	                <ListItemText>{t('generic.button.unselectall')}</ListItemText>
+	              </MenuItem>
+	            </Menu>
+		        </Box>
+	        )}
+	        <IconButton
+	          sx={{ p: 2 }}
+	          onClick={changes.new}
+	          color="primary"
+	          data-testid="component-patient exams-button-new exam"
+	        >
+	          <AddCircleIcon />
+	        </IconButton>
+        </Box>
       </Stack>
 
       {select.patientState.details !== 'available' ? (
@@ -103,6 +200,7 @@ export default function PatientExams() {
                   exam={exam}
                   index={c}
                   patientid={window.location.href.split('/patient/')[1]}
+                  selecting={select.selectingExams}
                 />
               </ListItem>
             )
